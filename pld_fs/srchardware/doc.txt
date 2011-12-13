@@ -1,0 +1,64 @@
+%% $Id: doc.txt 36 2007-03-20 21:44:48Z phm $
+%%------------------------------
+%%  
+%% 
+%%
+%%------------------------------------------------------------
+
+
+Fonctionnement de l'UART RS323 :
+--------------------------------
+
+2 registres matériels, un registre de "SL1_UARTSR" et "SL1_UARTDATA".
+
+- Composition du registre "SL1_UARTSR" sur 16 bits :
+
+|     RATE    |  PARITY |B/W |  9 |  8 |  7 |  6 |  5 |  4 |LST |ERR | LD |BSY |
+|     R/W     |   R/W   |  W |    |    |    |    |    |    |    |  R |  R |  R |
+|----+----+---+----+----+----+----+----+----+----+----+----+----+----+----+----|
+| 15 | 14 |13 | 12 | 11 | 10 |  9 |  8 |  7 |  6 |  5 |  4 |  3 |  2 |  1 |  0 |
+
+RATE définit le taux de transfert de l'UART. Il peut être arbitrairement 
+positionner par programmation à l'une des huits valeurs suivantes :
+0000 :   9600 Bds
+0001 :  14400 Bds
+0010 :  28800 Bds 
+0011 :  33000 Bds 
+0100 :  44700 Bds
+0101 :  56600 Bds
+0110 :  64000 Bds
+0111 : 192000 Bds 
+
+PARITY définit le système de parité choisi. Il peut être arbitrairement 
+positionner par programmation à l'une des quatre valeurs suivantes :
+00 : sans
+01 : parité paire du nombre de 1
+10 : parité impaire du nombre de 1
+11 : 
+
+B/W Transmission d'un octet ou d'un mot de 32 bits.
+0 : Transmission asynchrone par mots de 8 bits.
+1 : Transmission asynchrone par mots de 32 bits. 
+
+LST indique si un mot décodé par l'UART à été perdu (parceque non lu par le 
+microprocesseur). ce bit (qui ne peut qu'etre lu) vaut : 1 si un mot décodé
+a, depuis, été perdu.
+
+ERR indique le status d'erreur de l'UART. ce bit (qui ne peut qu'etre lu)
+vaut : 0 si le précédent mot décoder avait un bit de parité correct, 1 sinon.
+
+LD indique si un mots a était entièrement décodé par l'UART. Il vaut 1 si
+
+
+
+- Composition du registre "SL1_UARTDATA" sur 8 bits :
+
+%%------------------------------
+%% eof
+%%------------------------------------------------------------
+%%
+%% Local Variables: 
+%% mode: text
+%% ispell-local-dictionary: "francais"
+%% ispell-local-pdict: "~/.ispell_francais"
+%% End: 

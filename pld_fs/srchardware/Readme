@@ -1,0 +1,9 @@
+ $Id: Readme 105 2009-11-24 15:22:50Z simon_duquennoy $ 
+------------------------------------------------------------
+
+./
+    source de la librairie hardware
+
+xampl/
+    exemples basiques et tests d'utilisation de la librairie hardware
+
