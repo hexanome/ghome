@@ -4,4 +4,9 @@
 void * gmalloc(unsigned int size);
 void gfree(void * ptr);
 
+struct block {
+  unsigned int size;
+  struct block * next;
+};
+
 #endif
