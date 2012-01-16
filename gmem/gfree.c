@@ -1,3 +1,0 @@
-
-void gfree(void * ptr) {
-}
