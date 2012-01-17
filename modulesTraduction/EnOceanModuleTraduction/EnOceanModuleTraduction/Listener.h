@@ -51,6 +51,6 @@ struct tcpTrame {
 SOCKET socketConnexion(void);
 int socketTrameReception(SOCKET aSocket, char* buffer);
 int socketListen (SOCKET aSocket);
-
+struct tcpTrame tcpTrameCreation (char* buffer);
 
 #endif

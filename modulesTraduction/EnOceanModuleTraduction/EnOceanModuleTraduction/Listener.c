@@ -56,7 +56,7 @@ SOCKET socketConnexion(void)
 int socketTrameReception(SOCKET aSocket, char* buffer)
 {
     if (aSocket != SOCKET_ERROR ) {
-        printf(" On remplit la chaine de caractères \n");
+
         long n = 0;        
         if((n = recv(aSocket, buffer, FRAME_SIZE_ENOCEAN, 0)) < 0)
         {
@@ -65,8 +65,39 @@ int socketTrameReception(SOCKET aSocket, char* buffer)
             return -1;
         }
         buffer[n] = '\0';
-        printf("n: %ld \n",n);
         printf("%s \n",buffer);
     }
     return 0;
 }
+
+char hexToBinary (char* hexValue)
+{
+    return hexValue[0] - '0' + 16*(hexValue[1]-'0');
+}
+
+
+struct tcpTrame tcpTrameCreation (char* buffer) 
+{
+    struct tcpTrame aFrame;    
+    aFrame.H_SEQLENGTH = hexToBinary(buffer+4);
+    aFrame.ORG = hexToBinary(buffer+6);
+    aFrame.DATA_BYTE3 = hexToBinary(buffer+8);
+    aFrame.DATA_BYTE2 = hexToBinary(buffer+8);
+    aFrame.DATA_BYTE1 = hexToBinary(buffer+8);
+    aFrame.DATA_BYTE0 = hexToBinary(buffer+8);
+    aFrame.ID_BYTE3 = hexToBinary(buffer+8);
+    aFrame.ID_BYTE2 = hexToBinary(buffer+8);
+    aFrame.ID_BYTE1 = hexToBinary(buffer+8);
+    aFrame.ID_BYTE0 = hexToBinary(buffer+8);
+    aFrame.STATUS = hexToBinary(buffer+8);
+    aFrame.CHECKSUM = hexToBinary(buffer+8);
+    return aFrame;
+}
+
+
+
+
+
+
+
+

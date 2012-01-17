@@ -22,8 +22,7 @@ struct enOceanMessage
     char sensorID[4];
     float value1;
     float value2;
-    float value3;
-    
+    float value3;    
 };
 
 #endif
