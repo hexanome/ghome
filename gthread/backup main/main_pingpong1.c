@@ -69,7 +69,6 @@ void switch_to_ctx(ctx_s *ctx)
 	ctx_courant=ctx;
 	if(*(ctx->esp) == 0)
 	{
-		
 		ctx->function(ctx->args);
 	}
 	else
@@ -78,6 +77,12 @@ void switch_to_ctx(ctx_s *ctx)
 		printf("ebp : %d\n",*(ctx->ebp));
 		x=*(ctx->esp);
 		y=*(ctx->ebp);
+		/*
+		__asm__("movl %%ss,%0" 
+				: 
+				: "r"(z)
+				: "%ss"); 
+		printf("-*ss*- : %d\n",z);*/
 		__asm__("movl %1,%%esp\n\t" 
 				"movl %0,%%ebp "
 				: 
