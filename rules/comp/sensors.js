@@ -1,40 +1,47 @@
 var redisClient;
 
+var udf = undefined;
+
 function configure(dbClient) {
   redisClient = dbClient;
 }
 
-function getSensorType(typeId) {
+function getSensorType(typeId, cb) {
   var result = null;
 
   redisClient.hgetall("sensor_type:" + typeId, function (err, obj) {
     if (err) {
+      cb(err);
       return;
     }
 
-    result = obj;
+    cb(udf, obj);
   }
-
-  return result;
 }
 
-function getSensorTypes() {
+function getSensorTypes(cb) {
   var result = [];
 
   redisClient.smembers("sensor_types", function (err, replies) {
     if (err) {
+      cb(err);
       return;
     }
 
+    var processed = 0, total = replies.length;
     replies.forEach(function (reply, i) {
-      var sensorType = getSensorType(reply);
-      if (sensorType) {
-        result.push(sensorType);
-      }
+      getSensorType(reply, function(err, st) {
+        if (err) {
+          cb(err);
+        }
+        result.push(st);
+        processed++;
+        if (processed == total) {
+          cb(udf, result);
+        }
+      });
     }
   }
-
-  return result;
 }
 
 function addSensorType(sensorType) {
