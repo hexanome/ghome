@@ -31,11 +31,10 @@ void switch_to_ctx(ctx_s *ctx);
 
 int init_ctx(ctx_s *ctx, int stack_size,func_t f, void *args)
 {
+	void* pointeur=0;
 	ctx->pileExecution = malloc(stack_size);
 	ctx->esp = malloc(sizeof(int));
 	ctx->ebp = malloc(sizeof(int));
-	*(ctx->esp) = 0;
-	*(ctx->ebp) = 0;
 	ctx->function=f;
 	ctx->args = args;
 	return 0;
@@ -69,7 +68,15 @@ void switch_to_ctx(ctx_s *ctx)
 	ctx_courant=ctx;
 	if(*(ctx->esp) == 0)
 	{
-		
+		*(ctx->esp) = ctx->pileExecution;
+		*(ctx->ebp) = ctx->pileExecution;
+		x=*(ctx->esp);
+		y=*(ctx->ebp);
+		__asm__("movl %1,%%esp\n\t" 
+				"movl %0,%%ebp "
+				: 
+				: "r"(y),"r"(x)  
+				: "%esp","%ebp"); 
 		ctx->function(ctx->args);
 	}
 	else
