@@ -9,6 +9,8 @@
 #ifndef EnOceanModuleTraduction_Message_h
 #define EnOceanModuleTraduction_Message_h
 
+#include "Listener.h"
+
 enum sensorType {
     enOceanRockerSwitch = 1,
     enOceanTemperatureSensor = 2,
@@ -24,5 +26,7 @@ struct enOceanMessage
     float value2;
     float value3;    
 };
+
+struct enOceanMessage enOceanMessageCreation(struct tcpFrame aFrame);
 
 #endif

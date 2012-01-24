@@ -31,8 +31,8 @@ typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
 
 
-struct tcpTrame {
-    char H_SEQLENGTH; // trame third byte.
+struct tcpFrame {
+    char H_SEQLENGTH; // Frame third byte.
     char ORG;
     char DATA_BYTE3;
     char DATA_BYTE2;
@@ -49,8 +49,9 @@ struct tcpTrame {
 
 
 SOCKET socketConnexion(void);
-int socketTrameReception(SOCKET aSocket, char* buffer);
+int socketFrameReception(SOCKET aSocket, char* buffer);
 int socketListen (SOCKET aSocket);
-struct tcpTrame tcpTrameCreation (char* buffer);
+struct tcpFrame tcpFrameCreation (char* buffer);
+
 
 #endif

@@ -1,5 +1,6 @@
+var async = require('async');
+
 var redisClient;
-var udf = undefined;
 
 function configure(dbClient) {
   redisClient = dbClient;
@@ -14,7 +15,7 @@ function getSensorType(typeId, cb) {
       return;
     }
 
-    cb(udf, obj);
+    cb(null, obj);
   }
 }
 
@@ -27,20 +28,15 @@ function getSensorTypes(cb) {
       return;
     }
 
-    var processed = 0, total = replies.length;
-    replies.forEach(function (reply, i) {
+    async.forEach(replies, function (reply, cb2) {
       getSensorType(reply, function(err, st) {
         if (err) {
-          cb(err);
+          cb2(err);
+          return;
         }
-        
-        result.push(st);
-        processed++;
-        if (processed == total) {
-          cb(udf, result);
-        }
+        cb2(null, st);
       });
-    }
+    }, function(err) {});
   }
 }
 

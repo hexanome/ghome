@@ -9,3 +9,13 @@
 #include <stdio.h>
 #include "Message.h"
 
+
+
+struct enOceanMessage enOceanMessageCreation(struct tcpFrame aFrame)
+{
+    struct enOceanMessage anOceanMessage; 
+    //
+    
+    return anOceanMessage;
+    
+}

@@ -30,8 +30,7 @@ int main (void) {
     char* buffer = malloc(FRAME_SIZE_ENOCEAN);
     SOCKET sock = socketConnexion();
     while (sock != SOCKET_ERROR) {
-        socketTrameReception(sock,buffer);
-
+    socketFrameReception(sock,buffer);
     }   
     free(buffer);
 }
