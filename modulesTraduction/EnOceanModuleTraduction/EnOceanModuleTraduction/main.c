@@ -31,6 +31,8 @@ int main (void) {
     SOCKET sock = socketConnexion();
     while (sock != SOCKET_ERROR) {
     socketFrameReception(sock,buffer);
+
+    
     }   
     free(buffer);
 }

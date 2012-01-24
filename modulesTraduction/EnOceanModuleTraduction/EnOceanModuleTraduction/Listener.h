@@ -47,10 +47,15 @@ struct tcpFrame {
     
 };
 
+//Utility Functions
+char hexToBinary (char* hexValue);
 
+//Managing Socket
 SOCKET socketConnexion(void);
 int socketFrameReception(SOCKET aSocket, char* buffer);
 int socketListen (SOCKET aSocket);
+
+//Frame Creation
 struct tcpFrame tcpFrameCreation (char* buffer);
 
 
