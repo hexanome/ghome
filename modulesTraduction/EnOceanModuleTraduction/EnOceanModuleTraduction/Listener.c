@@ -58,25 +58,55 @@ int socketFrameReception(SOCKET aSocket, char* buffer)
 
 char hexToBinary (char* hexValue)
 {
-    return hexValue[0] - '0' + 16*(hexValue[1]-'0');
+	int Decimal;
+	int Unite;
+
+	printf("%c%c\n",*hexValue,*(hexValue+1));
+	//Il n'y pas continuité dans la table ASCII entre 9 et A
+
+	if ( *(hexValue) > '9')
+	{
+		printf("decimal:%ld\n",*hexValue -'A'+10);
+		Decimal = *hexValue -'A'+10;
+	}
+	else
+	{
+		printf("decimal:%ld\n",*hexValue -'0');
+		Decimal = *hexValue -'0';
+	}
+	if ( *(hexValue+1) > '9' )
+	{
+		printf("unite:%ld\n",*(hexValue+1)-'A'+10);
+		Unite = *(hexValue+1) -'A'+10;
+	}
+	else
+	{
+		printf("unite:%ld\n",*(hexValue+1)-'0');
+		Unite = *(hexValue+1) -'0';
+	}
+	printf("%ld\n",Unite+16*(Decimal));
+	return Unite+16*(Decimal);
 }
 
-
-tcpFrame tcpFrameCreation (char* buffer) 
+/**
+ * Créer la structure de données de la trame à partir de la chaine de caractères récupérés
+ */
+struct tcpFrame tcpFrameCreation (char* buffer) 
 {
-    tcpFrame aFrame;    
-    aFrame.H_SEQLENGTH = hexToBinary(buffer+4);
-    aFrame.ORG = hexToBinary(buffer+6);
-    aFrame.DATA_BYTE3 = hexToBinary(buffer+8);
-    aFrame.DATA_BYTE2 = hexToBinary(buffer+8);
-    aFrame.DATA_BYTE1 = hexToBinary(buffer+8);
-    aFrame.DATA_BYTE0 = hexToBinary(buffer+8);
-    aFrame.ID_BYTE3 = hexToBinary(buffer+8);
-    aFrame.ID_BYTE2 = hexToBinary(buffer+8);
-    aFrame.ID_BYTE1 = hexToBinary(buffer+8);
-    aFrame.ID_BYTE0 = hexToBinary(buffer+8);
-    aFrame.STATUS = hexToBinary(buffer+8);
-    aFrame.CHECKSUM = hexToBinary(buffer+8);
+    struct tcpFrame aFrame;
+    buffer+=4;
+    aFrame.H_SEQLENGTH = hexToBinary(buffer);buffer+=2;
+    aFrame.ORG = hexToBinary(buffer);buffer+=2;
+    aFrame.DATA_BYTE3 = hexToBinary(buffer);buffer+=2;
+    aFrame.DATA_BYTE2 = hexToBinary(buffer);buffer+=2;
+    aFrame.DATA_BYTE1 = hexToBinary(buffer);buffer+=2;
+    aFrame.DATA_BYTE0 = hexToBinary(buffer);buffer+=2;
+    aFrame.ID_BYTE3 = hexToBinary(buffer);buffer+=2;
+    aFrame.ID_BYTE2 = hexToBinary(buffer);buffer+=2;
+    aFrame.ID_BYTE1 = hexToBinary(buffer);buffer+=2;
+    aFrame.ID_BYTE0 = hexToBinary(buffer);buffer+=2;
+    aFrame.STATUS = hexToBinary(buffer);buffer+=2;
+    aFrame.CHECKSUM = hexToBinary(buffer);
     return aFrame;
 }
 
