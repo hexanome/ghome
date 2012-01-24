@@ -24,15 +24,18 @@
 
 #include "Listener.h"
 
-
-int main (void) {
-    
+int main(void)
+{
     char* buffer = malloc(FRAME_SIZE_ENOCEAN);
     SOCKET sock = socketConnexion();
-    while (sock != SOCKET_ERROR) {
-    socketFrameReception(sock,buffer);
+    while (sock != SOCKET_ERROR)
+    {
+        socketFrameReception(sock,buffer);
+        tcpFrame myFrame = tcpFrameCreation(buffer);
+        enOceanMessage myMessage = enOceanMessageCreation(myFrame);
 
-    
+        
     }   
     free(buffer);
 }
+

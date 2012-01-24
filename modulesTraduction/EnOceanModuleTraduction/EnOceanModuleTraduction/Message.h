@@ -19,15 +19,17 @@ enum sensorType {
     enOceanLightSensor = 4,
 };
 
-struct enOceanMessage
+typedef struct enOceanMessage
 {
     enum sensorType type;
     char sensorID[5];
     float value1;
     float value2;
     float value3;    
-};
+}enOceanMessage;
 
 struct enOceanMessage enOceanMessageCreation(struct tcpFrame aFrame);
+int sendSensorStateByPipe (struct enOceanMessage aMessage);
+
 
 #endif

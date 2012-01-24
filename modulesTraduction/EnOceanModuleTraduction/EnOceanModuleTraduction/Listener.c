@@ -62,9 +62,9 @@ char hexToBinary (char* hexValue)
 }
 
 
-struct tcpFrame tcpFrameCreation (char* buffer) 
+tcpFrame tcpFrameCreation (char* buffer) 
 {
-    struct tcpFrame aFrame;    
+    tcpFrame aFrame;    
     aFrame.H_SEQLENGTH = hexToBinary(buffer+4);
     aFrame.ORG = hexToBinary(buffer+6);
     aFrame.DATA_BYTE3 = hexToBinary(buffer+8);

@@ -31,7 +31,7 @@ typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
 
 
-struct tcpFrame {
+typedef struct tcpFrame {
     char H_SEQLENGTH; // Frame third byte.
     char ORG;
     char DATA_BYTE3;
@@ -45,7 +45,7 @@ struct tcpFrame {
     char STATUS;
     char CHECKSUM;  
     
-};
+}tcpFrame;
 
 //Utility Functions
 char hexToBinary (char* hexValue);
