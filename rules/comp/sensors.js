@@ -1,59 +1,28 @@
-var async = require('async');
-
-var redisClient;
+var redisbase = require("redisbase.js"),
+    tableSensorType = "sensorType",
+    tableSensorProperty = "sensorProperty";
 
 function configure(dbClient) {
-  redisClient = dbClient;
+  redisbase.configure(dbClient);
 }
 
 function getSensorType(typeId, cb) {
-  var result = null;
-
-  redisClient.hgetall("sensor_type:" + typeId, function (err, obj) {
-    if (err) {
-      cb(err);
-      return;
-    }
-
-    cb(null, obj);
-  }
+  redisbase.getSingleItem(tableSensorType, typeId, cb);
 }
 
 function getSensorTypes(cb) {
-  var result = [];
-
-  redisClient.smembers("sensor_types", function (err, replies) {
-    if (err) {
-      cb(err);
-      return;
-    }
-
-    async.forEach(replies, function (reply, cb2) {
-      getSensorType(reply, function(err, st) {
-        if (err) {
-          cb2(err);
-          return;
-        }
-        cb2(null, st);
-      });
-    }, function(err) {});
-  }
+  redisbase.getAllItems(tableSensorType, cb);
 }
 
 function addSensorType(sensorType, cb) {
-  var sensorId = newGuid();
-
-  redisClient.multi()
-    .hmset("sensor_type:" + sensorId, sensorType)
-    .sadd("sensor_types", sensorId)
-    .exec(function (err) {
-      cb(err, sensorId);
-    });
+  redisbase.addItem(tableSensorType, sensorType, cb);
 }
 
-function newGuid() {
-  "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-    return v.toString(16);
-  });
+function getSensorProperty(propertyId, cb) {
+  redisbase.getSingleItem(tableSensorType, propertyId, cb);
 }
+
+exports.configure = configure;
+exports.addSensorType = addSensorType;
+exports.getSensorType = getSensorType;
+exports.getSensorTypes = getSensorTypes;
