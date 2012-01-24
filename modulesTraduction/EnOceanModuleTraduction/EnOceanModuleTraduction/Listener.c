@@ -39,21 +39,7 @@ SOCKET socketConnexion(void)
     return sock;
 }
 
-/*int socketListen (SOCKET aSocket)
-{
-    if(listen(aSocket, 5) == SOCKET_ERROR)
-    {
-        printf("Erreur d'ecoute sur le socket\n");
-        return -1;
-    }
-    else 
-    {
-        printf("Ecoute sur le socket\n");
-        return 0;
-    }
-}*/
-
-int socketTrameReception(SOCKET aSocket, char* buffer)
+int socketFrameReception(SOCKET aSocket, char* buffer)
 {
     if (aSocket != SOCKET_ERROR ) {
 
@@ -76,9 +62,9 @@ char hexToBinary (char* hexValue)
 }
 
 
-struct tcpTrame tcpTrameCreation (char* buffer) 
+struct tcpFrame tcpFrameCreation (char* buffer) 
 {
-    struct tcpTrame aFrame;    
+    struct tcpFrame aFrame;    
     aFrame.H_SEQLENGTH = hexToBinary(buffer+4);
     aFrame.ORG = hexToBinary(buffer+6);
     aFrame.DATA_BYTE3 = hexToBinary(buffer+8);
@@ -93,6 +79,8 @@ struct tcpTrame tcpTrameCreation (char* buffer)
     aFrame.CHECKSUM = hexToBinary(buffer+8);
     return aFrame;
 }
+
+
 
 
 
