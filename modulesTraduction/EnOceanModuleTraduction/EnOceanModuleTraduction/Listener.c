@@ -56,27 +56,33 @@ int socketFrameReception(SOCKET aSocket, char* buffer)
     return 0;
 }
 
+/**
+ * Convertit un couple de caractères hexadécimaux en binaire
+ */
 char hexToBinary (char* hexValue)
 {
     return hexValue[0] - '0' + 16*(hexValue[1]-'0');
 }
 
-
+/**
+ * Créer la structure de données de la trame à partir de la chaine de caractères récupérés
+ */
 struct tcpFrame tcpFrameCreation (char* buffer) 
 {
-    struct tcpFrame aFrame;    
-    aFrame.H_SEQLENGTH = hexToBinary(buffer+4);
-    aFrame.ORG = hexToBinary(buffer+6);
-    aFrame.DATA_BYTE3 = hexToBinary(buffer+8);
-    aFrame.DATA_BYTE2 = hexToBinary(buffer+8);
-    aFrame.DATA_BYTE1 = hexToBinary(buffer+8);
-    aFrame.DATA_BYTE0 = hexToBinary(buffer+8);
-    aFrame.ID_BYTE3 = hexToBinary(buffer+8);
-    aFrame.ID_BYTE2 = hexToBinary(buffer+8);
-    aFrame.ID_BYTE1 = hexToBinary(buffer+8);
-    aFrame.ID_BYTE0 = hexToBinary(buffer+8);
-    aFrame.STATUS = hexToBinary(buffer+8);
-    aFrame.CHECKSUM = hexToBinary(buffer+8);
+    struct tcpFrame aFrame;
+    buffer+=4;
+    aFrame.H_SEQLENGTH = hexToBinary(buffer);buffer+=6;
+    aFrame.ORG = hexToBinary(buffer);buffer+=8;
+    aFrame.DATA_BYTE3 = hexToBinary(buffer);buffer+=8;
+    aFrame.DATA_BYTE2 = hexToBinary(buffer);buffer+=8;
+    aFrame.DATA_BYTE1 = hexToBinary(buffer);buffer+=8;
+    aFrame.DATA_BYTE0 = hexToBinary(buffer);buffer+=8;
+    aFrame.ID_BYTE3 = hexToBinary(buffer);buffer+=8;
+    aFrame.ID_BYTE2 = hexToBinary(buffer);buffer+=8;
+    aFrame.ID_BYTE1 = hexToBinary(buffer);buffer+=8;
+    aFrame.ID_BYTE0 = hexToBinary(buffer);buffer+=8;
+    aFrame.STATUS = hexToBinary(buffer);buffer+=8;
+    aFrame.CHECKSUM = hexToBinary(buffer);
     return aFrame;
 }
 
