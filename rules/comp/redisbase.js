@@ -1,5 +1,5 @@
 var async = require("async"),
-  utils = require("utils.js"), 
+  utils = require("./utils.js"), 
   redisClient;
 
 function configure(dbClient) {
@@ -7,22 +7,26 @@ function configure(dbClient) {
 }
 
 function addItem(table, item, cb, foreignKeys) {
-  var sensorId = newGuid();
+  var itemId = utils.newGuid();
+
+  if (!foreignKeys) {
+    foreignKeys = [];
+  }
 
   async.forEach(foreignKeys, function (cb2, foreignKey) {
     item["foreign:{0}:{1}".format(foreignKey.table, foreignKey.name)] = item[foreignKey.name].id;
     delete item[foreignKey.name];
-  })
-
-  redisClient.hmset("sensor_type:" + sensorId, sensorType, function (err) {
-    cb(err, sensorId);
-	});	
+  }, function (err) {
+    redisClient.hmset("{0}:{1}".format(table, itemId), item, function (err) {
+      cb(err, itemId);
+    });
+  });
 }
 
-function getSingleItem(table, id, cb) {
+function getSingleItem(table, itemId, cb) {
   var result = null;
 
-  redisClient.hgetall(table + ":" + typeId, function (err, obj) {
+  redisClient.hgetall("{0}:{1}".format(table, itemId), function (err, obj) {
     if (err) {
       cb(err);
       return;
@@ -56,7 +60,7 @@ function getSingleItem(table, id, cb) {
       }
 
       // We set the id for this object.
-      obj.id = typeId;
+      obj.id = itemId;
 
       cb(null, obj);
     });
