@@ -1,5 +1,4 @@
 var redisClient;
-
 var udf = undefined;
 
 function configure(dbClient) {
@@ -34,6 +33,7 @@ function getSensorTypes(cb) {
         if (err) {
           cb(err);
         }
+        
         result.push(st);
         processed++;
         if (processed == total) {
@@ -44,14 +44,19 @@ function getSensorTypes(cb) {
   }
 }
 
-function addSensorType(sensorType) {
+function addSensorType(sensorType, cb) {
   var sensorId = newGuid();
-  redisClient.hmset("sensor_type:" + sensorId, sensorType);
-  return sensorId;
+
+  redisClient.multi()
+    .hmset("sensor_type:" + sensorId, sensorType)
+    .sadd("sensor_types", sensorId)
+    .exec(function (err) {
+      cb(err, sensorId);
+    });
 }
 
 function newGuid() {
-  'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
     var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
     return v.toString(16);
   });
