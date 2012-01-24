@@ -27,10 +27,15 @@
 
 int main (void) {
     
-    char* buffer = malloc(FRAME_SIZE_ENOCEAN);
-    SOCKET sock = socketConnexion();
-    while (sock != SOCKET_ERROR) {
-    socketFrameReception(sock,buffer);
-    }   
-    free(buffer);
+//    char* buffer = malloc(FRAME_SIZE_ENOCEAN);
+//    SOCKET sock = socketConnexion();
+//    while (sock != SOCKET_ERROR) {
+//    socketFrameReception(sock,buffer);
+//    }
+//    free(buffer);
+
+    char * testBuffer= "A55A0B0570000000001F607330A2";
+    struct tcpFrame testFrame = tcpFrameCreation(testBuffer);
+    printf("succes");
+
 }
