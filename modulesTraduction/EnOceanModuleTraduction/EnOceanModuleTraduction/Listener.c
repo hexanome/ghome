@@ -66,7 +66,6 @@ char hexToBinary (char* hexValue)
 
 	printf("%c%c\n",*hexValue,*(hexValue+1));
 	//Il n'y pas continuité dans la table ASCII entre 9 et A
-
 	if ( *(hexValue) > '9')
 	{
 		printf("decimal:%ld\n",*hexValue -'A'+10);
