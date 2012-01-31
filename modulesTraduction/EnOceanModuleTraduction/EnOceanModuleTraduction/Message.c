@@ -10,8 +10,7 @@
 #include "Message.h"
 
 
-
-struct enOceanMessage enOceanMessageCreation(struct tcpFrame aFrame)
+enOceanMessage enOceanMessageCreation(tcpFrameType aFrame)
 {
     struct enOceanMessage anOceanMessage; 
     //Mise en place d'un message en dur

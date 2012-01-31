@@ -23,6 +23,7 @@
 
 
 #include "Listener.h"
+#include "Message.h"
 
 int main(void)
 {
@@ -31,9 +32,9 @@ int main(void)
     while (sock != SOCKET_ERROR)
     {
         socketFrameReception(sock,buffer);
-        tcpFrame myFrame = tcpFrameCreation(buffer);
-        //enOceanMessage myMessage = enOceanMessageCreation(myFrame);
-
+        tcpFrameType myFrame = tcpFrameCreation(buffer);
+        enOceanMessage myMessage = enOceanMessageCreation(myFrame);
+        sendSensorStateByPipe(myMessage);
         
     }   
     free(buffer);
