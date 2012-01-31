@@ -1,5 +1,8 @@
-EnOceanModuleTraduction: Listener.o Message.o main.o
-	gcc -o EnOceanModuleTraduction Listener.o Message.o main.o
+SEXE = sensor
+AEXE = actuator
+
+$(SEXE): Listener.o Message.o main.o
+	gcc -o $(SEXE) Listener.o Message.o main.o
 
 Listener.o: Listener.c
 	gcc -o Listener.o -c Listener.c -W -Wall
@@ -9,3 +12,6 @@ Message.o: Message.c
 	
 main.o: main.c Listener.h
 	gcc -o main.o -c main.c -W -Wall
+
+clean:
+	rm *.o $(SEXE) $(AEXE)
