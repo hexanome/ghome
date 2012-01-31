@@ -46,12 +46,12 @@ int socketFrameReception(SOCKET aSocket, char* buffer)
         long n = 0;        
         if((n = recv(aSocket, buffer, FRAME_SIZE_ENOCEAN, 0)) < 0)
         {
-            printf("%s\n",buffer);
+            printf(" Erreur %s\n",buffer);
             printf("erreur %ld \n", n);
             return -1;
         }
         buffer[n] = '\0';
-        printf("%s \n",buffer);
+       // printf("%s \n",buffer);
     }
     return 0;
 }
@@ -62,26 +62,26 @@ int hexToInt (char* hexValue)
 	int Decimal;
 	int Unite;
 
-	printf("%c%c\n",*hexValue,*(hexValue+1));
+	//printf("%c%c\n",*hexValue,*(hexValue+1));
 	//Il n'y pas continuité dans la table ASCII entre 9 et A
 	if ( *(hexValue) > '9')
 	{
-		printf("decimal:%d\n",*hexValue -'A'+10);
+		//printf("decimal:%d\n",*hexValue -'A'+10);
 		Decimal = *hexValue -'A'+10;
 	}
 	else
 	{
-		printf("decimal:%d\n",*hexValue -'0');
+		//printf("decimal:%d\n",*hexValue -'0');
 		Decimal = *hexValue -'0';
 	}
 	if ( *(hexValue+1) > '9' )
 	{
-		printf("unite:%d\n",*(hexValue+1)-'A'+10);
+		//printf("unite:%d\n",*(hexValue+1)-'A'+10);
 		Unite = *(hexValue+1) -'A'+10;
 	}
 	else
 	{
-		printf("unite:%d\n",*(hexValue+1)-'0');
+		//printf("unite:%d\n",*(hexValue+1)-'0');
 		Unite = *(hexValue+1) -'0';
 	}
 	//Le resultat de la conversion
