@@ -6,11 +6,12 @@ function configure(dbClient) {
   redisClient = dbClient;
 }
 
-function addItem(table, item, cb, foreignKeys) {
+function addItem(table, item, cb, foreignKeys, secondaryIndexes) {
   var itemId = utils.newGuid();
 
-  // Optional parameter.
+  // Optional parameters.
   foreignKeys = foreignKeys || [];
+  secondaryIndexes = secondaryIndexes || [];
 
   // Redis multi session.
   var multi = redisClient.multi();
@@ -26,10 +27,21 @@ function addItem(table, item, cb, foreignKeys) {
     multi.sadd("{0};{1};{2}".format(foreignKey.table, foreignId, table), itemId);
     cb2(null);
   }, function (err) {
-    // Finally, we create the object in the DB.
-    multi.hmset("{0}:{1}".format(table, itemId), item);
-    multi.exec(function (err, replies) {
-      cb(err, itemId);
+    // We now process the secondary indexes.
+    async.forEach(secondaryIndexes, function (secondaryIndex, cb2) {
+      // We create a key for the secondary index.
+      multi.set("{0}!{1}!{2}".format(table, secondaryIndex, item[secondaryIndex]), itemId);
+
+      item["sec:" + secondaryIndex] = item[secondaryIndex];
+      delete item[secondaryIndex];
+
+      cb2(null);
+    }, function (err2) {
+      // Finally, we create the object in the DB.
+      multi.hmset("{0}:{1}".format(table, itemId), item);
+      multi.exec(function (err, replies) {
+        cb(err, itemId);
+      });
     });
   });
 }
@@ -48,10 +60,13 @@ function deleteItem(table, itemId, cb, cascade, multi) {
   redisClient.hgetall("{0}:{1}".format(table, itemId), function (err, obj) {
     // We check for foreign keys.
     var foreignKeys = [];
+    var secondaryIndexes = [];
 
     for (var key in obj) {
       if (key.startsWith("foreign")) {
         foreignKeys.push(key);                
+      } else if (key.startsWith("sec:")) {
+        secondaryIndexes.push(key);
       }
     }
     
@@ -87,19 +102,40 @@ function deleteItem(table, itemId, cb, cascade, multi) {
             secondPart();
           }
         }, function (err4) {
-          // We can now delete the object.
-          multi.del("{0}:{1}".format(table, itemId));
+          // We delete secondary indexes.
+          async.forEach(secondaryIndexes, function (secondaryIndex, cb2) {
+            
+            var keyName = secondaryIndex.split(":")[1];
+            multi.del("{0}!{1}!{2}".format(table, keyName, obj[secondaryIndex]));
 
-          if (doExec) {
-            multi.exec(function (err, replies) {
+            cb2(null);          
+          }, function (err5) {
+            
+            // We can now delete the object.
+            multi.del("{0}:{1}".format(table, itemId));
+
+            if (doExec) {
+              multi.exec(function (err, replies) {
+                cb(err);
+              });
+            } else {
               cb(err);
-            });
-          } else {
-            cb(err);
-          }
+            }
+
+          });
         });
       });
     });
+  });
+}
+
+function getSingleItemFromSec(table, indexName, indexValue, cb) {
+  redisClient.get("{0}!{1}!{2}".format(table, indexName, indexValue), function (err, reply) {
+    if (err) {
+      cb(err);
+    }
+
+    getSingleItem(table, reply, cb);
   });
 }
 
@@ -110,12 +146,15 @@ function getSingleItem(table, itemId, cb) {
       return;
     }
 
-    // We check for foreign keys.
+    // We check for foreign keys & secondary indexes.
     var foreignKeys = [];
+    var secondaryIndexes = [];
 
     for (var key in obj) {
       if (key.startsWith("foreign")) {
-        foreignKeys.push(key);                
+        foreignKeys.push(key);
+      } else if (key.startsWith("sec:")) {
+        secondaryIndexes.push(key);
       }
     }
 
@@ -132,15 +171,25 @@ function getSingleItem(table, itemId, cb) {
         cb2(null);
       });
     }, function (err) {
-      if (err) {
-        cb(err);
-        return;
-      }
+      // We rename secondary indexes.
+      async.forEach(secondaryIndexes, function (secondaryIndex, cb2) {
+        var keyName = secondaryIndex.split(":")[1];
 
-      // We set the id for this object.
-      obj.id = itemId;
+        obj[keyName] = obj[secondaryIndex];
+        delete obj[secondaryIndex];
 
-      cb(null, obj);
+        cb2(null);
+      }, function (err2) {
+        if (err) {
+          cb(err);
+          return;
+        }
+
+        // We set the id for this object.
+        obj.id = itemId;
+
+        cb(null, obj);
+      });
     });
   });
 }
@@ -171,5 +220,6 @@ function getAllItems(table, cb) {
 exports.configure = configure;
 exports.addItem = addItem;
 exports.deleteItem = deleteItem;
+exports.getSingleItemFromSec = getSingleItemFromSec;
 exports.getSingleItem = getSingleItem;
 exports.getAllItems = getAllItems;

@@ -53,6 +53,10 @@ function getSensor(sensorId, cb) {
   redisbase.getSingleItem(tableSensor, sensorId, cb);
 }
 
+function getSensorFromOem(oemId, cb) {
+  redisbase.getSingleItemFromSec(tableSensor, "oemId", oemId, cb);
+}
+
 function getSensors(cb) {
   redisbase.getAllItems(tableSensor, cb);
 }
@@ -61,7 +65,7 @@ function addSensor(sensor, cb) {
   redisbase.addItem(tableSensor, sensor, cb, [{
     "table" : tableSensorType,
     "name" : "sensorType"
-  }]);
+  }], ["oemId"]);
 }
 
 function deleteSensor(sensorId, cb) {
@@ -105,6 +109,7 @@ exports.addSensorProperty = addSensorProperty;
 exports.deleteSensorProperty = deleteSensorProperty;
 
 exports.getSensor = getSensor;
+exports.getSensorFromOem = getSensorFromOem;
 exports.getSensors = getSensors;
 exports.addSensor = addSensor;
 exports.deleteSensor = deleteSensor;
