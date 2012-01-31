@@ -32,23 +32,23 @@ typedef struct sockaddr SOCKADDR;
 
 
 typedef struct tcpFrame {
-    char H_SEQLENGTH; // Frame third byte.
-    char ORG;
-    char DATA_BYTE3;
-    char DATA_BYTE2;
-    char DATA_BYTE1;
-    char DATA_BYTE0;
-    char ID_BYTE3;
-    char ID_BYTE2;
-    char ID_BYTE1;
-    char ID_BYTE0;
-    char STATUS;
-    char CHECKSUM;  
+    int H_SEQLENGTH; // Frame third byte.
+    int ORG;
+    int DATA_BYTE3;
+    int DATA_BYTE2;
+    int DATA_BYTE1;
+    int DATA_BYTE0;
+    char ID_BYTE3[2];
+    char ID_BYTE2[2];
+    char ID_BYTE1[2];
+    char ID_BYTE0[2];
+    int STATUS;
+    int CHECKSUM;
     
 }tcpFrame;
 
 //Utility Functions
-char hexToBinary (char* hexValue);
+int hexToInt (char* hexValue);
 
 //Managing Socket
 SOCKET socketConnexion(void);
