@@ -1,5 +1,5 @@
 //
-//  main.c
+//  Sender.c
 //  EnOceanModuleActuator
 //
 //  Created by Alexandre Lefoulon on 31/01/12.
@@ -7,13 +7,3 @@
 //
 
 #include <stdio.h>
-#include "Sender.h"
-
-int main (int argc, const char * argv[])
-{
-
-    // insert code here...
-    printf("Hello, World!\n");
-    return 0;
-}
-
