@@ -10,12 +10,22 @@
 #include "Message.h"
 
 
-
-struct enOceanMessage enOceanMessageCreation(struct tcpFrame aFrame)
+enOceanMessage enOceanMessageCreation(tcpFrameType aFrame)
 {
-    struct enOceanMessage anOceanMessage; 
-    //
-    
+    struct enOceanMessage anOceanMessage;
+    // Mise en place d'un message en dur.
+    anOceanMessage.type = enOceanLightSensor;
+    anOceanMessage.value1 = 0.23;
+    strcpy(anOceanMessage.sensorID,"E123");
     return anOceanMessage;
-    
 }
+
+int sendSensorStateByPipe (enOceanMessage aMessage) 
+{
+    int fd;
+    dup2(fd, STDOUT_FILENO); // Connect the write side with stdout.
+
+    printf("GIVE_SENSORSTATE %s %f %f %f\n",aMessage.sensorID, aMessage.value1,aMessage.value2,aMessage.value3);
+    return 0;
+}
+

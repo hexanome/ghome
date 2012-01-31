@@ -8,120 +8,127 @@
 #define RETURN_SUCCESS 0
 #define RETURN_FAILURE 1
 
+#define RUNNING 0
+#define READY 1
+#define ACTIVATED 2
+
+typedef void (irq_handler_func_t)(void);
+#define TIMER_IRQ 2
+void setup_irq(unsigned int irq, irq_handler_func_t handler);
+void start_hw();
+void irq_disable();
+void irq_enable();
 
 typedef void (func_t)(void *);
 typedef struct
 {
 	int* esp;
 	int* ebp;
+	int state;
 	func_t* function;
 	void* args;
 	void* pileExecution;
+	void* next;
 }ctx_s;
 
-ctx_s ctx_ping;
-ctx_s ctx_pong;
-ctx_s* ctx_courant;
+ctx_s* ctx_chainee=NULL;
+ctx_s* ctx_courant=NULL;
 void f_ping(void *arg);
 void f_pong(void *arg);
 
+int create_ctx(int stack_size, func_t f, void *args);
+void yield();
 
-int init_ctx(ctx_s* ctx, int stack_size,func_t f, void* args);
-void switch_to_ctx(ctx_s *ctx);
 
-int init_ctx(ctx_s *ctx, int stack_size,func_t f, void *args)
+void start_sched()
 {
-	void* pointeur=0;
-	ctx->pileExecution = malloc(stack_size);
-	ctx->esp = malloc(sizeof(int));
-	ctx->ebp = malloc(sizeof(int));
-	ctx->function=f;
-	ctx->args = args;
-	return 0;
+	setup_irq(TIMER_IRQ,yield);
+	start_hw();
+	yield();
 }
-/*
-int init_courant_ctx()
-{
-	ctx_courant.esp = malloc(sizeof(int));
-	ctx_courant.ebp = malloc(sizeof(int));
-	return 0;
-}
-*/
 
-void switch_to_ctx(ctx_s *ctx)
+int create_ctx(int stack_size,func_t f, void *args)
 {
-	int x, y;
-	__asm__("movl %%esp, %1\n\t" 
-			"movl %%ebp, %0"
-			: "=r"(y),"=r"(x) 
-			:  
-			: "%esp","%ebp"); 
-	
-	printf("X : %d\n",x);
-	printf("Y : %d\n",y);
-	
-	if(ctx_courant!=NULL)
+	irq_disable();
+	ctx_s* ctx = malloc(sizeof(ctx_s));
+	if(ctx_chainee!=NULL)
 	{
-		*(ctx_courant->esp) = x;
-		*(ctx_courant->ebp) = y;
-	}
-	ctx_courant=ctx;
-	if(*(ctx->esp) == 0)
-	{
-		*(ctx->esp) = ctx->pileExecution;
-		*(ctx->ebp) = ctx->pileExecution;
-		x=*(ctx->esp);
-		y=*(ctx->ebp);
-		__asm__("movl %1,%%esp\n\t" 
-				"movl %0,%%ebp "
-				: 
-				: "r"(y),"r"(x)  
-				: "%esp","%ebp"); 
-		ctx->function(ctx->args);
+		ctx->next = ctx_chainee->next;
+		ctx_chainee->next=ctx;
 	}
 	else
 	{
-		printf("esp : %d\n",*(ctx->esp));
-		printf("ebp : %d\n",*(ctx->ebp));
-		x=*(ctx->esp);
-		y=*(ctx->ebp);
-		__asm__("movl %1,%%esp\n\t" 
-				"movl %0,%%ebp "
-				: 
-				: "r"(y),"r"(x)  
-				: "%esp","%ebp"); 
+		ctx_chainee=ctx;
+		ctx->next=ctx;
 	}
-	printf("TEST");
+	ctx->pileExecution = malloc(stack_size);
+	ctx->esp = ctx->pileExecution+stack_size-1;
+	ctx->ebp = ctx->pileExecution+stack_size-1;
+	ctx->function=f;
+	ctx->args = args;
+	ctx->state = READY;
+	irq_enable();
+	return 0;
+}
+
+void start_current_context()
+{
+	ctx_courant->state=RUNNING;
+	irq_enable();
+	ctx_courant->function(ctx_courant->args);
+}
+
+
+void yield()
+{
+	printf("appel!!**--**");
+	irq_disable();
+	if(ctx_courant!=NULL)
+	{
+		ctx_courant->state=ACTIVATED;
+		__asm__("movl %%esp, %1\n\t" 
+			"movl %%ebp, %0"
+			: "=r"(ctx_courant->ebp),"=r"(ctx_courant->esp)
+			:  
+			: "%esp","%ebp");
+	}
+	ctx_courant=ctx_chainee;
+	ctx_chainee=ctx_chainee->next;
+	__asm__("movl %1,%%esp\n\t" 
+			"movl %0,%%ebp"
+			: 
+			: "r"(ctx_courant->ebp),"r"(ctx_courant->esp)  
+			: "%esp","%ebp"); 
+	if(ctx_courant->state == READY)
+	{
+		start_current_context();
+	}
+	ctx_courant->state = RUNNING;
+	irq_enable();
 	return;
 }
 
+
 int main(int argc, char *argv[])
 {
-	printf("PING-PONG");
-	ctx_courant=NULL;
-	init_ctx(&ctx_ping, 16384, f_ping, NULL);
-	init_ctx(&ctx_pong, 16384, f_pong, NULL);
-	switch_to_ctx(&ctx_ping);
+	create_ctx(16384, f_ping, NULL);
+	create_ctx(16384, f_pong, NULL);
+	start_sched();
 	exit(EXIT_SUCCESS);
 }
 void f_ping(void *args)
 {
 	while(1) {
-		printf("A") ;
-		switch_to_ctx(&ctx_pong);
+		/*printf("A") ;
 		printf("B") ;
-		switch_to_ctx( &ctx_pong);
-		printf("C") ;
-		switch_to_ctx(&ctx_pong);
+		printf("C") ;*/
 	}
 }
 void f_pong(void *args)
 {
 	while(1) {
-		printf("1") ;
-		switch_to_ctx(&ctx_ping);
-		printf("2") ;
-		switch_to_ctx(&ctx_ping);
+		/*printf("1") ;
+		printf("2") ;*/
 	}
 }
 

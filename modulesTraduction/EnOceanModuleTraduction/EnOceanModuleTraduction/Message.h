@@ -10,6 +10,7 @@
 #define EnOceanModuleTraduction_Message_h
 
 #include "Listener.h"
+#include <string.h>
 
 enum sensorType {
     enOceanRockerSwitch = 1,
@@ -18,15 +19,17 @@ enum sensorType {
     enOceanLightSensor = 4,
 };
 
-struct enOceanMessage
+typedef struct enOceanMessage
 {
-    enum sensorType;
-    char sensorID[4];
+    enum sensorType type;
+    char sensorID[5];
     float value1;
     float value2;
     float value3;    
-};
+}enOceanMessage;
 
-struct enOceanMessage enOceanMessageCreation(struct tcpFrame aFrame);
+enOceanMessage enOceanMessageCreation (tcpFrameType aFrame);
+int sendSensorStateByPipe (enOceanMessage aMessage);
+
 
 #endif
