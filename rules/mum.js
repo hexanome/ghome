@@ -7,8 +7,28 @@
 
 
 var util = require('util'),
-    spawn = require('child_process').spawn;
+    spawn = require('child_process').spawn,
+    sensorProg = '../modulesTraduction/EnOceanModuleTraduction/' +
+              'EnOceanModuleTraduction/sensor',
+    actuatorProg = '../modulesTraduction/EnOceanModuleTraduction/' +
+              'EnOceanModuleTraduction/actuator';
 
 
+// They are now officially born.
 
+sensorKid = spawn(sensorProg);
+actuatorKid = spawn(actuatorProg);
+
+
+// The sensor kid is very loud, he has a lot to say.
+
+sensorKid.stdout.on('data', function(data) {
+  console.log('stdout from sensorKid:', data);
+});
+
+sensorKid.on('exit', function(code) {
+  if (code !== 0) {
+    console.log('Kid died and said ' + code);
+  }
+});
 
