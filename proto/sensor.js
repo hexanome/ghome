@@ -6,7 +6,7 @@ var proto = require('./proto');
 function read(data) {
   var d = proto(data);
   d.sensor = d.args[0];     // Sensor id.
-  d.values = d.slice(1);
+  d.values = d.args.slice(1);
   return d;
 }
 

@@ -3,7 +3,7 @@
 // `data` is a buffer.
 function read(data) {
   // This is a textual protocol.
-  var sdata = '' + data,
+  var sdata = ('' + data).trim(),
       atoms = sdata.split(/\s+/);
   return {
     str: sdata,
