@@ -28,15 +28,19 @@
 int main(void)
 {
     char* buffer = malloc(FRAME_SIZE_ENOCEAN);
-    SOCKET sock = socketConnexion();
-    while (sock != SOCKET_ERROR)
+    //SOCKET sock = socketConnexion();
+    tcpFrameType myFrame = tcpFrameCreation(buffer);
+    enOceanMessage myMessage = enOceanMessageCreation(myFrame);
+    sendSensorStateByPipe(myMessage);
+    
+    /*while (sock != SOCKET_ERROR)
     {
         socketFrameReception(sock,buffer);
         tcpFrameType myFrame = tcpFrameCreation(buffer);
         enOceanMessage myMessage = enOceanMessageCreation(myFrame);
         sendSensorStateByPipe(myMessage);
         
-    }   
+    } */  
     free(buffer);
 }
 

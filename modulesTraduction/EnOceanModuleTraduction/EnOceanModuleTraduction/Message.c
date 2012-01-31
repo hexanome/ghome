@@ -26,7 +26,7 @@ int sendSensorStateByPipe (enOceanMessage aMessage)
     int fd;
     dup2(fd, STDOUT_FILENO); /* connect the write side with stdout */
     
-    printf("GIVE_SENSORSTATE ,%d ,%s ,%f ,%f ,%f \nSTOP\n", aMessage.type,aMessage.sensorID, aMessage.value1,aMessage.value2,aMessage.value3);
+    printf("GIVE_SENSORSTATE ,%s ,%f ,%f ,%f \nSTOP\n",aMessage.sensorID, aMessage.value1,aMessage.value2,aMessage.value3);
     return 0;    
 }
 

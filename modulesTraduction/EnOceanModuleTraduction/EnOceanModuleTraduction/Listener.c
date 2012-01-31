@@ -61,30 +61,30 @@ char hexToBinary (char* hexValue)
 	int Decimal;
 	int Unite;
 
-	printf("%c%c\n",*hexValue,*(hexValue+1));
+	//printf("%c%c\n",*hexValue,*(hexValue+1));
 	//Il n'y pas continuité dans la table ASCII entre 9 et A
 
 	if ( *(hexValue) > '9')
 	{
-		printf("decimal:%ld\n",*hexValue -'A'+10);
+		//printf("decimal:%ld\n",*hexValue -'A'+10);
 		Decimal = *hexValue -'A'+10;
 	}
 	else
 	{
-		printf("decimal:%ld\n",*hexValue -'0');
+		//printf("decimal:%ld\n",*hexValue -'0');
 		Decimal = *hexValue -'0';
 	}
 	if ( *(hexValue+1) > '9' )
 	{
-		printf("unite:%ld\n",*(hexValue+1)-'A'+10);
+		//printf("unite:%ld\n",*(hexValue+1)-'A'+10);
 		Unite = *(hexValue+1) -'A'+10;
 	}
 	else
 	{
-		printf("unite:%ld\n",*(hexValue+1)-'0');
+		//printf("unite:%ld\n",*(hexValue+1)-'0');
 		Unite = *(hexValue+1) -'0';
 	}
-	printf("%ld\n",Unite+16*(Decimal));
+	//printf("%ld\n",Unite+16*(Decimal));
 	return Unite+16*(Decimal);
 }
 
