@@ -18,15 +18,22 @@ void init() {
 // Allocate a block of bytes
 void * gmalloc(unsigned int size) {
   struct block * ptr = p;
-  while (p->next->size < size) {
+  while (p->next->size <= size) {
     // TODO try merge
     p = p->next;
     if (p == ptr) return (void *) -1;
   }
   ptr = p->next;
-  p->next = ptr + size;
-  p->next->size = ptr->size - size;
-  p->next->next = ptr->next;
+  if(p->size==size)
+  {
+	  p->next = ptr->next;
+  }
+  else
+  {
+	  p->next = (struct block *) ptr + size;
+	  p->next->size = ptr->size - size;
+	  p->next->next = ptr->next;
+  }
   return ptr;
 }
 
