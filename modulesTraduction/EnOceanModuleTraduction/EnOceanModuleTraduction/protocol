@@ -1,29 +1,24 @@
-protocole textuel, 
-on démarre en créant deux pipes nommés :
+protocole textuel d'envoi des données capteurs vers le serveur.
 
-Commentaire:
+Commentaire
+-----------
+
 "# <lalalilalala>
 "
 
-protocole d'envoi des id capteur de la base de données :
+Envoi
+-----
+
+Envoi des id capteur vers la base de données :
 
 protocole d'envoi des nouvelles données capteur :
 "GIVE_SENSORSTATE <sensorID> <value0> <value1> <value2> <value3>
 "
 
-structure de données capteur
-enum sensorType {
-    enOceanRockerSwitch = 1,
-    enOceanTemperatureSensor = 2,
-    enOceanSingleContact = 3,
-    enOceanLightSensor = 4,
-};
+Réception
+---------
 
-struct enOceanMessage
-{
-    enum sensorType type;
-    char sensorID[4];
-    float value1;
-    float value2;
-    float value3;    
-};
+protocole d'envoi des nouvelles données capteur :
+"DO <actuatorID> <value0>
+"
+

@@ -1,13 +1,14 @@
 //
-//  Listener.h
-//  EnOceanModuleTraduction
+//  Sender.h
+//  EnOceanModuleActuator
 //
-//  Created by Alexandre Lefoulon on 10/01/12.
+//  Created by Alexandre Lefoulon on 31/01/12.
 //  Copyright (c) 2012 INSA Lyon. All rights reserved.
 //
 
-#ifndef EnOceanModuleTraduction_Listener_h
-#define EnOceanModuleTraduction_Listener_h
+#ifndef EnOceanModuleActuator_Sender_h
+#define EnOceanModuleActuator_Sender_h
+
 typedef unsigned int socklen_t;
 
 #include <sys/types.h>
@@ -31,33 +32,15 @@ typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
 
 
-typedef struct tcpFrame {
-    int H_SEQLENGTH; // Frame third byte.
-    int ORG;
-    int DATA_BYTE3;
-    int DATA_BYTE2;
-    int DATA_BYTE1;
-    int DATA_BYTE0;
-    char ID_BYTE3[2];
-    char ID_BYTE2[2];
-    char ID_BYTE1[2];
-    char ID_BYTE0[2];
-    int STATUS;
-    int CHECKSUM;
-    
-}tcpFrameType;
-
 //Utility Functions
 int hexToInt (char* hexValue);
 
 //Managing Socket
 SOCKET socketConnexion(void);
-int socketFrameReception(SOCKET aSocket, char* buffer);
+int socketFrameSend(SOCKET aSocket, char* buffer);
 
-
-//Frame Creation 
-tcpFrameType tcpFrameCreation (char* buffer);
-
+//Frame Creation
+char* buffer tcpFrameWithServerMessage (void);
 
 
 
