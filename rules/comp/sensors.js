@@ -61,7 +61,7 @@ function addSensor(sensor, cb) {
   redisbase.addItem(tableSensor, sensor, cb, [{
     "table" : tableSensorType,
     "name" : "sensorType"
-  }]);
+  }], ["oemId"]);
 }
 
 function deleteSensor(sensorId, cb) {

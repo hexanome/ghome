@@ -7,17 +7,32 @@ var redis = require("redis"),
 sensors.configure(redisClient);
 
 sensors.addSensorType({ "name" : "Test type" }, function (err, typeId) {
-  // Ajout d'une sensorProperty.
-  sensors.addSensorProperty({
-    "name" : "Test property",
+
+  sensors.addSensor({ 
+    "name" : "Sensor1", 
+    "oemId" : "1234",
     "sensorType" : {
       "id" : typeId
-    }
-  }, function (err, propertyId) {
-    console.log("We now try to delete the sensorType.");
+    } 
+  }, function (err, sensorId) {
 
-    sensors.deleteSensorProperty(propertyId, function (err) {
+    sensors.deleteSensor(sensorId, function (err) {
       console.log(err ? "Error" : "Success");
     });
+
   })
+
+  // Ajout d'une sensorProperty.
+  // sensors.addSensorProperty({
+  //   "name" : "Test property",
+  //   "sensorType" : {
+  //     "id" : typeId
+  //   }
+  // }, function (err, propertyId) {
+  //   console.log("We now try to delete the sensorType.");
+
+  //   sensors.deleteSensorProperty(propertyId, function (err) {
+  //     console.log(err ? "Error" : "Success");
+  //   });
+  // })
 });
