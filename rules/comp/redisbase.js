@@ -23,7 +23,7 @@ function addItem(table, item, cb, foreignKeys) {
     delete item[foreignKey.name];
 
     // We then create the inverse relation.
-    multi.sadd("{0}::{1}::{2}".format(foreignKey.table, foreignId, table), itemId);
+    multi.sadd("{0};{1};{2}".format(foreignKey.table, foreignId, table), itemId);
     cb2(null);
   }, function (err) {
     // Finally, we create the object in the DB.
@@ -59,12 +59,12 @@ function deleteItem(table, itemId, cb, cascade, multi) {
       var foreignKeyParts = foreignKey.split(":");
     
       // We remove the inverse relation with this foreign key.
-      multi.srem("{0}::{1}::{2}".format(foreignKeyParts[1], obj[foreignKey], table), itemId);
+      multi.srem("{0};{1};{2}".format(foreignKeyParts[1], obj[foreignKey], table), itemId);
       cb2(null);
     }, function (err2) {
 
       // We now find any downward relation table.
-      redisClient.keys("{0}::{1}::*".format(table, itemId), function (err3, downKeys) {
+      redisClient.keys("{0};{1};*".format(table, itemId), function (err3, downKeys) {
         async.forEach(downKeys, function (downKey, cb2) {    
           var secondPart = function () {
             // We delete the whole set.
@@ -76,7 +76,7 @@ function deleteItem(table, itemId, cb, cascade, multi) {
           if (cascade) {
             // We retrieve the Ids of the elements in the set.
             redisClient.smembers(downKey, function (err4, replies) {
-              var downKeyParts = downKey.split("::");
+              var downKeyParts = downKey.split(";");
               async.forEach(replies, function (downId, cb3) {
                 deleteItem(downKeyParts[2], downId, cb3, cascade, multi);
               }, function (err5) {
