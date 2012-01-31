@@ -7,6 +7,7 @@
 
 
 var util = require('util'),
+    readSensor = require('./proto/sensor').read,
     spawn = require('child_process').spawn,
     sensorProg = '../modulesTraduction/EnOceanModuleTraduction/' +
               'EnOceanModuleTraduction/sensor',
@@ -23,7 +24,7 @@ actuatorKid = spawn(actuatorProg);
 // The sensor kid is very loud, he has a lot to say.
 
 sensorKid.stdout.on('data', function(data) {
-  console.log('stdout from sensorKid:', data);
+  console.log('stdout from sensorKid:', readSensor(data));
 });
 
 sensorKid.on('exit', function(code) {
