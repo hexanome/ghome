@@ -56,9 +56,6 @@ int socketFrameReception(SOCKET aSocket, char* buffer)
     return 0;
 }
 
-/**
- * Convertit un couple de caractères hexadécimaux en binaire
- */
 char hexToBinary (char* hexValue)
 {
 	int Decimal;

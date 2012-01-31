@@ -1,14 +1,12 @@
 protocole textuel, 
+on démarre en créant deux pipes nommés :
+
+Commentaire:
+"# <lalalilalala>
+"
 
 protocole d'envoi des id capteur de la base de données :
-je demande les id = 
-"GET_SENSORID
-STOP
-"
-il me renvoit la liste d'ID =
-"GIVE_SENSORID <XXXX> <XXXX> .... <XXXX>
-STOP
-"
+
 protocole d'envoi des nouvelles données capteur :
 "GIVE_SENSORSTATE  <sensorType> <sensorID> <value1> <value2> <value3>
 STOP
