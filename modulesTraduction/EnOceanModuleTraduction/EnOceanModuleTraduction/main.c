@@ -32,7 +32,7 @@ int main(void)
     {
         socketFrameReception(sock,buffer);
         tcpFrame myFrame = tcpFrameCreation(buffer);
-        enOceanMessage myMessage = enOceanMessageCreation(myFrame);
+        //enOceanMessage myMessage = enOceanMessageCreation(myFrame);
 
         
     }   
