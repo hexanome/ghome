@@ -9,10 +9,14 @@
 var util = require('util'),
     readSensor = require('./proto/sensor').read,
     spawn = require('child_process').spawn,
-    sensorProg = './modulesTraduction/EnOceanModuleTraduction/' +
+    sensorProg = '../modulesTraduction/EnOceanModuleTraduction/' +
               'EnOceanModuleTraduction/sensor',
-    actuatorProg = './modulesTraduction/EnOceanModuleTraduction/' +
+    actuatorProg = '../modulesTraduction/EnOceanModuleTraduction/' +
               'EnOceanModuleTraduction/actuator';
+
+
+// KIDS THESE DAYS.
+//
 
 
 // They are now officially born.
@@ -32,4 +36,3 @@ sensorKid.on('exit', function(code) {
     console.log('Kid died and said ' + code);
   }
 });
-

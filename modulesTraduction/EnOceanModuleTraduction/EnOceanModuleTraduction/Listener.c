@@ -56,36 +56,37 @@ int socketFrameReception(SOCKET aSocket, char* buffer)
     return 0;
 }
 
-char hexToBinary (char* hexValue)
+int hexToInt (char* hexValue)
 {
+	int Resultat;
 	int Decimal;
 	int Unite;
 
-	//printf("%c%c\n",*hexValue,*(hexValue+1));
+	printf("%c%c\n",*hexValue,*(hexValue+1));
 	//Il n'y pas continuité dans la table ASCII entre 9 et A
-
 	if ( *(hexValue) > '9')
 	{
-		//printf("decimal:%ld\n",*hexValue -'A'+10);
+		printf("decimal:%d\n",*hexValue -'A'+10);
 		Decimal = *hexValue -'A'+10;
 	}
 	else
 	{
-		//printf("decimal:%ld\n",*hexValue -'0');
+		printf("decimal:%d\n",*hexValue -'0');
 		Decimal = *hexValue -'0';
 	}
 	if ( *(hexValue+1) > '9' )
 	{
-		//printf("unite:%ld\n",*(hexValue+1)-'A'+10);
+		printf("unite:%d\n",*(hexValue+1)-'A'+10);
 		Unite = *(hexValue+1) -'A'+10;
 	}
 	else
 	{
-		//printf("unite:%ld\n",*(hexValue+1)-'0');
+		printf("unite:%d\n",*(hexValue+1)-'0');
 		Unite = *(hexValue+1) -'0';
 	}
-	//printf("%ld\n",Unite+16*(Decimal));
-	return Unite+16*(Decimal);
+	//Le resultat de la conversion
+	Resultat = Unite+16*Decimal;
+	return Resultat;
 }
 
 /**
@@ -95,18 +96,18 @@ struct tcpFrame tcpFrameCreation (char* buffer)
 {
     struct tcpFrame aFrame;
     buffer+=4;
-    aFrame.H_SEQLENGTH = hexToBinary(buffer);buffer+=2;
-    aFrame.ORG = hexToBinary(buffer);buffer+=2;
-    aFrame.DATA_BYTE3 = hexToBinary(buffer);buffer+=2;
-    aFrame.DATA_BYTE2 = hexToBinary(buffer);buffer+=2;
-    aFrame.DATA_BYTE1 = hexToBinary(buffer);buffer+=2;
-    aFrame.DATA_BYTE0 = hexToBinary(buffer);buffer+=2;
-    aFrame.ID_BYTE3 = hexToBinary(buffer);buffer+=2;
-    aFrame.ID_BYTE2 = hexToBinary(buffer);buffer+=2;
-    aFrame.ID_BYTE1 = hexToBinary(buffer);buffer+=2;
-    aFrame.ID_BYTE0 = hexToBinary(buffer);buffer+=2;
-    aFrame.STATUS = hexToBinary(buffer);buffer+=2;
-    aFrame.CHECKSUM = hexToBinary(buffer);
+    aFrame.H_SEQLENGTH = hexToInt(buffer);buffer+=2;
+    aFrame.ORG = hexToInt(buffer);buffer+=2;
+    aFrame.DATA_BYTE3 = hexToInt(buffer);buffer+=2;
+    aFrame.DATA_BYTE2 = hexToInt(buffer);buffer+=2;
+    aFrame.DATA_BYTE1 = hexToInt(buffer);buffer+=2;
+    aFrame.DATA_BYTE0 = hexToInt(buffer);buffer+=2;
+    aFrame.ID_BYTE3[0] = *(buffer);aFrame.ID_BYTE3[1] = *(buffer+1);buffer+=2;
+    aFrame.ID_BYTE2[0] = *(buffer);aFrame.ID_BYTE2[1] = *(buffer+1);buffer+=2;
+    aFrame.ID_BYTE1[0] = *(buffer);aFrame.ID_BYTE1[1] = *(buffer+1);buffer+=2;
+    aFrame.ID_BYTE0[0] = *(buffer);aFrame.ID_BYTE0[1] = *(buffer+1);buffer+=2;
+    aFrame.STATUS = hexToInt(buffer);buffer+=2;
+    aFrame.CHECKSUM = hexToInt(buffer);
     return aFrame;
 }
 

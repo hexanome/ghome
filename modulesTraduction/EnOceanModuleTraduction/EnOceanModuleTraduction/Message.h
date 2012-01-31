@@ -21,11 +21,11 @@ enum sensorType {
 
 typedef struct enOceanMessage
 {
-    enum sensorType type;
-    char sensorID[5];
-    float value1;
-    float value2;
-    float value3;    
+    char sensorID[8];
+    int value0;
+    int value1;
+    int value2;
+    int value3;
 }enOceanMessage;
 
 enOceanMessage enOceanMessageCreation (tcpFrameType aFrame);
