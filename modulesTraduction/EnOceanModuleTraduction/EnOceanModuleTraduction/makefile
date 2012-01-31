@@ -15,3 +15,5 @@ main.o: main.c Listener.h
 
 clean:
 	rm *.o $(SEXE) $(AEXE)
+
+.PHONY: clean
