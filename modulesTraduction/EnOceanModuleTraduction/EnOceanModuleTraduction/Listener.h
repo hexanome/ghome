@@ -17,7 +17,7 @@ typedef unsigned int socklen_t;
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "Message.h"
+
 
 #define INVALID_SOCKET -1
 #define SOCKET_ERROR -1
@@ -45,7 +45,7 @@ typedef struct tcpFrame {
     int STATUS;
     int CHECKSUM;
     
-}tcpFrame;
+}tcpFrameType;
 
 //Utility Functions
 int hexToInt (char* hexValue);
@@ -55,8 +55,12 @@ SOCKET socketConnexion(void);
 int socketFrameReception(SOCKET aSocket, char* buffer);
 int socketListen (SOCKET aSocket);
 
-//Frame Creation
-struct tcpFrame tcpFrameCreation (char* buffer);
+//Frame Creation 
+tcpFrameType tcpFrameCreation (char* buffer);
+
+
+
+
 
 
 #endif

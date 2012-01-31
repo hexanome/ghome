@@ -28,8 +28,8 @@ typedef struct enOceanMessage
     int value3;
 }enOceanMessage;
 
-struct enOceanMessage enOceanMessageCreation(struct tcpFrame aFrame);
-int sendSensorStateByPipe (struct enOceanMessage aMessage);
+enOceanMessage enOceanMessageCreation (tcpFrameType aFrame);
+int sendSensorStateByPipe (enOceanMessage aMessage);
 
 
 #endif

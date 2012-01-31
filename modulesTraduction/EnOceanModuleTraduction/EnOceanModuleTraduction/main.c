@@ -23,9 +23,26 @@
 
 
 #include "Listener.h"
+#include "Message.h"
 
 int main(void)
 {
+
+//    char* buffer = malloc(FRAME_SIZE_ENOCEAN);
+    //SOCKET sock = socketConnexion();
+  //  tcpFrameType myFrame = tcpFrameCreation(buffer);
+   // enOceanMessage myMessage = enOceanMessageCreation(myFrame);
+    //sendSensorStateByPipe(myMessage);
+    
+    /*while (sock != SOCKET_ERROR)
+    {
+        socketFrameReception(sock,buffer);
+        tcpFrameType myFrame = tcpFrameCreation(buffer);
+        enOceanMessage myMessage = enOceanMessageCreation(myFrame);
+        sendSensorStateByPipe(myMessage);
+        
+    } */  
+   // free(buffer);
    // char* buffer = malloc(FRAME_SIZE_ENOCEAN);
   //  SOCKET sock = socketConnexion();
    // while (sock != SOCKET_ERROR)
@@ -51,8 +68,12 @@ int main(void)
     printf("IDByte3 %c\%c\n",testFrame.ID_BYTE3[0],testFrame.ID_BYTE3[1]);
 
     //Transformation de la tcpFrame en message
-   // struct enOceanMessage lemessage = enOceanMessageCreation(testFrame);
-   // printf("sensorID %s\n",lemessage.sensorID);
+    struct enOceanMessage lemessage = enOceanMessageCreation(testFrame);
+    printf("sensorID %s\n",lemessage.sensorID);
+    printf("data0 %d\n",lemessage.value0);
+    printf("data1 %d\n",lemessage.value1);
+    printf("data2 %d\n",lemessage.value2);
+    printf("data3 %d\n",lemessage.value3);
     printf("succes");
     return 0;
 }

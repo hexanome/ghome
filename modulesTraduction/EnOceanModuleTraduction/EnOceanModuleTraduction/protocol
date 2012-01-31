@@ -8,8 +8,7 @@ Commentaire:
 protocole d'envoi des id capteur de la base de données :
 
 protocole d'envoi des nouvelles données capteur :
-"GIVE_SENSORSTATE  <sensorType> <sensorID> <value1> <value2> <value3>
-STOP
+"GIVE_SENSORSTATE <sensorID> <value0> <value1> <value2> <value3>
 "
 
 structure de données capteur
