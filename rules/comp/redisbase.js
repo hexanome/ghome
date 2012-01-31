@@ -129,6 +129,16 @@ function deleteItem(table, itemId, cb, cascade, multi) {
   });
 }
 
+function getSingleItemFromSec(table, indexName, indexValue, cb) {
+  redisClient.get("{0}!{1}!{2}".format(table, indexName, indexValue), function (err, reply) {
+    if (err) {
+      cb(err);
+    }
+
+    getSingleItem(table, reply, cb);
+  });
+}
+
 function getSingleItem(table, itemId, cb) {
   redisClient.hgetall("{0}:{1}".format(table, itemId), function (err, obj) {
     if (err) {
@@ -210,5 +220,6 @@ function getAllItems(table, cb) {
 exports.configure = configure;
 exports.addItem = addItem;
 exports.deleteItem = deleteItem;
+exports.getSingleItemFromSec = getSingleItemFromSec;
 exports.getSingleItem = getSingleItem;
 exports.getAllItems = getAllItems;

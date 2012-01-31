@@ -15,11 +15,9 @@ sensors.addSensorType({ "name" : "Test type" }, function (err, typeId) {
       "id" : typeId
     } 
   }, function (err, sensorId) {
-
-    sensors.deleteSensor(sensorId, function (err) {
-      console.log(err ? "Error" : "Success");
+    sensors.getSensorFromOem(1234, function (err, reply) {
+      console.dir(reply);
     });
-
   })
 
   // Ajout d'une sensorProperty.
