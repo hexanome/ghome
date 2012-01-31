@@ -14,11 +14,10 @@ sensors.addSensorType({ "name" : "Test type" }, function (err, typeId) {
       "id" : typeId
     }
   }, function (err, propertyId) {
-    console.log("Success");
+    console.log("We now try to delete the sensorType.");
 
-    sensors.getSensorProperty(propertyId, function (err, sensorProperty) {
-      console.dir(sensorProperty);
-      console.log(sensorProperty.sensorType.id);
+    sensors.deleteSensorProperty(propertyId, function (err) {
+      console.log(err ? "Error" : "Success");
     });
   })
 });

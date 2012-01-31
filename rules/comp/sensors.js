@@ -18,20 +18,30 @@ function addSensorType(sensorType, cb) {
   redisbase.addItem(tableSensorType, sensorType, cb);
 }
 
-function addSensorProperty(sensorProperty, cb) {
-  redisbase.addItem(tableSensorProperty, sensorProperty, cb, {
-    "table" : tableSensorType,
-    "name" : "sensorType"
-  });
+function deleteSensorType(sensorTypeId, cb) {
+  redisbase.deleteItem(tableSensorType, sensorTypeId, cb);
 }
 
 function getSensorProperty(propertyId, cb) {
   redisbase.getSingleItem(tableSensorProperty, propertyId, cb);
 }
 
+function addSensorProperty(sensorProperty, cb) {
+  redisbase.addItem(tableSensorProperty, sensorProperty, cb, [{
+    "table" : tableSensorType,
+    "name" : "sensorType"
+  }]);
+}
+
+function deleteSensorProperty(propertyId, cb) {
+  redisbase.deleteItem(tableSensorProperty, propertyId, cb);
+}
+
 exports.configure = configure;
 exports.addSensorType = addSensorType;
 exports.getSensorType = getSensorType;
 exports.getSensorTypes = getSensorTypes;
-exports.addSensorProperty = addSensorProperty;
+exports.deleteSensorType = deleteSensorType;
 exports.getSensorProperty = getSensorProperty;
+exports.addSensorProperty = addSensorProperty;
+exports.deleteSensorProperty = deleteSensorProperty;
