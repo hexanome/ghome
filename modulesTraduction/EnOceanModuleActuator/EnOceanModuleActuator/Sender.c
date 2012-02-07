@@ -9,6 +9,17 @@
 #include <stdio.h>
 #include "Sender.h"
 
-char* tcpFrameWithServerMessage (void) {
+#define CTOX(c) (c - '0')
 
+
+char stringToBinary (char str[]) {
+    return CTOX(str[1]) + 16 * CTOX(str[0]);
+}
+
+tcpFrameType tcpFrameCreationWith(idValue value){
+    tcpFrameType frame;
+    frame.H_SEQLENGTH = stringToBinary("3B");
+    
+    
+    
 }

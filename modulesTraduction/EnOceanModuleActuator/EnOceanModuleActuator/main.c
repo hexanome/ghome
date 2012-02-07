@@ -8,11 +8,16 @@
 
 #include <stdio.h>
 #include "Sender.h"
+#include "Listener.h"
 
 int main (int argc, const char * argv[])
 {
-    // insert code here...
-    printf("Hello, World!\n");
-    return 0;
+    printf("Bonjour\n");
+    char* buffer = malloc(BUFFER_RECEIVE_SIZE);
+    //tcpFrameWithServerMessageWithBuffer("DO ABCDE 1");
+    idValue temp = parseBuffer("DO ABCDE 1");
+    printf("%s\n",temp.ID);
+    printf("%c\n",temp.value);
+    free(buffer);
 }
 
