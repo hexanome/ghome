@@ -27,34 +27,20 @@
 
 int main(void)
 {
-
-//    char* buffer = malloc(FRAME_SIZE_ENOCEAN);
-    //SOCKET sock = socketConnexion();
-  //  tcpFrameType myFrame = tcpFrameCreation(buffer);
-   // enOceanMessage myMessage = enOceanMessageCreation(myFrame);
-    //sendSensorStateByPipe(myMessage);
+	char* buffer = malloc(FRAME_SIZE_ENOCEAN);
+	SOCKET sock = socketConnexion();
     
-    /*while (sock != SOCKET_ERROR)
+    while (sock != SOCKET_ERROR)
     {
         socketFrameReception(sock,buffer);
         tcpFrameType myFrame = tcpFrameCreation(buffer);
         enOceanMessage myMessage = enOceanMessageCreation(myFrame);
         sendSensorStateByPipe(myMessage);
         
-    } */  
-   // free(buffer);
-   // char* buffer = malloc(FRAME_SIZE_ENOCEAN);
-  //  SOCKET sock = socketConnexion();
-   // while (sock != SOCKET_ERROR)
-   // {
-   //     socketFrameReception(sock,buffer);
-    //    tcpFrame myFrame = tcpFrameCreation(buffer);
-   //     //enOceanMessage myMessage = enOceanMessageCreation(myFrame);
+    }
+    free(buffer);
 
-        
-  //  }
-  //  free(buffer);
-
+/*
     char * testBuffer= "A55A0B0570000000001F607330A2";
     //Transformation de la trame de char en int
     struct tcpFrame testFrame = tcpFrameCreation(testBuffer);
@@ -74,7 +60,7 @@ int main(void)
     printf("data1 %d\n",lemessage.value1);
     printf("data2 %d\n",lemessage.value2);
     printf("data3 %d\n",lemessage.value3);
-    printf("succes");
+    printf("succes");*/
     return 0;
 }
 

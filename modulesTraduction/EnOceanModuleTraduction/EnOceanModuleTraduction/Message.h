@@ -21,7 +21,7 @@ enum sensorType {
 
 typedef struct enOceanMessage
 {
-    char sensorID[8];
+    char sensorID[9];
     int value0;
     int value1;
     int value2;

@@ -7,3 +7,8 @@
 //
 
 #include <stdio.h>
+#include "Sender.h"
+
+char* tcpFrameWithServerMessage (void) {
+
+}
