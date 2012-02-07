@@ -18,6 +18,7 @@ typedef unsigned int socklen_t;
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "Listener.h"
 
 
 #define INVALID_SOCKET -1
@@ -31,16 +32,30 @@ typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
 
+typedef struct tcpFrame {
+    char H_SEQLENGTH; // Frame third byte.
+    char ORG;
+    char DATA_BYTE3;
+    char DATA_BYTE2;
+    char DATA_BYTE1;
+    char DATA_BYTE0;
+    char ID_BYTE3;
+    char ID_BYTE2;
+    char ID_BYTE1;
+    char ID_BYTE0;
+    char STATUS;
+    char CHECKSUM;    
+}tcpFrameType;
 
-//Utility Functions
-int hexToInt (char* hexValue);
 
 //Managing Socket
 SOCKET socketConnexion(void);
 int socketFrameSend(SOCKET aSocket, char* buffer);
 
-//Frame Creation
-char* tcpFrameWithServerMessage (void);
+//Frame creation
+tcpFrameType tcpFrameCreationWith(idValue value);
+char stringToBinary (char* stringValue);
+
 
 
 

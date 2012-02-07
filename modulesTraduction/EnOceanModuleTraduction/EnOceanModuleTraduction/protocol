@@ -18,7 +18,7 @@ protocole d'envoi des nouvelles données capteur :
 Réception
 ---------
 
-protocole d'envoi des nouvelles données capteur :
+protocole d'envoi des nouvelles données actionneur :
 "DO <actuatorID> <value0>
 "
 
