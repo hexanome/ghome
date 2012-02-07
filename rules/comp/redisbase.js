@@ -1,6 +1,6 @@
 var async = require("async"),
-  utils = require("./utils.js"), 
-  redisClient;
+    utils = require("./utils.js"),
+    redisClient;
 
 function configure(dbClient) {
   redisClient = dbClient;
@@ -64,15 +64,15 @@ function deleteItem(table, itemId, cb, cascade, multi) {
 
     for (var key in obj) {
       if (key.startsWith("foreign")) {
-        foreignKeys.push(key);                
+        foreignKeys.push(key);
       } else if (key.startsWith("sec:")) {
         secondaryIndexes.push(key);
       }
     }
-    
+
     async.forEach(foreignKeys, function (foreignKey, cb2) {
       var foreignKeyParts = foreignKey.split(":");
-    
+
       // We remove the inverse relation with this foreign key.
       multi.srem("{0};{1};{2}".format(foreignKeyParts[1], obj[foreignKey], table), itemId);
       cb2(null);
@@ -80,7 +80,7 @@ function deleteItem(table, itemId, cb, cascade, multi) {
 
       // We now find any downward relation table.
       redisClient.keys("{0};{1};*".format(table, itemId), function (err3, downKeys) {
-        async.forEach(downKeys, function (downKey, cb2) {    
+        async.forEach(downKeys, function (downKey, cb2) {
           var secondPart = function () {
             // We delete the whole set.
             multi.del(downKey);
@@ -104,13 +104,13 @@ function deleteItem(table, itemId, cb, cascade, multi) {
         }, function (err4) {
           // We delete secondary indexes.
           async.forEach(secondaryIndexes, function (secondaryIndex, cb2) {
-            
+
             var keyName = secondaryIndex.split(":")[1];
             multi.del("{0}!{1}!{2}".format(table, keyName, obj[secondaryIndex]));
 
-            cb2(null);          
+            cb2(null);
           }, function (err5) {
-            
+
             // We can now delete the object.
             multi.del("{0}:{1}".format(table, itemId));
 
@@ -195,7 +195,7 @@ function getSingleItem(table, itemId, cb) {
 }
 
 function getAllItems(table, cb) {
-	redisClient.keys(table + ":*", function (err, keys) {
+    redisClient.keys(table + ":*", function (err, keys) {
     if (err) {
       cb(err);
       return;
