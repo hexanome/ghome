@@ -1,0 +1,12 @@
+protocole textuel de réception des données actionneur depuis le serveur.
+
+Commentaire:
+"# <lalalilalala>
+"
+
+protocole d'envoi des id capteur vers la base de données :
+
+protocole d'envoi des nouvelles données capteur :
+"DO <actuatorID>  <value0>
+"
+

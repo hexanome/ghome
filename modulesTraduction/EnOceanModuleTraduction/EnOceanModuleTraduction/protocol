@@ -1,32 +1,24 @@
-protocole textuel, 
+protocole textuel d'envoi des données capteurs vers le serveur.
 
-protocole d'envoi des id capteur de la base de données :
-je demande les id = 
-"GET_SENSORID
-STOP
+Commentaire
+-----------
+
+"# <lalalilalala>
 "
-il me renvoit la liste d'ID =
-"GIVE_SENSORID <XXXX> <XXXX> .... <XXXX>
-STOP
-"
+
+Envoi
+-----
+
+Envoi des id capteur vers la base de données :
+
 protocole d'envoi des nouvelles données capteur :
-"GIVE_SENSORSTATE  <sensorType> <sensorID> <value1> <value2> <value3>
-STOP
+"GIVE_SENSORSTATE <sensorID> <value0> <value1> <value2> <value3>
 "
 
-structure de données capteur
-enum sensorType {
-    enOceanRockerSwitch = 1,
-    enOceanTemperatureSensor = 2,
-    enOceanSingleContact = 3,
-    enOceanLightSensor = 4,
-};
+Réception
+---------
 
-struct enOceanMessage
-{
-    enum sensorType type;
-    char sensorID[4];
-    float value1;
-    float value2;
-    float value3;    
-};
+protocole d'envoi des nouvelles données capteur :
+"DO <actuatorID> <value0>
+"
+

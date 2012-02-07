@@ -30,7 +30,7 @@ Makefile.depends:
 
 include Makefile.depends
 
-main: main.o $(LIBFILE)
+main: main.o gthread.o $(LIBFILE)
 
 
 ###------------------------------

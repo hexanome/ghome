@@ -31,13 +31,17 @@ void * gmalloc(unsigned int size) {
   }
   printf("gmalloc: %u free\n", p->next->size);
   ptr = p->next;
-  p->next = ptr + s;
-  p = p->next;
-  printf("p->size = %u, p->next = %p\n", p->size, p->next);
-  p->size = (unsigned int) ((struct block *) ptr)->size - s; // FUCK
-  printf("p->size = %u, p->next = %p\n", p->size, p->next);
-  p->next = (struct block *) ((struct block *) ptr)->next;
-  printf("p->size = %u, p->next = %p\n", p->size, p->next);
+  if (ptr->size == s) {
+    p = p->next->next;
+  } else {
+    p->next = ptr + s;
+    p = p->next;
+    printf("p->size = %u, p->next = %p\n", p->size, p->next);
+    p->size = (unsigned int) ((struct block *) ptr)->size - s; // FUCK
+    printf("p->size = %u, p->next = %p\n", p->size, p->next);
+    p->next = (struct block *) ((struct block *) ptr)->next;
+    printf("p->size = %u, p->next = %p\n", p->size, p->next);
+  }
   *((unsigned int *) ptr) = s;
   return ptr + WORD_SIZE;
 }
