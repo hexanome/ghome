@@ -40,7 +40,7 @@ SOCKET socketConnexion(void);
 int socketFrameSend(SOCKET aSocket, char* buffer);
 
 //Frame Creation
-char* buffer tcpFrameWithServerMessage (void);
+char* tcpFrameWithServerMessage (void);
 
 
 
