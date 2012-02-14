@@ -30,9 +30,10 @@ function addItem(table, item, cb, foreignKeys, secondaryIndexes) {
     // We now process the secondary indexes.
     async.forEach(secondaryIndexes, function (secondaryIndex, cb2) {
       // We create a key for the secondary index.
-      multi.set("{0}!{1}!{2}".format(table, secondaryIndex, item[secondaryIndex]), itemId);
+      var keyVar = utils.newGuid();
+      multi.set("{0}!{1}!{2}!{3}".format(table, secondaryIndex, item[secondaryIndex]), itemId, keyVar);
 
-      item["sec:" + secondaryIndex] = item[secondaryIndex];
+      item["sec:{0}:{1}".format(secondaryIndex, keyVar)] = item[secondaryIndex];
       delete item[secondaryIndex];
 
       cb2(null);
@@ -105,8 +106,10 @@ function deleteItem(table, itemId, cb, cascade, multi) {
           // We delete secondary indexes.
           async.forEach(secondaryIndexes, function (secondaryIndex, cb2) {
 
-            var keyName = secondaryIndex.split(":")[1];
-            multi.del("{0}!{1}!{2}".format(table, keyName, obj[secondaryIndex]));
+            var secSplit = secondaryIndex.split(":");
+            var keyName = secSplit[1];
+            var keyVar = secSplit[2];
+            multi.del("{0}!{1}!{2}!{3}".format(table, keyName, obj[secondaryIndex], keyVar));
 
             cb2(null);
           }, function (err5) {
@@ -129,13 +132,65 @@ function deleteItem(table, itemId, cb, cascade, multi) {
   });
 }
 
+// Secondary indexes
+
 function getSingleItemFromSec(table, indexName, indexValue, cb) {
-  redisClient.get("{0}!{1}!{2}".format(table, indexName, indexValue), function (err, reply) {
+  redisClient.keys("{0}!{1}!{2}!*".format(table, indexName, indexValue), function (err, keys) {
     if (err) {
       cb(err);
+      return;
     }
 
-    getSingleItem(table, reply, cb);
+    if (keys.length == 0) {
+      cb(null);
+      return;
+    }
+
+    // We retrieve the first key.
+    redisClient.get(keys[0], function (err2, reply) {
+      if (err2) {
+        cb(err2);
+        return;
+      }
+
+      getSingleItem(table, reply, cb);
+    });
+  });
+}
+
+function getItemsFromSec(table, indexName, indexValue, cb) {
+  redisClient.keys("{0}!{1}!{2}!*".format(table, indexName, indexValue), function (err, keys) {
+    if (err) {
+      cb(err);
+      return;
+    }
+      
+    // We now have the keys of the foreign indexes. We retrieve them.
+    async.map(keys, function (key, cb2) {
+      redisClient.get(key, function (err2, secValue) {
+        if (err2) {
+          cb2(err2);
+          return;
+        }
+
+        cb2(null, secValue);
+      });
+    }, function (err2, secValues) {
+      if (err2) {
+        cb(err2);
+        return;
+      }
+
+      // We now have the items keys. We retrieve them.
+      async.map(secValues, function (secValue, cb2) {
+        getSingleItem(table, secValue, function (err3, item) {
+          cb2(err3, item);
+        });
+      }, function (err3, items) {
+        // We have all the requested items, we return them.
+        cb(err3, items);
+      });
+    });
   });
 }
 
@@ -195,7 +250,7 @@ function getSingleItem(table, itemId, cb) {
 }
 
 function getAllItems(table, cb) {
-    redisClient.keys(table + ":*", function (err, keys) {
+  redisClient.keys(table + ":*", function (err, keys) {
     if (err) {
       cb(err);
       return;
@@ -204,8 +259,8 @@ function getAllItems(table, cb) {
     async.map(keys, function (key, cb2) {
       // To replace with "getSingleItem"
       redisClient.hgetall(key, function (err2, st) {
-        if (err) {
-          cb2(err);
+        if (err2) {
+          cb2(err2);
           return;
         }
 

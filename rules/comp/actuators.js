@@ -96,6 +96,13 @@ function deleteActuatorPropertyValue(propertyValueId, cb) {
   redisbase.deleteItem(tableActuatorPropertyValue, propertyValueId, cb);
 }
 
+// Export variables.
+exports.tableActuatorType = tableActuatorType;
+exports.tableActuator = tableActuator;
+exports.tableActuatorProperty = tableActuatorProperty;
+exports.tableActuatorPropertyValue = tableActuatorPropertyValue;
+
+// Export methods.
 exports.configure = configure;
 
 exports.getActuatorType = getActuatorType;

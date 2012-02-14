@@ -96,6 +96,13 @@ function deleteSensorPropertyValue(propertyValueId, cb) {
   redisbase.deleteItem(tableSensorPropertyValue, propertyValueId, cb);
 }
 
+// Export variables
+exports.tableSensorType = tableSensorType;
+exports.tableSensor = tableSensor;
+exports.tableSensorProperty = tableSensorProperty;
+exports.tableSensorPropertyValue = tableSensorPropertyValue;
+
+// Export methods
 exports.configure = configure;
 
 exports.getSensorType = getSensorType;
