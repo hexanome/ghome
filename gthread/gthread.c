@@ -66,8 +66,9 @@ void start_sched()
 int create_ctx(int stack_size,func_t f, void *args)
 {
 	irq_disable();
-	ctx_s* ctx = malloc(sizeof(ctx_s));
-	
+	ctx_s* ctx = gmalloc(sizeof(ctx_s));
+	if(ctx==-1) return -1;
+		
 	/*On place le contexte dans la chaine des contextes*/
 	if(ctx_chainee!=NULL)
 	{
@@ -79,7 +80,8 @@ int create_ctx(int stack_size,func_t f, void *args)
 		ctx_chainee=ctx;
 		ctx->next=ctx;
 	}
-	ctx->pileExecution = malloc(stack_size);
+	ctx->pileExecution = gmalloc(stack_size);
+	if(ctx->pileExecution==-1) return -1;
 	ctx->esp = ctx->pileExecution+stack_size-1;
 	ctx->ebp = ctx->pileExecution+stack_size-1;
 	ctx->function=f;
@@ -117,6 +119,7 @@ void yield()
 			: "%esp","%ebp");
 	}
 	/*On passe au contexte suivant*/
+	printf("Changement contexte de %p a %p\n", ctx_courant,ctx_chainee);
 	ctx_courant=ctx_chainee;
 	ctx_chainee=ctx_chainee->next;
 	
