@@ -8,7 +8,7 @@
 
 #ifndef EnOceanModuleActuator_Listener_h
 #define EnOceanModuleActuator_Listener_h
-#define BUFFER_RECEIVE_SIZE 16
+#define BUFFER_RECEIVE_SIZE 30
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -18,14 +18,11 @@
 
 typedef struct idValue {
     char ID[10];
-    char value;
+    int value;
 }idValue;
 
 //Frame Creation
-idValue tcpFrameWithServerMessageWithBuffer(char* buffer);
-
-//Parsing buffer
 idValue parseBuffer(char* buffer);
-
+idValue idValueWithServerMessage();
 
 #endif
