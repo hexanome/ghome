@@ -1,0 +1,1 @@
+int lancerTraduction (int argc, const char * argv[]);
