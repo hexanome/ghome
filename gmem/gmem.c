@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "gmem.h"
 
-#define HEAP_SIZE 2048
+#define HEAP_SIZE 60000
 #define WORD_SIZE sizeof(unsigned int)
 #define MIN_BLOCK sizeof(struct block)
 
@@ -86,7 +86,6 @@ void gfree(void * ptr) {
     p = b;
   } else {
     while ( ! (p->next <= p && b < p->next) && ! (b < p->next && b > p ) && ! (p->next <= p && b > p) ) {
-      //printf("loop, p = %p\n", p);
       p = p->next;
     }
     printf("inserting block %p between %p and %p\n", b, p, p->next);
@@ -95,7 +94,7 @@ void gfree(void * ptr) {
   p->next = b;
 }
 
-/* Test entry point */
+/* Test entry point 
 int main (int argc, char * argv[]) {
   void * ptr;
   unsigned int i = 0;
@@ -105,4 +104,4 @@ int main (int argc, char * argv[]) {
   }
   gfree(ptr);
   return 0;
-}
+}*/

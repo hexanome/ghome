@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "gthread.h"
 #include "gmem.h"
-#include "../modulesTraduction/EnOceanModuleTraduction/EnOceanModuleTraduction/moduleTraduction.h"
-#include "../modulesTraduction/EnOceanModuleActuator/EnOceanModuleActuator/moduleActionneur.h"
+#include "moduleTraduction.h"
+#include "moduleActionneur.h"
 
 int main(int argc, char *argv[])
 {

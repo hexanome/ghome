@@ -8,8 +8,8 @@ CC = gcc
 AR = ar
 RANLIB = ranlib
 CFLAGS = -Wall -pedantic -m32 -g -m32
-LIBDIR  = $(ROOTDIR)/lib $(MEMDIR)
-INCDIR  = -I$(ROOTDIR)/include -I$(MEMDIR)
+LIBDIR  = $(ROOTDIR)/lib
+INCDIR  = -I$(ROOTDIR)/include -I$(ROOTDIR)/include
 LIBS    = -L$(LIBDIR) -l$(LIBNAME)
 
 OBJECTS = gthread.o

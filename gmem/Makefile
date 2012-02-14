@@ -1,32 +1,22 @@
-ROOTDIR=../libhw
-MEMDIR=../gmem
-
-LIBNAME=hw
-LIBFILE=$(ROOTDIR)/lib/lib$(LIBNAME).a $(MEMDIR)/gmem.a
+# $Id: Makefile 95 2009-10-06 12:55:04Z simon_duquennoy $
+#------------------------------------------------------------
 
 CC = gcc
 AR = ar
 RANLIB = ranlib
-CFLAGS = -Wall -pedantic -m32 -g -m32
-LIBDIR  = $(ROOTDIR)/lib $(MEMDIR)
-INCDIR  = -I$(ROOTDIR)/include -I$(MEMDIR)
-LIBS    = -L$(LIBDIR) -l$(LIBNAME)
+CFLAGS = -Wall -pedantic -m32 -g
 
-OBJECTS = gthread.o
+INSTALLDIR = ../libhw
 
-HARDWARELIB = gthread.a
+OBJECTS = gmem.o
+
+HARDWARELIB = gmem.a
 
 all: $(HARDWARELIB)
 
 ###------------------------------
 ### Bibliotheque
 ###------------------------------------------------------------
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< $(INCDIR)
-
-%: %.o
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
-
 $(HARDWARELIB): $(OBJECTS)
 	$(AR) cr $(HARDWARELIB) $(OBJECTS)
 	$(RANLIB) $(HARDWARELIB)
@@ -36,7 +26,6 @@ $(HARDWARELIB): $(OBJECTS)
 ###------------------------------------------------------------
 Makefile.depends:
 	$(CC) -MM *.c $(INCDIR) > Makefile.depends
-
 
 include Makefile.depends
 

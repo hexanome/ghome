@@ -1,0 +1,4 @@
+Listener.o: Listener.c Listener.h
+main.o: main.c Listener.h Message.h
+Message.o: Message.c Message.h Listener.h
+moduleTraduction.o: moduleTraduction.c Listener.h Message.h
