@@ -5,13 +5,13 @@
 #define WORD_SIZE sizeof(unsigned int)
 #define MIN_BLOCK sizeof(struct block)
 
-// Global memory
+/* Global memory */
 static void * mem[HEAP_SIZE];
 
-// Memory blocks
+/* Memory blocks */
 struct block * p; // empty
 
-// Initialize GMem
+/* Initialize GMem */
 void init() {
   printf("init\n");
   p = (struct block *) mem;
@@ -19,13 +19,13 @@ void init() {
   p->next = p;
 }
 
-// Max function
+/* Max function */
 unsigned int max(unsigned int a, unsigned int b) {
   if (a > b) return a;
   return b;
 }
 
-// Allocate a block of bytes
+/* Allocate a block of bytes */
 void * gmalloc(unsigned int size) {
   if (size < 0 || size > HEAP_SIZE || p == 0) {
     return (void *) -1;
@@ -71,7 +71,7 @@ void * gmalloc(unsigned int size) {
   return ptr + WORD_SIZE;
 }
 
-// Free a previously allocated block
+/* Free a previously allocated block */
 void gfree(void * ptr) {
   printf("gfree called on %p\n", ptr);
   if (ptr == (void *)-1) {
@@ -95,7 +95,7 @@ void gfree(void * ptr) {
   p->next = b;
 }
 
-// Test entry point
+/* Test entry point */
 int main (int argc, char * argv[]) {
   void * ptr;
   unsigned int i = 0;
