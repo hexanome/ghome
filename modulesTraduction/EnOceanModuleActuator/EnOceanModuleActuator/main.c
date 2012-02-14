@@ -19,5 +19,22 @@ int main (int argc, const char * argv[])
     printf("%s\n",temp.ID);
     printf("%c\n",temp.value);
     free(buffer);
+
+    /*char* sendBuffer = malloc(FRAME_SIZE_ENOCEAN);
+    sendBuffer = "0000000000000000000000000001";
+    SOCKET sock = socketConnexion();
+        
+    while (sock != SOCKET_ERROR)
+    {
+        if(send(sock, sendBuffer, strlen(sendBuffer), 0) < 0)
+        {
+            perror("send()");
+            //exit(errno);
+        }
+    
+    }
+    free(sendBuffer);
+    return 0;*/
 }
+    
 

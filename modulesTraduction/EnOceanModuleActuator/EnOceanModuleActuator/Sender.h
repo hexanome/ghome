@@ -55,6 +55,7 @@ int socketFrameSend(SOCKET aSocket, char* buffer);
 //Frame creation
 tcpFrameType tcpFrameCreationWith(idValue value);
 char stringToBinary (char* stringValue);
+void convertToBuffer(tcpFrameType frame, char* buffer);
 
 
 

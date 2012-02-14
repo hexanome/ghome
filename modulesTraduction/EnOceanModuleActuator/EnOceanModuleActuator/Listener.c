@@ -40,3 +40,4 @@ idValue tcpFrameWithServerMessageWithBuffer(char* buffer) {
         return value;
     }
 }
+
