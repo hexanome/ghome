@@ -22,6 +22,7 @@ typedef struct idValue {
 }idValue;
 
 //Frame Creation
+idValue parseBuffer(char* buffer);
 idValue idValueWithServerMessage();
 
 #endif
