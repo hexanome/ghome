@@ -25,7 +25,7 @@ var util = require('util'),   // Might be handy (isn't right now).
 // START DATA BASE.
 //
 
-sensors.configure(redisClient);
+sensordb.configure(redisClient);
 
 
 // KIDS THESE DAYS.

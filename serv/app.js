@@ -13,9 +13,9 @@ var app = module.exports = express.createServer();
 
 var redis = require("redis"),
     redisClient = redis.createClient(),
-    sensordb = require("./comp/sensors.js");
+    sensordb = require("../rules/comp/sensors.js");
 
-sensors.configure(redisClient);
+sensordb.configure(redisClient);
 
 
 
