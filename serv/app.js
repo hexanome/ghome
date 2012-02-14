@@ -3,12 +3,23 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
+var express = require('express'),
+    routes = require('./routes');
 
 var app = module.exports = express.createServer();
 
-// Configuration
+
+// DB interface.
+
+var redis = require("redis"),
+    redisClient = redis.createClient(),
+    sensordb = require("./comp/sensors.js");
+
+sensors.configure(redisClient);
+
+
+
+// Server configuration.
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -20,16 +31,19 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
-  app.use(express.errorHandler()); 
+  app.use(express.errorHandler());
 });
+
+
 
 // Routes
 
 app.get('/', routes.index);
 
 app.listen(3000);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+console.log("Express server listening on port %d in %s mode",
+    app.address().port, app.settings.env);

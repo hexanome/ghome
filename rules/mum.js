@@ -6,13 +6,26 @@
 // Dearly designed by Thaddee Tyl.
 
 
-var util = require('util'),
+var util = require('util'),   // Might be handy (isn't right now).
+
+    // Database elements.
+    redis = require("redis"),
+    redisClient = redis.createClient(),
+    sensordb = require("./comp/sensors.js"),
+
+    // Children elements.
     readSensor = require('./proto/sensor').read,
     spawn = require('child_process').spawn,
     sensorProg = '../modulesTraduction/EnOceanModuleTraduction/' +
               'EnOceanModuleTraduction/sensor',
     actuatorProg = '../modulesTraduction/EnOceanModuleTraduction/' +
               'EnOceanModuleTraduction/actuator';
+
+
+// START DATA BASE.
+//
+
+sensors.configure(redisClient);
 
 
 // KIDS THESE DAYS.
