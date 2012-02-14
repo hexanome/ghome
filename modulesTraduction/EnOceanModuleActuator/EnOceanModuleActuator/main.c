@@ -14,10 +14,17 @@ int main (int argc, const char * argv[])
 {
     printf("Bonjour\n");
     char* buffer = malloc(BUFFER_RECEIVE_SIZE);
-    //tcpFrameWithServerMessageWithBuffer("DO ABCDE 1");
-    idValue temp = parseBuffer("DO ABCDE 1");
-    printf("%s\n",temp.ID);
-    printf("%c\n",temp.value);
+    //idValue temp = idValueWithServerMessage();
+    idValue temp = idValueWithServerMessage();
+    convertToFrame(temp, buffer);     
+    SOCKET sock = socketConnexion();
+    if(send(sock, buffer, strlen(buffer), 0) < 0)
+    {
+        printf("Erreur d'envoi de la trame d'actionneur");
+    }    
     free(buffer);
+    return 0;
+    
 }
+    
 

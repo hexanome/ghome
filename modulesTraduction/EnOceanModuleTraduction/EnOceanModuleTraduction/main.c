@@ -33,6 +33,7 @@ int main(void)
     while (sock != SOCKET_ERROR)
     {
         socketFrameReception(sock,buffer);
+        printf("%s",buffer);
         tcpFrameType myFrame = tcpFrameCreation(buffer);
         enOceanMessage myMessage = enOceanMessageCreation(myFrame);
         sendSensorStateByPipe(myMessage);
