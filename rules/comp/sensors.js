@@ -32,15 +32,16 @@ function getSensorProperty(propertyId, cb) {
   redisbase.getSingleItem(tableSensorProperty, propertyId, cb);
 }
 
+function getSensorPropertyFromType(sensorTypeId, cb) {
+  redisbase.getSingleItemFromSec(tableSensorProperty, "sensorTypeId", sensorTypeId, cb);
+}
+
 function getSensorProperties(cb) {
   redisbase.getAllItems(tableSensorProperty, cb);
 }
 
 function addSensorProperty(sensorProperty, cb) {
-  redisbase.addItem(tableSensorProperty, sensorProperty, cb, [{
-    "table" : tableSensorType,
-    "name" : "sensorType"
-  }]);
+  redisbase.addItem(tableSensorProperty, sensorProperty, cb, [], ["sensorTypeId"]);
 }
 
 function deleteSensorProperty(propertyId, cb) {
@@ -62,10 +63,7 @@ function getSensors(cb) {
 }
 
 function addSensor(sensor, cb) {
-  redisbase.addItem(tableSensor, sensor, cb, [{
-    "table" : tableSensorType,
-    "name" : "sensorType"
-  }], ["oemId"]);
+  redisbase.addItem(tableSensor, sensor, cb, [], ["oemId", "sensorTypeId"]);
 }
 
 function deleteSensor(sensorId, cb) {
@@ -78,18 +76,16 @@ function getSensorPropertyValue(propertyValueId, cb) {
   redisbase.getSingleItem(tableSensorPropertyValue, propertyValueId, cb);
 }
 
+function getSensorPropertyValueFromSensorAndProperty(sensorId, propertyId, cb) {
+  redisbase.getSingleItemFromSec(tableSensorPropertyValue, "sensorAndPropertyId","{0};{1}".format(sensorId, propertyId), cb);
+}
+
 function getSensorPropertyValues(cb) {
   redisbase.getAllItems(tableSensorPropertyValue, cb);
 }
 
 function addSensorPropertyValue(propertyValue, cb) {
-  redisbase.addItem(tableSensorPropertyValue, propertyValue, cb, [{
-    "table" : tableSensor,
-    "name" : "sensor"
-  }, {
-    "table" : tableSensorProperty,
-    "name" : "sensorProperty"
-  }]);
+  redisbase.addItem(tableSensorPropertyValue, propertyValue, cb, [], ["sensorAndPropertyId"]);
 }
 
 function deleteSensorPropertyValue(propertyValueId, cb) {

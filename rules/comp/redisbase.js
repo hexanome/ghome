@@ -30,8 +30,9 @@ function addItem(table, item, cb, foreignKeys, secondaryIndexes) {
     // We now process the secondary indexes.
     async.forEach(secondaryIndexes, function (secondaryIndex, cb2) {
       // We create a key for the secondary index.
-      var keyVar = utils.newGuid();
-      multi.set("{0}!{1}!{2}!{3}".format(table, secondaryIndex, item[secondaryIndex]), itemId, keyVar);
+      var dateVar = (new Date()).getTime();
+      multi.sadd("seclist:{0}!{1}!{2}".format(table, secondaryIndex, item[secondaryIndex]), dateVar);
+      multi.set("sec:{0}!{1}!{2}!{3}".format(table, secondaryIndex, item[secondaryIndex], dateVar), itemId);
 
       item["sec:{0}:{1}".format(secondaryIndex, keyVar)] = item[secondaryIndex];
       delete item[secondaryIndex];
@@ -49,7 +50,7 @@ function addItem(table, item, cb, foreignKeys, secondaryIndexes) {
 
 function deleteItem(table, itemId, cb, cascade, multi) {
   // Optional parameters.
-  cascade = cascade === undefined ? true : cascade;
+  cascade = cascade === undefined ? false : cascade;
 
   var doExec = false;
   if (!multi) {
@@ -108,8 +109,9 @@ function deleteItem(table, itemId, cb, cascade, multi) {
 
             var secSplit = secondaryIndex.split(":");
             var keyName = secSplit[1];
-            var keyVar = secSplit[2];
-            multi.del("{0}!{1}!{2}!{3}".format(table, keyName, obj[secondaryIndex], keyVar));
+            var dateVar = secSplit[2];
+            multi.srem("seclist:{0}!{1}!{2}".format(table, keyName, obj[secondaryIndex]), dateVar)
+            multi.del("sec:{0}!{1}!{2}!{3}".format(table, keyName, obj[secondaryIndex], dateVar));
 
             cb2(null);
           }, function (err5) {
@@ -135,62 +137,26 @@ function deleteItem(table, itemId, cb, cascade, multi) {
 // Secondary indexes
 
 function getSingleItemFromSec(table, indexName, indexValue, cb) {
-  redisClient.keys("{0}!{1}!{2}!*".format(table, indexName, indexValue), function (err, keys) {
-    if (err) {
+  redisClient.sort("seclist:{0}!{1}!{2}".format(table, indexName, indexValue), 
+    "limit", "0", "1",
+    "desc", 
+    "get", "sec:{0}!{1}!{2}!*".format(table, indexName, indexValue),
+  function (err, results) {
+    if (err || results.length == 0) {
       cb(err);
       return;
     }
 
-    if (keys.length == 0) {
-      cb(null);
-      return;
-    }
-
-    // We retrieve the first key.
-    redisClient.get(keys[0], function (err2, reply) {
-      if (err2) {
-        cb(err2);
-        return;
-      }
-
-      getSingleItem(table, reply, cb);
-    });
+    cb(err, results[0]);
   });
 }
 
 function getItemsFromSec(table, indexName, indexValue, cb) {
-  redisClient.keys("{0}!{1}!{2}!*".format(table, indexName, indexValue), function (err, keys) {
-    if (err) {
-      cb(err);
-      return;
-    }
-      
-    // We now have the keys of the foreign indexes. We retrieve them.
-    async.map(keys, function (key, cb2) {
-      redisClient.get(key, function (err2, secValue) {
-        if (err2) {
-          cb2(err2);
-          return;
-        }
-
-        cb2(null, secValue);
-      });
-    }, function (err2, secValues) {
-      if (err2) {
-        cb(err2);
-        return;
-      }
-
-      // We now have the items keys. We retrieve them.
-      async.map(secValues, function (secValue, cb2) {
-        getSingleItem(table, secValue, function (err3, item) {
-          cb2(err3, item);
-        });
-      }, function (err3, items) {
-        // We have all the requested items, we return them.
-        cb(err3, items);
-      });
-    });
+  redisClient.sort("seclist:{0}!{1}!{2}".format(table, indexName, indexValue), 
+    "desc", 
+    "get", "sec:{0}!{1}!{2}!*".format(table, indexName, indexValue),
+  function (err, results) {
+    cb(err, results);
   });
 }
 

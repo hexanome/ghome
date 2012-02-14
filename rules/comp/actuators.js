@@ -37,10 +37,7 @@ function getActuatorProperties(cb) {
 }
 
 function addActuatorProperty(actuatorProperty, cb) {
-  redisbase.addItem(tableActuatorProperty, actuatorProperty, cb, [{
-    "table" : tableActuatorType,
-    "name" : "actuatorType"
-  }]);
+  redisbase.addItem(tableActuatorProperty, actuatorProperty, cb, [], ["actuatorTypeId"]);
 }
 
 function deleteActuatorProperty(propertyId, cb) {
@@ -62,10 +59,7 @@ function getActuators(cb) {
 }
 
 function addActuator(actuator, cb) {
-  redisbase.addItem(tableActuator, actuator, cb, [{
-    "table" : tableActuatorType,
-    "name" : "actuatorType"
-  }], ["oemId"]);
+  redisbase.addItem(tableActuator, actuator, cb, [], ["oemId", "actuatorTypeId"]);
 }
 
 function deleteActuator(actuatorId, cb) {
@@ -83,13 +77,7 @@ function getActuatorPropertyValues(cb) {
 }
 
 function addActuatorPropertyValue(propertyValue, cb) {
-  redisbase.addItem(tableActuatorPropertyValue, propertyValue, cb, [{
-    "table" : tableActuator,
-    "name" : "actuator"
-  }, {
-    "table" : tableActuatorProperty,
-    "name" : "actuatorProperty"
-  }]);
+  redisbase.addItem(tableActuatorPropertyValue, propertyValue, cb, [], ["actuatorAndPropertyId"]);
 }
 
 function deleteActuatorPropertyValue(propertyValueId, cb) {
