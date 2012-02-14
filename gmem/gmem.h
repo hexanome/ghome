@@ -3,6 +3,7 @@
 
 void * gmalloc(unsigned int size);
 void gfree(void * ptr);
+void init();
 
 struct block {
   unsigned int size;

@@ -1,42 +1,57 @@
 ROOTDIR=../libhw
-LIBNAME=hw
-LIBFILE=$(ROOTDIR)/lib/lib$(LIBNAME).a
+MEMDIR=../gmem
 
-CC      = gcc
-CFLAGS  = -Wall -ansi -pedantic -g -m32
-LIBDIR  = $(ROOTDIR)/lib
-INCDIR  = -I$(ROOTDIR)/include
+LIBNAME=hw
+LIBFILE=$(ROOTDIR)/lib/lib$(LIBNAME).a $(MEMDIR)/gmem.a
+
+CC = gcc
+AR = ar
+RANLIB = ranlib
+CFLAGS = -Wall -pedantic -m32 -g -m32
+LIBDIR  = $(ROOTDIR)/lib $(MEMDIR)
+INCDIR  = -I$(ROOTDIR)/include -I$(MEMDIR)
 LIBS    = -L$(LIBDIR) -l$(LIBNAME)
 
+OBJECTS = gthread.o
+
+HARDWARELIB = gthread.a
+
+all: $(HARDWARELIB)
+
 ###------------------------------
-### Main targets 
+### Bibliotheque
 ###------------------------------------------------------------
-BINARIES= main
-
-all: $(BINARIES)
-
-###------------------------------
-### Main rules 
-###------------------------------------------------------------
-
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< $(INCDIR)
 
 %: %.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
+$(HARDWARELIB): $(OBJECTS)
+	$(AR) cr $(HARDWARELIB) $(OBJECTS)
+	$(RANLIB) $(HARDWARELIB)
+
+###------------------------------
+### Inclusions
+###------------------------------------------------------------
 Makefile.depends:
 	$(CC) -MM *.c $(INCDIR) > Makefile.depends
 
+
 include Makefile.depends
 
-main: main.o gthread.o gmem.o $(LIBFILE)
-
+###------------------------------
+### Tools
+###------------------------------------------------------------
+.PHONY: clean realclean 
+clean:
+	rm -f $(HARDWARELIB)
+	rm -f *.o
+	rm -f Makefile.depends
 
 ###------------------------------
-### Misc.
+### Install
 ###------------------------------------------------------------
-.PHONY: clean
-clean:
-	$(RM) *.o $(BINARIES) Makefile.depends
-
+.PHONY: install
+install: 
+	install -m 644 $(HARDWARELIB) 

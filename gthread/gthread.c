@@ -28,6 +28,7 @@ L'ordonnanceur est un Round Robin
 /*---------------------------------------------------------------- Types*/
 typedef struct
 {
+	int pid;
 	int* esp;
 	int* ebp;
 	int state;
@@ -102,7 +103,7 @@ void start_current_context()
 }
 
 /*
- * Fonction appeller par l'ordonnanceur toutes les 8ms 
+ * Fonction appeler par l'ordonnanceur toutes les 8ms 
  * Pour comprendre comment cette fonction est appeller, il faut voir le fichier hw.c
  */
 void yield()

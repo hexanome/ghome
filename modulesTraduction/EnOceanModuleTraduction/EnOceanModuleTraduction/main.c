@@ -24,7 +24,11 @@
 
 #include "Listener.h"
 #include "Message.h"
-
+int lancerTraducteur (int argc, const char * argv[])
+{
+//TODO: not implemented
+return 0;
+}
 int main(void)
 {
 	char* buffer = malloc(FRAME_SIZE_ENOCEAN);

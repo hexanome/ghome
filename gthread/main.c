@@ -2,18 +2,17 @@
 #include <stdlib.h>
 #include "gthread.h"
 #include "gmem.h"
-
-void f_ping(void *arg);
-void f_pong(void *arg);
-void f_pang(void *args);
+#include "../modulesTraduction/EnOceanModuleTraduction/EnOceanModuleTraduction/moduleTraduction.h"
+#include "../modulesTraduction/EnOceanModuleActuator/EnOceanModuleActuator/moduleActionneur.h"
 
 int main(int argc, char *argv[])
 {
 	int retour=0;	
 	init();
-	retour+=create_ctx(16384, f_ping, NULL);
-	retour+=create_ctx(16384, f_pong, NULL);
-	retour+=create_ctx(16384, f_pang, NULL);
+	/*Spawn du module Traduction*/
+	retour+=create_ctx(16384, lancerTraducteur, NULL);
+	/*Spawn du module Actionneur*/
+	retour+=create_ctx(16384, lancerActionneur, NULL);
 	if(retour==0)
 	{
 		start_sched();
@@ -21,6 +20,7 @@ int main(int argc, char *argv[])
 	}
 	exit(EXIT_FAILURE);
 }
+
 void f_ping(void *args)
 {
 	while(1) {
