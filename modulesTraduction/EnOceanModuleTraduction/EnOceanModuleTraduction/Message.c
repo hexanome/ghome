@@ -9,7 +9,11 @@
 #include <stdio.h>
 #include "Message.h"
 
-
+/**
+ * Créer un message contenant l'ID du capteur et les 4 valeurs associés à partir d'une trame
+ * aFrame - la trame à transformer en messsage
+ * return - le message créer
+ */
 enOceanMessage enOceanMessageCreation(tcpFrameType aFrame)
 {
     struct enOceanMessage anOceanMessage; 
@@ -33,7 +37,10 @@ enOceanMessage enOceanMessageCreation(tcpFrameType aFrame)
 }
 
 
-
+/**
+ * Envoie un message grâce à printf en utilisant une syntaxe définie dans un protocole
+ * aMessage - le message à envoyer
+ */
 int sendSensorStateByPipe (enOceanMessage aMessage) 
 {
     int fd;
