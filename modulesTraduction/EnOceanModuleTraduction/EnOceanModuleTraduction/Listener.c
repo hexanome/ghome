@@ -65,6 +65,7 @@ int socketFrameReception(SOCKET aSocket, char* buffer)
 
 /**
  * Convertit une chaîne de 2 caractères de long représentant un encodage hexadécimal en un entier
+ * hexValue - la chaîne de caractères à convertir
  */
 int hexToInt (char* hexValue)
 {
