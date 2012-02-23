@@ -10,7 +10,9 @@
 #include "Listener.h"
 
 
-
+/**
+ * Créer une socket sur l'adresse ADRESSE et le port PORT défini dans Listener.h
+ */
 SOCKET socketConnexion(void)
 {
     
@@ -39,6 +41,11 @@ SOCKET socketConnexion(void)
     return sock;
 }
 
+/**
+ * Permet la réception de trames à partir d'une socket
+ * aSocket - la socket à écouter
+ * buffer - le buffer pour stocker la trame
+ */
 int socketFrameReception(SOCKET aSocket, char* buffer)
 {
     if (aSocket != SOCKET_ERROR ) {
@@ -56,6 +63,9 @@ int socketFrameReception(SOCKET aSocket, char* buffer)
     return 0;
 }
 
+/**
+ * Convertit une chaîne de 2 caractères de long représentant un encodage hexadécimal en un entier
+ */
 int hexToInt (char* hexValue)
 {
 	int Resultat;
@@ -90,11 +100,15 @@ int hexToInt (char* hexValue)
 }
 
 /**
- * Créer la structure de données de la trame à partir de la chaine de caractères récupérés
+ * Créer la structure de données de la trame à partir de la chaîne de caractères récupérés
+ * La chaine de caractère se présente sous la forme d'une chaine de 28 caractères de longs,
+ * chaque doublet représentant un octet codé en hexadecimal
+ * buffer - la chaîne de caractère  à convertir
  */
 struct tcpFrame tcpFrameCreation (char* buffer) 
 {
     struct tcpFrame aFrame;
+    /*Les 2 premiers octets (4 caractères) sont des octets de synchronisation*/
     buffer+=4;
     aFrame.H_SEQLENGTH = hexToInt(buffer);buffer+=2;
     aFrame.ORG = hexToInt(buffer);buffer+=2;
