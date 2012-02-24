@@ -31,12 +31,13 @@ int idValueComparator(idValue idValue0, idValue idValue1) {
 
 
 int main(void) {
-    char* buffer = malloc(BUFFER_RECEIVE_SIZE);
+
     int totalSucces = 0;
     	/*Lancement des 4 tests */
     	int i = 0;
     	for (i; i < 4; i++)
     	{
+    		char* buffer = malloc(BUFFER_RECEIVE_SIZE);
     		printf("###########################TEST n° %d #############################\n",i);
     		/*Variable pour surveiller l'état du test */
     		int testState = FALSE;
@@ -72,9 +73,10 @@ int main(void) {
     				testState = FALSE;
     			}
     		}
+    		free(buffer);
     		printf("#######################FIN TEST n° %d #############################\n",i);
     	}
     	printf("#####################TOTAL REUSSI %d/4 ############################\n",totalSucces);
-    free(buffer);
+
 	return EXIT_SUCCESS;
 }

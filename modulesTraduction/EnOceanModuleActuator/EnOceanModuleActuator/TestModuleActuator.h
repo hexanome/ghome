@@ -41,15 +41,15 @@ struct structTestIdValueArray testIdValueArray =
  * Les trames de références
  */
 struct structFrameArray{
-	char frames[4][28];
+	char frames[4][29];
 };
 
 struct structFrameArray testFrameArray =
 {
-		.frames[0] = "A55A6B0550000000FF9F1E033000",
-		.frames[1] = "A55A6B05570000000004E9573000",
-		.frames[2] = "A55A6B05570000004123FF823000",
-		.frames[3] = "A55A6B0550000000336667AA3000",
+		.frames[0] = "A55A6B0550000000FF9F1E033000\0",
+		.frames[1] = "A55A6B05570000000004E9573000\0",
+		.frames[2] = "A55A6B05570000004123FF823000\0",
+		.frames[3] = "A55A6B0550000000336667AA3000\0",
 };
 
 /**

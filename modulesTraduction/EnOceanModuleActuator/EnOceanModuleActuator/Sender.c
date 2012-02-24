@@ -49,17 +49,17 @@ SOCKET socketConnexion(void)
 void convertToFrame(idValue idValue, char* buffer)
 {
     strcat(buffer, "A55A6B05");
-    if (idValue.value == '1')
+    if (idValue.value == 1)
     {
         strcat(buffer, "50000000");
         
-    }else if (idValue.value == '0')
+    }else if (idValue.value == 0)
     {
         strcat(buffer, "57000000");
     }
     strcat(buffer, idValue.ID);
     strcat(buffer, "3000\0");
-    printf("%s",buffer);
+   // printf("%s",buffer);
 
 }
 

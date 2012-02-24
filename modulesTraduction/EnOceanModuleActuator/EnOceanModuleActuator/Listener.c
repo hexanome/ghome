@@ -23,18 +23,22 @@ idValue parseBuffer(char* buffer){
     for (i = 0;((buffer[i] != ' ') && (i < BUFFER_RECEIVE_SIZE)); i++) {
         phrase[i] = buffer[i];
     }
-    i++;
+
     phrase[i] = '\0';
+    i++;
     
     if (!strcmp(phrase, "DO")) {
         int start = i;
         for (;((buffer[i] != ' ') && (i < BUFFER_RECEIVE_SIZE)); i++) {
             phrase[i-start] = buffer[i];
         }
+
         phrase[i-start] = '\0';
         strcpy(retour.ID, phrase);
-        retour.value = buffer[i+1]; 
+        /*Conversion d'un caractère en entier*/
+        retour.value = buffer[i+1]-'0';
     }
+    return retour;
 }
 
 /**
