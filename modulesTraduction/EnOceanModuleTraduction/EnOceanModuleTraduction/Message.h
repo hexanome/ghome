@@ -12,13 +12,9 @@
 #include "Listener.h"
 #include <string.h>
 
-enum sensorType {
-    enOceanRockerSwitch = 1,
-    enOceanTemperatureSensor = 2,
-    enOceanSingleContact = 3,
-    enOceanLightSensor = 4,
-};
-
+/**
+ * Le message à envoyer au serveur, contenant l'ID du capteur et les 4 valeurs associées
+ */
 typedef struct enOceanMessage
 {
     char sensorID[9];
@@ -28,7 +24,17 @@ typedef struct enOceanMessage
     int value3;
 }enOceanMessage;
 
+/**
+ * Crée un message contenant l'ID du capteur et les 4 valeurs associés à partir d'une trame
+ * aFrame - la trame à transformer en messsage
+ * return - le message créer
+ */
 enOceanMessage enOceanMessageCreation (tcpFrameType aFrame);
+
+/**
+ * Envoie un message grâce à printf en utilisant une syntaxe définie dans un protocole
+ * aMessage - le message à envoyer
+ */
 int sendSensorStateByPipe (enOceanMessage aMessage);
 
 

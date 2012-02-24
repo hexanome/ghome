@@ -10,7 +10,11 @@
 #include "Listener.h"
 
 
-
+/**
+ * Parse la chaîne de caractères reçue, qui est de la forme "DO 12345678 1"
+ * buffer - la chaîne de caractères à parser
+ * return - la structure de données idValue qui contient l'ID de l'actionneur et la valeur qu'il doit prendre
+ */
 idValue parseBuffer(char* buffer){
     int i = 0;
     char phrase[BUFFER_RECEIVE_SIZE];
@@ -33,6 +37,10 @@ idValue parseBuffer(char* buffer){
     }
 }
 
+/**
+ *Récupère le message du serveur et le parse
+ *return - la structure de donnée contenant l'ID et la valeur de l'actionneur
+ */
 idValue idValueWithServerMessage(){
     char* buffer = malloc(BUFFER_RECEIVE_SIZE);
     buffer = "DO FF9F1E03 1";

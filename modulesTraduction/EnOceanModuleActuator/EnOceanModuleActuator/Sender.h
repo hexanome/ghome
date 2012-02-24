@@ -32,11 +32,18 @@ typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
 
-//Managing Socket
+/**
+ * Crée une socket sur l'adresse ADRESSE et le port PORT défini dans Listener.h
+ */
 SOCKET socketConnexion(void);
+
 int socketFrameSend(SOCKET aSocket, char* buffer);
 
-//Frame creation
+/**
+ * Permet de créer une trame à partir de l'ID et la valeur de l'actionneur
+ * idValue - la structure de données contenant l'ID et la valeur de l'actionneur
+ * buffer - la chaîne de caractères représentant la trame ainsi créée
+ */
 void convertToFrame(idValue idValue, char* buffer);
 
 

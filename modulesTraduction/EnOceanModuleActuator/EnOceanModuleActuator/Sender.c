@@ -9,6 +9,9 @@
 #include <stdio.h>
 #include "Sender.h"
 
+/**
+ * Crée une socket sur l'adresse ADRESSE et le port PORT défini dans Sender.h
+ */
 SOCKET socketConnexion(void)
 {
     
@@ -38,7 +41,11 @@ SOCKET socketConnexion(void)
 }
 
 
-
+/**
+ * Permet de créer une trame à partir de l'ID et la valeur de l'actionneur
+ * idValue - la structure de données contenant l'ID et la valeur de l'actionneur
+ * buffer - la chaîne de caractères représentant la trame ainsi créée
+ */
 void convertToFrame(idValue idValue, char* buffer)
 {
     strcat(buffer, "A55A6B05");
@@ -55,7 +62,6 @@ void convertToFrame(idValue idValue, char* buffer)
     printf("%s",buffer);
 
 }
-
 
 
 

@@ -8,7 +8,7 @@
 
 #ifndef EnOceanModuleTraduction_Listener_h
 #define EnOceanModuleTraduction_Listener_h
-typedef unsigned int socklen_t;
+
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -29,7 +29,7 @@ typedef unsigned int socklen_t;
 typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
-
+typedef unsigned int socklen_t;
 
 typedef struct tcpFrame {
     int H_SEQLENGTH; // Frame third byte.
@@ -47,15 +47,31 @@ typedef struct tcpFrame {
     
 }tcpFrameType;
 
-//Utility Functions
+/**
+ * Convertit une chaîne de 2 caractères de long représentant un encodage hexadécimal en un entier
+ * hexValue - la chaîne de caractères à convertir
+ */
 int hexToInt (char* hexValue);
 
-//Managing Socket
+/**
+ * Créer une socket sur l'adresse ADRESSE et le port PORT défini dans Listener.h
+ */
 SOCKET socketConnexion(void);
+
+/**
+ * Permet la réception de trames à partir d'une socket
+ * aSocket - la socket à écouter
+ * buffer - le buffer pour stocker la trame
+ */
 int socketFrameReception(SOCKET aSocket, char* buffer);
 
 
-//Frame Creation 
+/**
+ * Créer la structure de données de la trame à partir de la chaîne de caractères récupérés
+ * La chaine de caractère se présente sous la forme d'une chaine de 28 caractères de longs,
+ * chaque doublet représentant un octet codé en hexadecimal
+ * buffer - la chaîne de caractère  à convertir
+ */
 tcpFrameType tcpFrameCreation (char* buffer);
 
 
