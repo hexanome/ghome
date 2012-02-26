@@ -1,0 +1,31 @@
+
+DEFINE VALEUR_BOUCLE = 1000
+
+void main()
+{
+	void* mem[VALEUR_BOUCLE];
+	int e =0;
+	init();
+	time.get
+	for(e=0;e<VALEUR_BOUCLE;e++)	
+	{
+		mem[e] = gmalloc(1024);
+	}
+	time.get
+	for(e=0;e<VALEUR_BOUCLE;e++)	
+	{
+		gfree(mem[e]);;
+	}
+	time.get
+}
+
+void fonctionInfinie(void* args)
+{
+	int i=0;	
+	while(1)
+	{
+		i++;
+		if(i>160000)
+			i=0;
+	}
+}

@@ -1,0 +1,43 @@
+
+#include <time.h>
+
+DEFINE VALEUR_BOUCLE = 1000
+DEFINE VALEUR_BOUCLE_THREAD = 20
+
+void main()
+{
+	void* mem[VALEUR_BOUCLE];
+	clock_t j,k,l,m;
+	int e =0;
+	init();
+	j = clock();
+	for(e=0;e<VALEUR_BOUCLE;e++)	
+	{
+		mem[e] = gmalloc(1024);
+	}
+	k = clock();	
+	printf("Temps pour allouer %d fois 1024 octets : %f",2,3);
+	for(e=0;e<VALEUR_BOUCLE;e++)	
+	{
+		gfree(mem[e]);
+	}
+	l = clock();
+	printf("Temps pour liberer %d fois 1024 octets : %f",2,3);
+	for(e=0;e<VALEUR_BOUCLE_THREAD;e++)	
+	{
+		/*create_ctx(16384, fonctionInfinie, NULL);*/
+	}
+	m = clock();
+	printf("Temps pour creer %d contexte : %f",2);
+}
+
+void fonctionInfinie(void* args)
+{
+	int i=0;	
+	while(1)
+	{
+		i++;
+		if(i>160000)
+			i=0;
+	}
+}

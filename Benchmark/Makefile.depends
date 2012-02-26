@@ -1,0 +1,2 @@
+Benchmark.o: Benchmark.c ../gthread/gthread.h ../gmem/gmem.h
+BenchmarkGThread.o: BenchmarkGThread.c
