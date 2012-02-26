@@ -18,14 +18,18 @@ function getConditions(cb) {
   redisbase.getAllItems(tableCondition, cb);
 }
 
-function getConditionsFromSensorIdAndProperty(sensorId, propertyId, cb) {
-  redisbase.getItemsFromSec(tableCondition, "sensorIdAndProperty", "{0};{1}".format(sensorId, propertyId), cb);
+function getConditionsFromRule(ruleId, cb) {
+  redisbase.getItemsFromSec(tableCondition, "ruleId", ruleId, cb);
+}
+
+function getConditionsFromSensorAndProperty(sensorId, propertyId, cb) {
+  redisbase.getItemsFromSec(tableCondition, "sensorAndPropertyId", "{0};{1}".format(sensorId, propertyId), cb);
 }
 
 function addCondition(condition, cb) {
   redisbase.addItem(tableCondition, condition, cb,
     [], // Join.
-    ["sensorIdAndProperty"]); // Secondary Index.
+    ["sensorAndPropertyId", "ruleId"]); // Secondary Index.
 }
 
 function deleteCondition(conditionId, cb) {
