@@ -5,7 +5,7 @@
 #include "gmem.h"
 
 #define VALEUR_BOUCLE 1000000
-#define VALEUR_BOUCLE_THREAD 1000
+#define VALEUR_BOUCLE_THREAD 50
 
 void fonctionInfinie(void* args);
 
