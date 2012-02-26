@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include "Message.h"
+//#include "EnOceanModuleTraduction/EnOceanModuleTraduction/Message.h"
 
 /**
  * Créer un message contenant l'ID du capteur et les 4 valeurs associés à partir d'une trame
