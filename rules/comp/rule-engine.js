@@ -98,6 +98,11 @@ function validateCondition(rootCondition, cb) {
   if (rootCondition.type == 0) {
   } else if (rootCondition.type == 1) {
     // This is an "AND" condition, all the childs must be validated.
+    if (rootCondition.childs.length == 0) {
+      cb(null, false);
+      return;
+    }
+
     var validated = true;
 
     async.forEach(rootCondition.childs, function (child, cb2) {
@@ -111,6 +116,7 @@ function validateCondition(rootCondition, cb) {
       cb(err, validated);
     });
   } else if (rootCondition.type == 2) {
+    // This is an "OR" condition, one of the childs must be validated.
     var validated = false;
 
     async.forEach(rootCondition.childs, function (child, cb2) {
@@ -124,7 +130,35 @@ function validateCondition(rootCondition, cb) {
       cb(err, validated);
     });
   } else if (rootCondition.type == 3) {
+    // This is a "NOT" condition. Returns the opposite of the first condition.
+    if (rootCondition.childs.length == 0) {
+      cb(null, false);
+      return;
+    }
 
+    validateCondition(rootCondition.childs[0], function (err, childValidated) {
+      cb(err, !childValidated);
+    });
+  } else if (rootCondition.type == 4) {
+    // This is the case where we must validate the value of a sensor.
+
+    // First, we retrieve the the SensorPropertyValue corresponding to this condition.
+    sensors.getSensorPropertyValueFromSensorAndProperty(rootCondition.sensorId, rootCondition.sensorPropertyId, function (err, sensorPropertyValue) {
+      if (err) {
+        cb(err);
+        return;
+      }
+
+      // We compare the threshold of the condition with the current propertyValue.
+      var validated = false;
+      if ((rootCondition.limit < sensorPropertyValue.value && rootCondition.order == 0)
+      || (rootCondition.limit == sensorPropertyValue.value && rootCondition.order == 1)
+      || (rootCondition.limit > sensorPropertyValue.value && rootCondition.order == 2)) {
+        validated = true;
+      }
+
+      cb(null, validated);
+    })
   }
 }
 
