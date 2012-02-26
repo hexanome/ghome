@@ -1,8 +1,19 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+/* HTML5 requirement */
+article, aside, figure, footer, header, hgroup, 
+menu, nav, section { display: block; }
 
-a {
-  color: #00B7FF;
+/* Styling */
+html, body, h1, p {margin: 0px; padding: 0px; font-family: verdana, monospace;}
+header {
+  color: white; font-weight: bold;
+  margin: 0px; padding: 10px;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#00ADEE), to(#0078A5));
+  background-image: -webkit-linear-gradient(top, #00ADEE, #0078A5);
+  background-image:    -moz-linear-gradient(top, #00ADEE, #0078A5);
+  background-image:     -ms-linear-gradient(top, #00ADEE, #0078A5);
+  background-image:      -o-linear-gradient(top, #00ADEE, #0078A5);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.4),0 0 10px rgba(0,0,0,0.1);
 }
+h1 {margin: 0px; padding: 0px; text-align: right;}
+div.box {display: table-cell; padding: 20px;}
+

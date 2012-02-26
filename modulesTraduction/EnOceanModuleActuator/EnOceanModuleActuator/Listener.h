@@ -8,7 +8,7 @@
 
 #ifndef EnOceanModuleActuator_Listener_h
 #define EnOceanModuleActuator_Listener_h
-#define BUFFER_RECEIVE_SIZE 16
+#define BUFFER_RECEIVE_SIZE 30
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -16,16 +16,24 @@
 #include <stdlib.h>
 #include "string.h"
 
+/**
+ * La structure de données contenant l'ID de l'actionneur et sa valeur
+ */
 typedef struct idValue {
     char ID[10];
-    char value;
+    int value;
 }idValue;
 
-//Frame Creation
-idValue tcpFrameWithServerMessageWithBuffer(char* buffer);
-
-//Parsing buffer
+/**
+ * Parse la chaîne de caractères reçue, qui est de la forme "DO 12345678 1"
+ * buffer - la chaîne de caractères à parser
+ * return - la structure de données idValue qui contient l'ID de l'actionneur et la valeur qu'il doit prendre
+ */
 idValue parseBuffer(char* buffer);
-
+/**
+ *Récupère le message du serveur et le parse
+ *return - la structure de donnée contenant l'ID et la valeur de l'actionneur
+ */
+idValue idValueWithServerMessage();
 
 #endif

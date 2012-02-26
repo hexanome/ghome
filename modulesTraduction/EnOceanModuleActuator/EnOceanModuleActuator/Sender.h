@@ -32,30 +32,19 @@ typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
 
-typedef struct tcpFrame {
-    char H_SEQLENGTH; // Frame third byte.
-    char ORG;
-    char DATA_BYTE3;
-    char DATA_BYTE2;
-    char DATA_BYTE1;
-    char DATA_BYTE0;
-    char ID_BYTE3;
-    char ID_BYTE2;
-    char ID_BYTE1;
-    char ID_BYTE0;
-    char STATUS;
-    char CHECKSUM;    
-}tcpFrameType;
-
-
-//Managing Socket
+/**
+ * Crée une socket sur l'adresse ADRESSE et le port PORT défini dans Listener.h
+ */
 SOCKET socketConnexion(void);
+
 int socketFrameSend(SOCKET aSocket, char* buffer);
 
-//Frame creation
-tcpFrameType tcpFrameCreationWith(idValue value);
-char stringToBinary (char* stringValue);
-void convertToBuffer(tcpFrameType frame, char* buffer);
+/**
+ * Permet de créer une trame à partir de l'ID et la valeur de l'actionneur
+ * idValue - la structure de données contenant l'ID et la valeur de l'actionneur
+ * buffer - la chaîne de caractères représentant la trame ainsi créée
+ */
+void convertToFrame(idValue idValue, char* buffer);
 
 
 
