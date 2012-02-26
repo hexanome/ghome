@@ -21,13 +21,13 @@ void main()
 		mem[e] = gmalloc(16);
 	}
 	k = clock();
-	printf("Temps pour allouer %d fois 1024 octets : %f \n",VALEUR_BOUCLE,((double)k-(double)j)/CLOCKS_PER_SEC);
+	printf("Temps pour allouer %d fois 16 octets : %f \n",VALEUR_BOUCLE,((double)k-(double)j)/CLOCKS_PER_SEC);
 	for(e=0;e<VALEUR_BOUCLE;e++)	
 	{
 		gfree(mem[e]);
 	}
 	l = clock();
-	printf("Temps pour liberer %d fois 1024 octets : %f\n",VALEUR_BOUCLE,((double)l-(double)k)/CLOCKS_PER_SEC);
+	printf("Temps pour liberer %d fois 16 octets : %f\n",VALEUR_BOUCLE,((double)l-(double)k)/CLOCKS_PER_SEC);
 	for(e=0;e<VALEUR_BOUCLE_THREAD;e++)	
 	{
 		create_ctx(16384, fonctionInfinie, NULL);

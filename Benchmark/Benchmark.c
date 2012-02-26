@@ -5,7 +5,9 @@
 #include "gmem.h"
 
 #define VALEUR_BOUCLE 1000000
+#define NB_OCTETS 16
 #define VALEUR_BOUCLE_THREAD 50
+#define TAILLE_PILE_EXECUTION 16384
 
 void fonctionInfinie(void* args);
 
@@ -18,10 +20,10 @@ void main()
 	j = clock();
 	for(e=0;e<VALEUR_BOUCLE;e++)	
 	{
-		mem[e] = gmalloc(16);
+		mem[e] = gmalloc(NB_OCTETS);
 	}
 	k = clock();
-	printf("Temps pour allouer %d fois 16 octets : %f \n",VALEUR_BOUCLE,((double)k-(double)j)/CLOCKS_PER_SEC);
+	printf("Temps pour allouer %d fois %d octets : %f \n",VALEUR_BOUCLE,NB_OCTETS,((double)k-(double)j)/CLOCKS_PER_SEC);
 	for(e=0;e<VALEUR_BOUCLE;e++)	
 	{
 		gfree(mem[e]);
@@ -30,10 +32,10 @@ void main()
 	printf("Temps pour liberer %d fois 16 octets : %f\n",VALEUR_BOUCLE,((double)l-(double)k)/CLOCKS_PER_SEC);
 	for(e=0;e<VALEUR_BOUCLE_THREAD;e++)	
 	{
-		create_ctx(16384, fonctionInfinie, NULL);
+		create_ctx(TAILLE_PILE_EXECUTION, fonctionInfinie, NULL);
 	}
 	m = clock();
-	printf("Temps pour creer %d contexte : %f\n",VALEUR_BOUCLE_THREAD,((double)m-(double)l)/CLOCKS_PER_SEC);
+	printf("Temps pour creer %d contexte contenant une pile d'execution de %d octets : %f\n",VALEUR_BOUCLE_THREAD,TAILLE_PILE_EXECUTION,((double)m-(double)l)/CLOCKS_PER_SEC);
 }
 
 void fonctionInfinie(void* args)
