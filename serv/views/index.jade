@@ -1,3 +1,9 @@
+mixin display(rules)
+  - each r in rules
+    li= r.name
+    ul
+      mixin display(r.children)
+
 header
   h1 GHome
 .box
@@ -15,8 +21,4 @@ header
 .box
   h1 Rules
   ul
-    li rule1
-    ul
-      li rule2
-      ul
-        li rule3
+    mixin display(rules)
