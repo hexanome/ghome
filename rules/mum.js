@@ -14,17 +14,9 @@ var util = require('util'),   // Might be handy (isn't right now).
     protocol = require('./proto/col'),
 
     // Database elements.
-    redis = require("redis"),
-    redisClient = redis.createClient(),
-    sensordb = require("./comp/sensors.js"),
     startServer = require("./comp/rules-server").startServer,
     newSensorValue = require("./comp/rules-server").newSensorValue;
 
-
-// START DATA BASE.
-//
-
-sensordb.configure(redisClient);
 
 
 
@@ -33,7 +25,7 @@ sensordb.configure(redisClient);
 // (and sensor readings on the fly)
 //
 
-fs.createReadStream('../../from-sensor').on('data', function(data) {
+fs.createReadStream('./from-sensor').on('data', function(data) {
   var d = protocol.read(data);
   console.log(util.inspect(d));
   for (var i = 0; i < d.values.length; i++) {
@@ -41,7 +33,7 @@ fs.createReadStream('../../from-sensor').on('data', function(data) {
   }
 });
 
-var toActuator = fs.createWriteStream('../../to-actuator');
+var toActuator = fs.createWriteStream('./to-actuator');
 
 
 // ACTUATOR MECHANICS!
