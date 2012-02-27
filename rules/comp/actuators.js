@@ -67,17 +67,53 @@ function deleteActuator(actuatorId, cb) {
 }
 
 // ActuatorPropertyValues
-
 function getActuatorPropertyValue(propertyValueId, cb) {
-  redisbase.getSingleItem(tableActuatorPropertyValue, propertyValueId, cb);
+  redisbase.getSingleItem(tableActuatorPropertyValue, propertyValueId, function (err, result) {
+    cb(err, processActuatorPropertyValue(result));
+  });
+}
+
+function getActuatorPropertyValueFromActuatorAndProperty(actuatorId, propertyId, cb) {
+  redisbase.getSingleItemFromSec(tableActuatorPropertyValue, "actuatorAndPropertyId","{0};{1}".format(actuatorId, propertyId), function (err, result) {
+    cb(err, processActuatorPropertyValue(result));
+  });
 }
 
 function getActuatorPropertyValues(cb) {
-  redisbase.getAllItems(tableActuatorPropertyValue, cb);
+  redisbase.getAllItems(tableActuatorPropertyValue, function (err, results) {
+    cb(err, processActuatorPropertyValues(results));
+  });
 }
 
-function addActuatorPropertyValue(propertyValue, cb) {
-  redisbase.addItem(tableActuatorPropertyValue, propertyValue, cb, [], ["actuatorAndPropertyId"]);
+function processActuatorPropertyValues(actuatorPropertyValues) {
+    for (var i = 0; i < actuatorPropertyValues.length; i++) {
+      actuatorPropertyValues[i] = processActuatorPropertyValue(actuatorPropertyValues[i]);
+    }
+
+    return actuatorPropertyValues;
+}
+
+function processActuatorPropertyValue(actuatorPropertyValue) {
+    if (!actuatorPropertyValue) {
+      return null;
+    }
+
+    var actuatorAndPropertyId = actuatorPropertyValue.actuatorAndPropertyId.split(";");
+    actuatorPropertyValue.actuatorId = actuatorAndPropertyId[0];
+    actuatorPropertyValue.actuatorPropertyId = actuatorAndPropertyId[1];
+
+    delete actuatorPropertyValue["actuatorAndPropertyId"];  
+
+    return actuatorPropertyValue;
+}
+
+function addActuatorPropertyValue(actuatorPropertyValue, cb) {
+  // We concatenate the actuatorId and actuatorPropertyId in one property.
+  actuatorPropertyValue["actuatorAndPropertyId"] = "{0};{1}".format(actuatorPropertyValue.actuatorId, actuatorPropertyValue.actuatorPropertyId);
+  delete actuatorPropertyValue["actuatorId"];
+  delete actuatorPropertyValue["actuatorPropertyId"];
+
+  redisbase.addItem(tableActuatorPropertyValue, actuatorPropertyValue, cb, [], ["actuatorAndPropertyId"]);
 }
 
 function deleteActuatorPropertyValue(propertyValueId, cb) {

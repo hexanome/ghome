@@ -33,38 +33,43 @@ function processEvent(sensorOemId, propertyIndex, cb) {
       console.log("PropertyId: " + currentProperty.id);
       console.log("PropertyName: " + currentProperty.name);
 
-      // We now have the sensor, and the property. We must retrieve the last value for that property.
-      sensors.getSensorPropertyValueFromSensorAndProperty(sensor.id, currentProperty.id, function (err3, propertyValue) {
-        // We now have the last propertyValue for the corresponding sensor and property.
-        // We are now going to fetch all the rule conditions targeting this sensor/property pair.
-        rules.getConditionsFromSensorAndProperty(sensor.id, currentProperty.id, function (err4, conditions) {
-          // For each condition, we are now going to retrieve the corresponding rule, and validate it.
-          var allActions = [];
-
-          async.forEach(conditions, function (condition, cb2) {
-            // We retrieve the rule.
-            rules.getRule(condition.ruleId, function (err5, rule) {
-              // We are now going to validate this rule, and if validated, we will add it to the array.
-              validateRule(rule, function (err6, validated) {
-                // We must now retrieve the action corresponding to the rule if it was validated, and add it to the resulting array.
-                if (!validated) {
-                  cb2(err6);
-                }
-
-                rules.getActionsFromRule(rule.id, function (err7, actions) {
-                  allActions = allActions.concat(actions);
-                  cb2(err7);
-                });
-              });
-            });
-          }, function (err5) {
-            // We now return the full list of actions that we must run.
-            cb(err5, allActions);
-          });
-        });
-      });
+      // Now that we have the sensor and the property, we process the rules.
+      processRules(sensor.id, property.id, cb);
     });
   });
+}
+
+function processRules(sensorId, propertyId, cb) {
+  // We now have the sensor, and the property. We must retrieve the last value for that property.
+  sensors.getSensorPropertyValueFromSensorAndProperty(sensorId, propertyId, function (err3, propertyValue) {
+    // We now have the last propertyValue for the corresponding sensor and property.
+    // We are now going to fetch all the rule conditions targeting this sensor/property pair.
+    rules.getConditionsFromSensorAndProperty(sensorId, propertyId, function (err4, conditions) {
+      // For each condition, we are now going to retrieve the corresponding rule, and validate it.
+      var allActions = [];
+
+      async.forEach(conditions, function (condition, cb2) {
+        // We retrieve the rule.
+        rules.getRule(condition.ruleId, function (err5, rule) {
+          // We are now going to validate this rule, and if validated, we will add it to the array.
+          validateRule(rule, function (err6, validated) {
+            // We must now retrieve the action corresponding to the rule if it was validated, and add it to the resulting array.
+            if (!validated) {
+              cb2(err6);
+            }
+
+            rules.getActionsFromRule(rule.id, function (err7, actions) {
+              allActions = allActions.concat(actions);
+              cb2(err7);
+            });
+          });
+        });
+      }, function (err5) {
+        // We now return the full list of actions that we must run.
+        cb(err5, allActions);
+      });
+    });
+  });  
 }
 
 function validateRule(rule, cb) {
@@ -213,3 +218,4 @@ function findConditionsFromParent(conditions, parentId) {
 // Export methods.
 exports.configure = configure;
 exports.processEvent = processEvent;
+exports.processRules = processRules;

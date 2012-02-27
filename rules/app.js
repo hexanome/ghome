@@ -49,7 +49,7 @@ sensors.addSensorType({ "name" : "Type1" }, function (err, typeId) {
             "ruleId" : ruleId,
             "sensorId" : sensorId,
             "sensorPropertyId" : sensorPropertyId,
-            "value" : 4, // The threshold limit.
+            "value" : 2, // The threshold limit.
             "order" : 0 // The condition is "<".
           }, function (err6, conditionId) {
 
