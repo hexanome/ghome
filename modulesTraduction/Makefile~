@@ -18,7 +18,11 @@ LIBS    = -L$(LIBDIR) -l$(LIBNAME) -L$(THREADDIR) -L$(MEMDIR)
 ###------------------------------------------------------------
 BINARIES=spawner
 
-all: $(BINARIES)
+all: 
+	cd EnOceanModuleTraduction/EnOceanModuleTraduction/; make
+	cd EnOceanModuleActuator/EnOceanModuleActuator/; make
+	make $(BINARIES)
+	
 
 ###------------------------------
 ### Main rules 
@@ -34,7 +38,7 @@ Makefile.depends:
 
 include Makefile.depends
 
-spawner: spawner.o EnOceanModuleTraduction/EnOceanModuleTraduction/moduleTraduction.o EnOceanModuleActuator/EnOceanModuleActuator/moduleActionneur.o $(LIBFILE)
+spawner: spawner.o EnOceanModuleTraduction/EnOceanModuleTraduction/moduleTraduction.o EnOceanModuleActuator/EnOceanModuleActuator/moduleActionneur.o EnOceanModuleActuator/EnOceanModuleActuator/Listener.o EnOceanModuleActuator/EnOceanModuleActuator/Sender.o EnOceanModuleTraduction/EnOceanModuleTraduction/Message.o EnOceanModuleTraduction/EnOceanModuleTraduction/Listener.o$(LIBFILE)
 
 
 ###------------------------------

@@ -3,12 +3,12 @@
 CC = gcc
 AR = ar
 RANLIB = ranlib
-CFLAGS = -Wall -pedantic -m32 -g -m32
+CFLAGS = -Wall -m32 -g -m32
 
 ###------------------------------
 ### Main targets 
 ###------------------------------------------------------------
-BINARIES=main
+BINARIES=moduleActionneur
 
 all: $(BINARIES)
 
@@ -26,7 +26,7 @@ Makefile.depends:
 
 include Makefile.depends
 
-main: Listener.o Sender.o 
+moduleActionneur: Listener.o Sender.o 
 
 
 ###------------------------------
