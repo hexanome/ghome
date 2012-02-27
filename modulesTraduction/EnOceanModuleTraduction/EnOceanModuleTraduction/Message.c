@@ -45,10 +45,11 @@ enOceanMessage enOceanMessageCreation(tcpFrameType aFrame)
  */
 int sendSensorStateByPipe (enOceanMessage aMessage, FILE* pipe) 
 {
-    char* buffer = malloc(MAX_SIZE);
-    sprintf(buffer,"GIVE_SENSORSTATE ,%s ,%d,%d ,%d ,%d \nSTOP\n", aMessage.sensorID,  aMessage.value0,aMessage.value1,aMessage.value2,aMessage.value3);    
+    //char* buffer = malloc(MAX_SIZE);
+printf("GIVE_SENSORSTATE %s %d %d %d %d\nSTOP\n", aMessage.sensorID,  aMessage.value0,aMessage.value1,aMessage.value2,aMessage.value3);    
+    fprintf("GIVE_SENSORSTATE %s %d %d %d %d\nSTOP\n", aMessage.sensorID,  aMessage.value0,aMessage.value1,aMessage.value2,aMessage.value3);    
     
-    fwrite(buffer, 1, sizeof(buffer),pipe);
+    //fwrite(buffer, sizeof(char), strlen(buffer),pipe);
     
     return 0;    
 }
