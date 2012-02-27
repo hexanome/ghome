@@ -22,18 +22,32 @@ var actuatordb = require ('../rules/comp/actuators.js'),
     sensordb = require ('../rules/comp/sensors.js');
 
 
+// Sensor types
 camp.handle('/sensor-types', function (query, path) {
-
+  var data = {page: 'sensor-types'};
   path[0] = '/layout.html';
-
-  sensordb.getSensorTypes (function (err, sensortypes) {
+  sensordb.getSensorTypes (function (err, types) {
     if (err) throw err;
-
-    console.error(JSON.stringify(sensortypes));
-    var data = {sensortypes: sensortypes};
-    camp.server.emit('gottypes', data);
+    console.error(JSON.stringify(types));
+    data.types = types;
+    camp.server.emit('gotsensortypes', data);
   });
-}, function gottypes (data) {
+}, function gotsensortypes (data) {
+  return data;
+});
+
+
+// Actuator types
+camp.handle('/actuator-types', function (query, path) {
+  var data = {page: 'actuator-types'};
+  path[0] = '/layout.html';
+  actuatordb.getActuatorTypes (function (err, types) {
+    if (err) throw err;
+    console.error(JSON.stringify(types));
+    data.types = types;
+    camp.server.emit('gotactuatortypes', data);
+  });
+}, function gotactuatortypes (data) {
   return data;
 });
 
