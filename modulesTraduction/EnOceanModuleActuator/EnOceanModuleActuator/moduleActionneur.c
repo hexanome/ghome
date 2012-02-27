@@ -27,7 +27,7 @@ void lancerActionneur (void* args)
     FILE *pipe;    
     // open a named pipe
     pipe = fopen("/ghome/to-actuator", O_RDONLY);
-    SOCKET sock = socketConnexion();
+    SOCKET sock = socketConnexionActuator();
     
     pipeReceiveSocketSend(pipe, sock);
     

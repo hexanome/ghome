@@ -22,8 +22,8 @@
  */
 
 
-#include "EnOceanModuleActuator/EnOceanModuleTraduction/Listener.h"
-#include "EnOceanModuleActuator/EnOceanModuleTraduction/Message.h"
+#include "Listener.h"
+#include "Message.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>

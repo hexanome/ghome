@@ -1,4 +1,3 @@
-
 //
 //  main.c
 //  EnOceanModuleActuator
@@ -11,7 +10,7 @@
 #include "Sender.h"
 #include "Listener.h"
 
-void lancerActionneur (void* args){
+void lancerActionneur (void* args)
 {
  /*   printf("Bonjour\n");
     char* buffer = malloc(BUFFER_RECEIVE_SIZE);
@@ -28,11 +27,10 @@ void lancerActionneur (void* args){
     FILE *pipe;    
     // open a named pipe
     pipe = fopen("/ghome/to-actuator", O_RDONLY);
-    SOCKET sock = socketConnexion();
+    SOCKET sock = socketConnexionActuator();
     
     pipeReceiveSocketSend(pipe, sock);
     
     fclose(pipe);
     close(sock);    
-    
 }

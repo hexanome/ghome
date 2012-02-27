@@ -12,7 +12,7 @@
 /**
  * Crée une socket sur l'adresse ADRESSE et le port PORT défini dans Sender.h
  */
-SOCKET socketConnexion(void)
+SOCKET socketConnexionActuator(void)
 {
     
     int erreur = 0;
@@ -59,7 +59,7 @@ void pipeReceiveSocketSend (FILE* pipe, SOCKET sock) {
 //fscanf(pipe,"%d",value0);
 //fscanf(pipe,"%d",value1);
      while (1) {   
-        result = fgets(&bufferPipe, BUFFER_RECEIVE_SIZE, pipe)
+        result = fgets(bufferPipe, BUFFER_RECEIVE_SIZE, pipe);
 	if(result!=NULL)
 	{
 		envoi = parseBuffer(bufferPipe); ;
