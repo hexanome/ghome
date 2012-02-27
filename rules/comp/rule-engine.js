@@ -2,7 +2,8 @@ var async = require("async"),
     rules = require("./rules.js"),
     sensors = require("./sensors.js"),
     actuators = require("./actuators.js"),
-    conditionUtils = require("./condition-utils.js");
+    conditionUtils = require("./condition-utils.js"),
+    actionUtils = require("./action-utils.js");
 
 // Export methods.
 exports.processEvent = processEvent;
@@ -64,6 +65,9 @@ function processRules(sensorId, propertyId, cb) {
           });
         });
       }, function (err5) {
+        // We remove duplicate actions that would act on the same actuator/actuatorProperty pair.
+        allActions = actionUtils.removeActionDuplicates(allActions);
+
         // We now return the full list of actions that we must run.
         cb(err5, allActions);
       });
