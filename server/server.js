@@ -22,16 +22,15 @@ var actuatordb = require ('../rules/comp/actuators.js'),
     sensordb = require ('../rules/comp/sensors.js');
 
 
-
 camp.handle('types.html', function (query, path) {
 
   path[0] = '/types.html';
 
-  sensordb.getSensorTypes (function (err, sensorTypes) {
+  sensordb.getSensorTypes (function (err, sensortypes) {
     if (err) throw err;
 
-    console.error(JSON.stringify(sensorTypes));
-    var data = sensorTypes;
+    console.error(JSON.stringify(sensortypes));
+    var data = {sensortypes: sensortypes};
     camp.server.emit('gottypes', data);
   });
 }, function gottypes (data) {
