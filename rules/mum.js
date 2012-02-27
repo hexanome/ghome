@@ -1,4 +1,6 @@
-// mum.js spawns you all.
+// mum.js tells everyone the rules.
+//
+// She also tells you the temperature.
 //
 // If you're worried about the name, keep in mind that it could have been a lot
 // worse.  `Mother-effing-mum.js`, for instance.
@@ -7,19 +9,16 @@
 
 
 var util = require('util'),   // Might be handy (isn't right now).
+    fs = require('fs'),
+
+    protocol = require('./proto/col'),
 
     // Database elements.
     redis = require("redis"),
     redisClient = redis.createClient(),
     sensordb = require("./comp/sensors.js"),
-
-    // Children elements.
-    readSensor = require('./proto/sensor').read,
-    spawn = require('child_process').spawn,
-    sensorProg = '../modulesTraduction/EnOceanModuleTraduction/' +
-              'EnOceanModuleTraduction/sensor',
-    actuatorProg = '../modulesTraduction/EnOceanModuleTraduction/' +
-              'EnOceanModuleTraduction/actuator';
+    startServer = require("./comp/rules-server").startServer,
+    newSensorValue = require("./comp/rules-server").newSensorValue;
 
 
 // START DATA BASE.
@@ -28,24 +27,36 @@ var util = require('util'),   // Might be handy (isn't right now).
 sensordb.configure(redisClient);
 
 
-// KIDS THESE DAYS.
+
+// FIFOs
+//
+// (and sensor readings on the fly)
 //
 
-
-// They are now officially born.
-
-sensorKid = spawn(sensorProg);
-actuatorKid = spawn(actuatorProg);
-
-
-// The sensor kid is very loud, he has a lot to say.
-
-sensorKid.stdout.on('data', function(data) {
-  console.log('stdout from sensorKid:', readSensor(data));
-});
-
-sensorKid.on('exit', function(code) {
-  if (code !== 0) {
-    console.log('Kid died and said ' + code);
+fs.createReadStream('../../from-sensor').on('data', function(data) {
+  var d = protocol.read(data);
+  console.log(util.inspect(d));
+  for (var i = 0; i < d.values.length; i++) {
+    newSensorValue(d.sensor, i, d.values[i]);
   }
 });
+
+var toActuator = fs.createWriteStream('../../to-actuator');
+
+
+// ACTUATOR MECHANICS!
+//
+
+startServer(function (oemActuators) {
+  // oemActuators is a list of actuators.
+  // Each oemActuator looks like this:
+  //
+  //      "oemId" : actuator.oemId,
+  //      "propertyIndex" : actuatorProperty.index,
+  //      "newValue" : action.value
+
+  oemActuators.forEach(function(oem) {
+    toActuator.write(protocol.write(oem.oemID, 0, oem.newValue));
+  })
+});
+
