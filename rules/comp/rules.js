@@ -11,22 +11,61 @@ function configure(dbClient) {
 
 // Conditions
 function getCondition(conditionId, cb) {
-  redisbase.getSingleItem(tableCondition, conditionId, cb);
+  redisbase.getSingleItem(tableCondition, conditionId, function (err, result) {
+    cb(err, processCondition(result));
+  });
 }
 
 function getConditions(cb) {
-  redisbase.getAllItems(tableCondition, cb);
+  redisbase.getAllItems(tableCondition, function (err, results) {
+    cb(err, processConditions(results));
+  });
 }
 
 function getConditionsFromRule(ruleId, cb) {
-  redisbase.getItemsFromSec(tableCondition, "ruleId", ruleId, cb);
+  redisbase.getItemsFromSec(tableCondition, "ruleId", ruleId, function (err, results) {
+    cb(err, processConditions(results));
+  });
 }
 
 function getConditionsFromSensorAndProperty(sensorId, propertyId, cb) {
-  redisbase.getItemsFromSec(tableCondition, "sensorAndPropertyId", "{0};{1}".format(sensorId, propertyId), cb);
+  redisbase.getItemsFromSec(tableCondition, "sensorAndPropertyId", "{0};{1}".format(sensorId, propertyId), function (err, results) {
+    cb(err, processConditions(results));
+  });
+}
+
+function processConditions(conditions) {
+    for (var i = 0; i < conditions.length; i++) {
+      conditions[i] = processCondition(conditions[i]);
+    }
+
+    return conditions;
+}
+
+function processCondition(condition) {
+    if (!condition) {
+      return null;
+    }
+
+    var sensorAndPropertyId = condition.sensorAndPropertyId.split(";");
+    condition.sensorId = sensorAndPropertyId[0];
+    condition.sensorPropertyId = sensorAndPropertyId[1];
+
+    delete condition["sensorAndPropertyId"];  
+
+    return condition;
 }
 
 function addCondition(condition, cb) {
+  if (!condition.parentId) {
+    condition.parentId = null;
+  }
+
+  // We concatenate the sensorId and sensorPropertyId in one property.
+  condition["sensorAndPropertyId"] = "{0};{1}".format(condition.sensorId, condition.sensorPropertyId);
+  delete condition["sensorId"];
+  delete condition["sensorPropertyId"];
+
   redisbase.addItem(tableCondition, condition, cb,
     [], // Join.
     ["sensorAndPropertyId", "ruleId"]); // Secondary Index.
@@ -52,13 +91,8 @@ function getActions(cb) {
 
 function addAction(action, cb) {
   redisbase.addItem(tableAction, action, cb, 
-  [{
-    "table" : actuators.tableActuator,
-    "name" : "actuator"
-  }, {
-    "table" : actuators.tableActuatorProperty,
-    "name" : "actuatorProperty"
-  }], ["ruleId"]);
+  [], 
+  ["ruleId"]);
 }
 
 function deleteAction(actionId, cb) {
@@ -88,12 +122,14 @@ exports.configure = configure;
 
 exports.getCondition = getCondition;
 exports.getConditions = getConditions;
-exports.getConditionsFromSensorId = getConditionsFromSensorId;
+exports.getConditionsFromRule = getConditionsFromRule;
+exports.getConditionsFromSensorAndProperty = getConditionsFromSensorAndProperty;
 exports.addCondition = addCondition;
 exports.deleteCondition = deleteCondition;
 
 exports.getAction = getAction;
 exports.getActions = getActions;
+exports.getActionsFromRule = getActionsFromRule;
 exports.addAction = addAction;
 exports.deleteAction = deleteAction;
 

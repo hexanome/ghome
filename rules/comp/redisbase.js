@@ -34,7 +34,7 @@ function addItem(table, item, cb, foreignKeys, secondaryIndexes) {
       multi.sadd("seclist:{0}!{1}!{2}".format(table, secondaryIndex, item[secondaryIndex]), dateVar);
       multi.set("sec:{0}!{1}!{2}!{3}".format(table, secondaryIndex, item[secondaryIndex], dateVar), itemId);
 
-      item["sec:{0}:{1}".format(secondaryIndex, keyVar)] = item[secondaryIndex];
+      item["sec:{0}:{1}".format(secondaryIndex, dateVar)] = item[secondaryIndex];
       delete item[secondaryIndex];
 
       cb2(null);
@@ -147,7 +147,8 @@ function getSingleItemFromSec(table, indexName, indexValue, cb) {
       return;
     }
 
-    cb(err, results[0]);
+    // We then retrieve the item corresponding to this Id.
+    getSingleItem(table, results[0], cb);
   });
 }
 
@@ -156,7 +157,14 @@ function getItemsFromSec(table, indexName, indexValue, cb) {
     "desc", 
     "get", "sec:{0}!{1}!{2}!*".format(table, indexName, indexValue),
   function (err, results) {
-    cb(err, results);
+    // We now retrieve the items corresponding to those results.
+    async.map(results, function (itemId, cb2) {
+      getSingleItem(table, itemId, function (err2, item) {
+        cb2(err2, item);
+      });
+    }, function (err2, items) {
+      cb(err2, items);
+    })
   });
 }
 
@@ -243,4 +251,5 @@ exports.addItem = addItem;
 exports.deleteItem = deleteItem;
 exports.getSingleItemFromSec = getSingleItemFromSec;
 exports.getSingleItem = getSingleItem;
+exports.getItemsFromSec = getItemsFromSec;
 exports.getAllItems = getAllItems;
