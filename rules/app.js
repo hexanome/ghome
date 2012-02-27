@@ -73,14 +73,14 @@ sensors.addSensorType({ "name" : "Type1" }, function (err, typeId) {
                 }
 
                 // Deletion tests.
-                sensors.deleteSensorType(typeId);
-                sensors.deleteSensor(sensorId);
-                sensors.deleteSensorProperty(sensorPropertyId);
-                sensors.deleteSensorPropertyValue(sensorPropertyValueId);
+                // sensors.deleteSensorType(typeId);
+                // sensors.deleteSensor(sensorId);
+                // sensors.deleteSensorProperty(sensorPropertyId);
+                // sensors.deleteSensorPropertyValue(sensorPropertyValueId);
 
-                rules.deleteRule(ruleId);
-                rules.deleteCondition(conditionId);
-                rules.deleteAction(actionId);
+                // rules.deleteRule(ruleId);
+                // rules.deleteCondition(conditionId);
+                // rules.deleteAction(actionId);
               });
             });
           });

@@ -90,7 +90,7 @@ function validateRule(rule, cb) {
     console.log("Found the rootCondition:" + rootCondition.id);
 
     // We build the tree of conditions form this root.
-    conditionUtils.buildConditionChilds(conditions, rootCondition);
+    conditionUtils.buildConditionChildren(conditions, rootCondition);
 
     // We validate each condition in the tree, starting with the root.
     validateCondition(rootCondition, function (err2, validated) {
@@ -130,15 +130,15 @@ function validateCondition(rootCondition, cb) {
       cb(null, validated);
     });
   } else if (rootCondition.type == 1) {
-    // This is an "AND" condition, all the childs must be validated.
-    if (rootCondition.childs.length == 0) {
+    // This is an "AND" condition, all the children must be validated.
+    if (rootCondition.children.length == 0) {
       cb(null, false);
       return;
     }
 
     var validated = true;
 
-    async.forEach(rootCondition.childs, function (child, cb2) {
+    async.forEach(rootCondition.children, function (child, cb2) {
       validateCondition(child, function (err, childValidated) {
         if (!childValidated) {
           validated = false;
@@ -149,10 +149,10 @@ function validateCondition(rootCondition, cb) {
       cb(err, validated);
     });
   } else if (rootCondition.type == 2) {
-    // This is an "OR" condition, one of the childs must be validated.
+    // This is an "OR" condition, one of the children must be validated.
     var validated = false;
 
-    async.forEach(rootCondition.childs, function (child, cb2) {
+    async.forEach(rootCondition.children, function (child, cb2) {
       validateCondition(child, function (err, childValidated) {
         if (childValidated) {
           validated = true;
@@ -164,12 +164,12 @@ function validateCondition(rootCondition, cb) {
     });
   } else if (rootCondition.type == 3) {
     // This is a "NOT" condition. Returns the opposite of the first condition.
-    if (rootCondition.childs.length == 0) {
+    if (rootCondition.children.length == 0) {
       cb(null, false);
       return;
     }
 
-    validateCondition(rootCondition.childs[0], function (err, childValidated) {
+    validateCondition(rootCondition.children[0], function (err, childValidated) {
       cb(err, !childValidated);
     });
   }
