@@ -1,3 +1,9 @@
+// Export methods
+exports.buildConditionChilds = buildConditionChilds;
+exports.findRootCondition = findRootCondition;
+exports.findConditionFromId = findConditionFromId;
+exports.findConditionsFromParent = findConditionsFromParent;
+
 function buildConditionChilds(conditions, rootCondition) {
   rootCondition.childs = findConditionsFromParent(conditions, rootCondition.id);
 
@@ -40,9 +46,3 @@ function findConditionsFromParent(conditions, parentId) {
 
   return childs;
 }
-
-// Export methods
-exports.buildConditionChilds = buildConditionChilds;
-exports.findRootCondition = findRootCondition;
-exports.findConditionFromId = findConditionFromId;
-exports.findConditionsFromParent = findConditionsFromParent;
