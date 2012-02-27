@@ -8,6 +8,7 @@
 
 #ifndef EnOceanModuleTraduction_Message_h
 #define EnOceanModuleTraduction_Message_h
+#define MAX_SIZE 80
 
 #include "Listener.h"
 #include <string.h>
@@ -35,7 +36,7 @@ enOceanMessage enOceanMessageCreation (tcpFrameType aFrame);
  * Envoie un message grâce à printf en utilisant une syntaxe définie dans un protocole
  * aMessage - le message à envoyer
  */
-int sendSensorStateByPipe (enOceanMessage aMessage);
+int sendSensorStateByPipe (enOceanMessage aMessage, FILE* pipe);
 
 
 #endif

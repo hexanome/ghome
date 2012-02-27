@@ -7,6 +7,7 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "Message.h"
 
 /**
@@ -41,12 +42,13 @@ enOceanMessage enOceanMessageCreation(tcpFrameType aFrame)
  * Envoie un message grâce à printf en utilisant une syntaxe définie dans un protocole
  * aMessage - le message à envoyer
  */
-int sendSensorStateByPipe (enOceanMessage aMessage) 
+int sendSensorStateByPipe (enOceanMessage aMessage, FILE* pipe) 
 {
-    int fd;
-    dup2(fd, STDOUT_FILENO); /* connect the write side with stdout */
+    char* buffer = malloc(MAX_SIZE);
+    sprintf(buffer,"GIVE_SENSORSTATE ,%s ,%d,%d ,%d ,%d \nSTOP\n", aMessage.sensorID,  aMessage.value0,aMessage.value1,aMessage.value2,aMessage.value3);    
     
-    printf("GIVE_SENSORSTATE ,%s ,%d ,%d ,%d \nSTOP\n", aMessage.sensorID, aMessage.value1,aMessage.value2,aMessage.value3);
+    fwrite(buffer, 1, sizeof(buffer),pipe);
+    
     return 0;    
 }
 

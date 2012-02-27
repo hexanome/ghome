@@ -10,10 +10,13 @@
 #define EnOceanModuleActuator_Listener_h
 #define BUFFER_RECEIVE_SIZE 30
 
-#include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
 #include "string.h"
 
 /**
@@ -30,10 +33,13 @@ typedef struct idValue {
  * return - la structure de données idValue qui contient l'ID de l'actionneur et la valeur qu'il doit prendre
  */
 idValue parseBuffer(char* buffer);
+
 /**
- *Récupère le message du serveur et le parse
- *return - la structure de donnée contenant l'ID et la valeur de l'actionneur
+ * Permet de créer une trame à partir de l'ID et la valeur de l'actionneur
+ * idValue - la structure de données contenant l'ID et la valeur de l'actionneur
+ * buffer - la chaîne de caractères représentant la trame ainsi créée
  */
-idValue idValueWithServerMessage();
+void convertToFrame(idValue idValue, char* buffer);
+
 
 #endif
