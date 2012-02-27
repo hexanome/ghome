@@ -18,8 +18,14 @@ header
         tr
           td= s.name
           td= s.val
-  #newsensor
-    input(id="+sensor", type="button", value="+")
+      tr#showsensor
+        td(colspan="2")
+          input(type="button", value="+", onfocus="showsensor()")
+      tr#newsensor
+        td
+          input(type="text")
+        td
+          input(type="text")
 .box
   h1 Rules
   ul
@@ -27,5 +33,8 @@ header
       li Rule "#{r.name}" is triggered by:
       ul
         mixin display(r.children)
+    li#showrule
+      input(type="button", value="+", onfocus="showrule()")
     li#newrule
-      input(id="+rule", type="button", value="+")
+      input(type="text")
+      input(type="text")
