@@ -5,6 +5,12 @@ var sensors = require("./comp/sensors.js"),
 
 // Test set for the ruleEngine.
 
+sensors.getSensors(function (err, results) {
+  for (var i = 0; i < results.length; i++) {
+    console.dir(results[i]);
+  }
+});
+
 // First, we create a sensorType.
 sensors.addSensorType({ "name" : "Type1" }, function (err, typeId) {
 
