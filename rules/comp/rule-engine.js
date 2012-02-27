@@ -4,11 +4,9 @@ var async = require("async"),
     actuators = require("./actuators.js"),
     conditionUtils = require("./condition-utils.js");
 
-function configure(dbClient) {
-  rules.configure(dbClient);
-  sensors.configure(dbClient);
-  actuators.configure(dbClient);
-}
+// Export methods.
+exports.processEvent = processEvent;
+exports.processRules = processRules;
 
 function processEvent(sensorOemId, propertyIndex, cb) {
   // First, we find the corresponding sensor.
@@ -172,8 +170,3 @@ function validateCondition(rootCondition, cb) {
     });
   }
 }
-
-// Export methods.
-exports.configure = configure;
-exports.processEvent = processEvent;
-exports.processRules = processRules;

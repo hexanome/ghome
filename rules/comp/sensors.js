@@ -4,9 +4,36 @@ var redisbase = require("./redisbase.js"),
     tableSensor = "sensor",
     tableSensorPropertyValue = "sensor_property_value";
 
-function configure(dbClient) {
-  redisbase.configure(dbClient);
-}
+// Export variables
+exports.tableSensorType = tableSensorType;
+exports.tableSensor = tableSensor;
+exports.tableSensorProperty = tableSensorProperty;
+exports.tableSensorPropertyValue = tableSensorPropertyValue;
+
+// Export methods
+exports.getSensorType = getSensorType;
+exports.getSensorTypes = getSensorTypes;
+exports.addSensorType = addSensorType;
+exports.deleteSensorType = deleteSensorType;
+
+exports.getSensorProperty = getSensorProperty;
+exports.getSensorPropertyFromType = getSensorPropertyFromType;
+exports.getSensorPropertiesFromType = getSensorPropertiesFromType;
+exports.getSensorProperties = getSensorProperties;
+exports.addSensorProperty = addSensorProperty;
+exports.deleteSensorProperty = deleteSensorProperty;
+
+exports.getSensor = getSensor;
+exports.getSensorFromOem = getSensorFromOem;
+exports.getSensors = getSensors;
+exports.addSensor = addSensor;
+exports.deleteSensor = deleteSensor;
+
+exports.getSensorPropertyValue = getSensorPropertyValue;
+exports.getSensorPropertyValueFromSensorAndProperty = getSensorPropertyValueFromSensorAndProperty;
+exports.getSensorPropertyValues = getSensorPropertyValues;
+exports.addSensorPropertyValue = addSensorPropertyValue;
+exports.deletePropertyValue = deleteSensorPropertyValue;
 
 // SensorTypes
 
@@ -127,36 +154,3 @@ function addSensorPropertyValue(propertyValue, cb) {
 function deleteSensorPropertyValue(propertyValueId, cb) {
   redisbase.deleteItem(tableSensorPropertyValue, propertyValueId, cb);
 }
-
-// Export variables
-exports.tableSensorType = tableSensorType;
-exports.tableSensor = tableSensor;
-exports.tableSensorProperty = tableSensorProperty;
-exports.tableSensorPropertyValue = tableSensorPropertyValue;
-
-// Export methods
-exports.configure = configure;
-
-exports.getSensorType = getSensorType;
-exports.getSensorTypes = getSensorTypes;
-exports.addSensorType = addSensorType;
-exports.deleteSensorType = deleteSensorType;
-
-exports.getSensorProperty = getSensorProperty;
-exports.getSensorPropertyFromType = getSensorPropertyFromType;
-exports.getSensorPropertiesFromType = getSensorPropertiesFromType;
-exports.getSensorProperties = getSensorProperties;
-exports.addSensorProperty = addSensorProperty;
-exports.deleteSensorProperty = deleteSensorProperty;
-
-exports.getSensor = getSensor;
-exports.getSensorFromOem = getSensorFromOem;
-exports.getSensors = getSensors;
-exports.addSensor = addSensor;
-exports.deleteSensor = deleteSensor;
-
-exports.getSensorPropertyValue = getSensorPropertyValue;
-exports.getSensorPropertyValueFromSensorAndProperty = getSensorPropertyValueFromSensorAndProperty;
-exports.getSensorPropertyValues = getSensorPropertyValues;
-exports.addSensorPropertyValue = addSensorPropertyValue;
-exports.deletePropertyValue = deleteSensorPropertyValue;

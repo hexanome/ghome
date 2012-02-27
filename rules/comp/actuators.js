@@ -4,9 +4,33 @@ var redisbase = require("./redisbase.js"),
     tableActuator = "actuator",
     tableActuatorPropertyValue = "actuator_property_value";
 
-function configure(dbClient) {
-  redisbase.configure(dbClient);
-}
+// Export variables.
+exports.tableActuatorType = tableActuatorType;
+exports.tableActuator = tableActuator;
+exports.tableActuatorProperty = tableActuatorProperty;
+exports.tableActuatorPropertyValue = tableActuatorPropertyValue;
+
+// Export methods.
+exports.getActuatorType = getActuatorType;
+exports.getActuatorTypes = getActuatorTypes;
+exports.addActuatorType = addActuatorType;
+exports.deleteActuatorType = deleteActuatorType;
+
+exports.getActuatorProperty = getActuatorProperty;
+exports.getActuatorProperties = getActuatorProperties;
+exports.addActuatorProperty = addActuatorProperty;
+exports.deleteActuatorProperty = deleteActuatorProperty;
+
+exports.getActuator = getActuator;
+exports.getActuatorFromOem = getActuatorFromOem;
+exports.getActuators = getActuators;
+exports.addActuator = addActuator;
+exports.deleteActuator = deleteActuator;
+
+exports.getActuatorPropertyValue = getActuatorPropertyValue;
+exports.getActuatorPropertyValues = getActuatorPropertyValues;
+exports.addActuatorPropertyValue = addActuatorPropertyValue;
+exports.deleteActuatorPropertyValue = deleteActuatorPropertyValue;
 
 // ActuatorTypes
 
@@ -119,33 +143,3 @@ function addActuatorPropertyValue(actuatorPropertyValue, cb) {
 function deleteActuatorPropertyValue(propertyValueId, cb) {
   redisbase.deleteItem(tableActuatorPropertyValue, propertyValueId, cb);
 }
-
-// Export variables.
-exports.tableActuatorType = tableActuatorType;
-exports.tableActuator = tableActuator;
-exports.tableActuatorProperty = tableActuatorProperty;
-exports.tableActuatorPropertyValue = tableActuatorPropertyValue;
-
-// Export methods.
-exports.configure = configure;
-
-exports.getActuatorType = getActuatorType;
-exports.getActuatorTypes = getActuatorTypes;
-exports.addActuatorType = addActuatorType;
-exports.deleteActuatorType = deleteActuatorType;
-
-exports.getActuatorProperty = getActuatorProperty;
-exports.getActuatorProperties = getActuatorProperties;
-exports.addActuatorProperty = addActuatorProperty;
-exports.deleteActuatorProperty = deleteActuatorProperty;
-
-exports.getActuator = getActuator;
-exports.getActuatorFromOem = getActuatorFromOem;
-exports.getActuators = getActuators;
-exports.addActuator = addActuator;
-exports.deleteActuator = deleteActuator;
-
-exports.getActuatorPropertyValue = getActuatorPropertyValue;
-exports.getActuatorPropertyValues = getActuatorPropertyValues;
-exports.addActuatorPropertyValue = addActuatorPropertyValue;
-exports.deleteActuatorPropertyValue = deleteActuatorPropertyValue;

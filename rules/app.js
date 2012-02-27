@@ -1,14 +1,7 @@
 // Dependencies
-var redis = require("redis"),
-    redisClient = redis.createClient(),
-    sensors = require("./comp/sensors.js"),
+var sensors = require("./comp/sensors.js"),
     rules = require("./comp/rules.js"),
     ruleEngine = require("./comp/rule-engine.js");
-
-// Configuration des services DB sensors.
-sensors.configure(redisClient);
-rules.configure(redisClient);
-ruleEngine.configure(redisClient);
 
 // Test set for the ruleEngine.
 

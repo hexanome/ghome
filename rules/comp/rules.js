@@ -5,9 +5,24 @@ var redisbase = require("./redisbase.js"),
     tableCondition = "condition",
     tableAction = "action";
 
-function configure(dbClient) {
-  redisbase.configure(dbClient);
-}
+// Export methods.
+exports.getCondition = getCondition;
+exports.getConditions = getConditions;
+exports.getConditionsFromRule = getConditionsFromRule;
+exports.getConditionsFromSensorAndProperty = getConditionsFromSensorAndProperty;
+exports.addCondition = addCondition;
+exports.deleteCondition = deleteCondition;
+
+exports.getAction = getAction;
+exports.getActions = getActions;
+exports.getActionsFromRule = getActionsFromRule;
+exports.addAction = addAction;
+exports.deleteAction = deleteAction;
+
+exports.getRule = getRule;
+exports.getRules = getRules;
+exports.addRule = addRule;
+exports.deleteRule = deleteRule;
 
 // Conditions
 function getCondition(conditionId, cb) {
@@ -116,24 +131,3 @@ function addRule(rule, cb) {
 function deleteRule(ruleId, cb) {
   redisbase.deleteItem(tableRule, ruleId, cb);
 }
-
-// Export methods.
-exports.configure = configure;
-
-exports.getCondition = getCondition;
-exports.getConditions = getConditions;
-exports.getConditionsFromRule = getConditionsFromRule;
-exports.getConditionsFromSensorAndProperty = getConditionsFromSensorAndProperty;
-exports.addCondition = addCondition;
-exports.deleteCondition = deleteCondition;
-
-exports.getAction = getAction;
-exports.getActions = getActions;
-exports.getActionsFromRule = getActionsFromRule;
-exports.addAction = addAction;
-exports.deleteAction = deleteAction;
-
-exports.getRule = getRule;
-exports.getRules = getRules;
-exports.addRule = addRule;
-exports.deleteRule = deleteRule;
