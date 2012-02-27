@@ -25,17 +25,15 @@ var actuatordb = require ('../rules/comp/actuators.js'),
 
 camp.handle('types.html', function (query, path) {
 
+  path[0] = '/types.html';
+
   sensordb.getSensorTypes (function (err, sensorTypes) {
     if (err) throw err;
 
     console.error(JSON.stringify(sensorTypes));
-
     var data = sensorTypes;
-
     camp.server.emit('gottypes', data);
-
   });
-
 }, function gottypes (data) {
   return data;
 });
