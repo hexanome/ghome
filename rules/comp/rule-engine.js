@@ -1,7 +1,8 @@
 var async = require("async"),
     rules = require("./rules.js"),
     sensors = require("./sensors.js"),
-    actuators = require("./actuators.js");
+    actuators = require("./actuators.js"),
+    conditionUtils = require("./condition-utils.js");
 
 function configure(dbClient) {
   rules.configure(dbClient);
@@ -78,7 +79,7 @@ function validateRule(rule, cb) {
     console.log("Starting the validation of " + conditions.length + " conditions.");
 
     // We find the root condition of the condition tree.
-    var rootCondition = findRootCondition(conditions);
+    var rootCondition = conditionUtils.findRootCondition(conditions);
     if (rootCondition == null) {
       cb(null, false);
       return;
@@ -87,7 +88,7 @@ function validateRule(rule, cb) {
     console.log("Found the rootCondition:" + rootCondition.id);
 
     // We build the tree of conditions form this root.
-    buildConditionChilds(conditions, rootCondition);
+    conditionUtils.buildConditionChilds(conditions, rootCondition);
 
     // We validate each condition in the tree, starting with the root.
     validateCondition(rootCondition, function (err2, validated) {
@@ -97,14 +98,6 @@ function validateRule(rule, cb) {
 }
 
 // Utility methods for working on conditions.
-
-function buildConditionChilds(conditions, rootCondition) {
-  rootCondition.childs = findConditionsFromParent(conditions, rootCondition.id);
-
-  for (var i = 0; i < rootCondition.childs.length; i++) {
-    buildConditionChilds(conditions, rootCondition.childs[i]);
-  }
-}
 
 function validateCondition(rootCondition, cb) {
   console.log("Validating condition: " + rootCondition.id);
@@ -178,41 +171,6 @@ function validateCondition(rootCondition, cb) {
       cb(err, !childValidated);
     });
   }
-}
-
-function findConditionFromId(conditions, conditionsId) {
-  for (var i = 0; i < conditions.length; i++) {
-    var condition = conditions[i];
-    if (condition.id == conditionsId) {
-      return condition;
-    }
-  }
-
-  return null;
-}
-
-function findRootCondition(conditions) {
-  for (var i = 0; i < conditions.length; i++) {
-    var condition = conditions[i];
-    if (condition.parentId == "null") {
-      return condition;
-    }
-  }
-
-  return null;
-}
-
-function findConditionsFromParent(conditions, parentId) {
-  var childs = [];
-
-  for (var i = 0; i < conditions.length; i++) {
-    var condition = conditions[i];    
-    if (condition.parentId == parentId) {
-      childs.push(condition);
-    }
-  }
-
-  return childs;
 }
 
 // Export methods.
