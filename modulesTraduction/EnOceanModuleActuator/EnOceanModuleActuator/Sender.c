@@ -41,7 +41,13 @@ SOCKET socketConnexion(void)
     return sock;
 }
 
-
+/**
+ * Lit dans le fichier fifo qui permet de faire la communication avec le serveur
+ * le message de l'action à faire (de la forme "DO 0021CBE5 1")
+ * et envoie la trame correspondante à la station
+ * pipe - le fichier fifo
+ * sock - la socket pour l'envoie des messages
+ */
 void pipeReceiveSocketSend (FILE* pipe, SOCKET sock) {
     char* bufferPipe = malloc(BUFFER_RECEIVE_SIZE);
     char* bufferFrame = malloc(BUFFER_RECEIVE_SIZE);
