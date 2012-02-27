@@ -24,7 +24,7 @@ function startServer(newActuatorCallback) {
 
 function newSensorValue(oemId, sensorPropertyIndex, newValue) {
   // First, we find the corresponding sensor and property.
-  sensors.getSensorFromOem(sensorOemId, function (err, sensor) {
+  sensors.getSensorFromOem(oemId, function (err, sensor) {
     // We now retrieve the properties with the same type as this sensor.
     console.log("SensorName: " + sensor.name);
 
@@ -33,7 +33,7 @@ function newSensorValue(oemId, sensorPropertyIndex, newValue) {
       var currentProperty = null;
       for (var i = 0; i < properties.length; i++) {
         var property = properties[i];
-        if (property.index == propertyIndex) {
+        if (property.index == sensorPropertyIndex) {
           currentProperty = property;
         }
       }
