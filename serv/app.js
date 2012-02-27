@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -8,16 +7,6 @@ var express = require('express'),
     rules = require('../rules/app.js');
 
 var app = module.exports = express.createServer();
-
-
-// DB interface.
-
-var redis = require("redis"),
-    redisClient = redis.createClient(),
-    sensordb = require("../rules/comp/sensors.js");
-
-sensordb.configure(redisClient);
-
 
 
 // Server configuration.
