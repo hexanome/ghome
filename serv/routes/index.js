@@ -47,11 +47,11 @@ sensors.getSensors (function (err, res) {
 
 
 // Get rules
-rules.getRules (function (err, res) {
+rules.getRules (function (err, rools) {
   if (err) throw err;
 
-  for (var i in res) {
-    rules.getConditionsFromRule (res[i].id, function (err, res) {
+  for (var i in rools) {
+    rules.getConditionsFromRule (rools[i].id, function (err, res) {
       if (err) throw err;
 
       var root = rutils.findRootCondition (res);
@@ -71,7 +71,7 @@ rules.getRules (function (err, res) {
         "children": []
       });
 
-      root.name = 'Troll';
+      root.name = rools[i].name;
 
       // BLAME quentez for this
       (function correct(arr) {

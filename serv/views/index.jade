@@ -18,6 +18,8 @@ header
         tr
           td= s.name
           td= s.val
+  #newsensor
+    input(id="+sensor", type="button", value="+")
 .box
   h1 Rules
   ul
@@ -25,3 +27,5 @@ header
       li Rule "#{r.name}" is triggered by:
       ul
         mixin display(r.children)
+    li#newrule
+      input(id="+rule", type="button", value="+")
