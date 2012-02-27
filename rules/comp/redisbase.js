@@ -1,10 +1,15 @@
 var async = require("async"),
-    utils = require("./utils.js"),
-    redisClient;
+    redis = require("redis"),
+    redisClient = redis.createClient(),
+    utils = require("./utils.js");
 
-function configure(dbClient) {
-  redisClient = dbClient;
-}
+// Export methods.
+exports.addItem = addItem;
+exports.deleteItem = deleteItem;
+exports.getSingleItemFromSec = getSingleItemFromSec;
+exports.getSingleItem = getSingleItem;
+exports.getItemsFromSec = getItemsFromSec;
+exports.getAllItems = getAllItems;
 
 function addItem(table, item, cb, foreignKeys, secondaryIndexes) {
   var itemId = utils.newGuid();
@@ -30,9 +35,11 @@ function addItem(table, item, cb, foreignKeys, secondaryIndexes) {
     // We now process the secondary indexes.
     async.forEach(secondaryIndexes, function (secondaryIndex, cb2) {
       // We create a key for the secondary index.
-      multi.set("{0}!{1}!{2}".format(table, secondaryIndex, item[secondaryIndex]), itemId);
+      var dateVar = (new Date()).getTime();
+      multi.sadd("seclist:{0}!{1}!{2}".format(table, secondaryIndex, item[secondaryIndex]), dateVar);
+      multi.set("sec:{0}!{1}!{2}!{3}".format(table, secondaryIndex, item[secondaryIndex], dateVar), itemId);
 
-      item["sec:" + secondaryIndex] = item[secondaryIndex];
+      item["sec:{0}:{1}".format(secondaryIndex, dateVar)] = item[secondaryIndex];
       delete item[secondaryIndex];
 
       cb2(null);
@@ -48,7 +55,7 @@ function addItem(table, item, cb, foreignKeys, secondaryIndexes) {
 
 function deleteItem(table, itemId, cb, cascade, multi) {
   // Optional parameters.
-  cascade = cascade === undefined ? true : cascade;
+  cascade = cascade === undefined ? false : cascade;
 
   var doExec = false;
   if (!multi) {
@@ -105,8 +112,11 @@ function deleteItem(table, itemId, cb, cascade, multi) {
           // We delete secondary indexes.
           async.forEach(secondaryIndexes, function (secondaryIndex, cb2) {
 
-            var keyName = secondaryIndex.split(":")[1];
-            multi.del("{0}!{1}!{2}".format(table, keyName, obj[secondaryIndex]));
+            var secSplit = secondaryIndex.split(":");
+            var keyName = secSplit[1];
+            var dateVar = secSplit[2];
+            multi.srem("seclist:{0}!{1}!{2}".format(table, keyName, obj[secondaryIndex]), dateVar)
+            multi.del("sec:{0}!{1}!{2}!{3}".format(table, keyName, obj[secondaryIndex], dateVar));
 
             cb2(null);
           }, function (err5) {
@@ -129,13 +139,37 @@ function deleteItem(table, itemId, cb, cascade, multi) {
   });
 }
 
+// Secondary indexes
+
 function getSingleItemFromSec(table, indexName, indexValue, cb) {
-  redisClient.get("{0}!{1}!{2}".format(table, indexName, indexValue), function (err, reply) {
-    if (err) {
+  redisClient.sort("seclist:{0}!{1}!{2}".format(table, indexName, indexValue), 
+    "limit", "0", "1",
+    "desc", 
+    "get", "sec:{0}!{1}!{2}!*".format(table, indexName, indexValue),
+  function (err, results) {
+    if (err || results.length == 0) {
       cb(err);
+      return;
     }
 
-    getSingleItem(table, reply, cb);
+    // We then retrieve the item corresponding to this Id.
+    getSingleItem(table, results[0], cb);
+  });
+}
+
+function getItemsFromSec(table, indexName, indexValue, cb) {
+  redisClient.sort("seclist:{0}!{1}!{2}".format(table, indexName, indexValue), 
+    "desc", 
+    "get", "sec:{0}!{1}!{2}!*".format(table, indexName, indexValue),
+  function (err, results) {
+    // We now retrieve the items corresponding to those results.
+    async.map(results, function (itemId, cb2) {
+      getSingleItem(table, itemId, function (err2, item) {
+        cb2(err2, item);
+      });
+    }, function (err2, items) {
+      cb(err2, items);
+    });
   });
 }
 
@@ -195,31 +229,19 @@ function getSingleItem(table, itemId, cb) {
 }
 
 function getAllItems(table, cb) {
-    redisClient.keys(table + ":*", function (err, keys) {
+  redisClient.keys(table + ":*", function (err, keys) {
     if (err) {
       cb(err);
       return;
     }
 
+    // We now retrieve the items corresponding to those results.
     async.map(keys, function (key, cb2) {
-      // To replace with "getSingleItem"
-      redisClient.hgetall(key, function (err2, st) {
-        if (err) {
-          cb2(err);
-          return;
-        }
-
-        cb2(null, st);
+      getSingleItem(table, key, function (err2, item) {
+        cb2(err2, item);
       });
-    }, function(err, sts) {
-      cb(null, sts);
+    }, function (err2, items) {
+      cb(err2, items);
     });
   });
 }
-
-exports.configure = configure;
-exports.addItem = addItem;
-exports.deleteItem = deleteItem;
-exports.getSingleItemFromSec = getSingleItemFromSec;
-exports.getSingleItem = getSingleItem;
-exports.getAllItems = getAllItems;

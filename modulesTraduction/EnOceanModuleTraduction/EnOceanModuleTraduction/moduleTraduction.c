@@ -21,7 +21,7 @@
  telnet localhost 5000
  */
 
-#include "EnOceanModuleTraduction/EnOceanModuleTraduction/Listener.h"
+#include "Listener.h"
 #include "EnOceanModuleTraduction/EnOceanModuleTraduction/Message.h"
 
 void lancerTraducteur (void* args)
