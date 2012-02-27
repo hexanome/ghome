@@ -15,7 +15,7 @@ function processEvent(sensorOemId, propertyIndex, cb) {
     // We now retrieve the properties with the same type as this sensor.
     console.log("SensorName: " + sensor.name);
 
-    sensors.getSensorPropertiesFromType(sensor.sensorTypeId, function (err, properties) {
+    sensors.getSensorPropertiesFromType(sensor.sensorTypeId, function (err2, properties) {
       // We find the first property with index "propertyIndex".
       var currentProperty = null;
       for (var i = 0; i < properties.length; i++) {
@@ -26,7 +26,7 @@ function processEvent(sensorOemId, propertyIndex, cb) {
       }
 
       if (currentProperty == null) {
-        cb("ERROR1");
+        cb("error");
         return;
       }
 
@@ -34,7 +34,7 @@ function processEvent(sensorOemId, propertyIndex, cb) {
       console.log("PropertyName: " + currentProperty.name);
 
       // Now that we have the sensor and the property, we process the rules.
-      processRules(sensor.id, property.id, cb);
+      processRules(sensor.id, currentProperty.id, cb);
     });
   });
 }
