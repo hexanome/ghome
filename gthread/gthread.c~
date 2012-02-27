@@ -98,8 +98,11 @@ int create_ctx(int stack_size,func_t f, void *args)
 void start_current_context()
 {
 	ctx_courant->state=RUNNING;
+	printf("Test1\n");
 	irq_enable();
+	printf("Test2\n");
 	ctx_courant->function(ctx_courant->args);
+	printf("Test3\n");
 }
 
 /*

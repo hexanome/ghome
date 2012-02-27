@@ -143,7 +143,9 @@ void yield()
 		start_current_context();
 	}
 	ctx_courant->state = RUNNING;
+	printf("Test fin ctx\n");
 	irq_enable();
+	printf("Test fin ctx2\n");
 	return;
 }
 

@@ -34,10 +34,10 @@ void lancerTraducteur (void* args)
 	char* buffer = malloc(FRAME_SIZE_ENOCEAN);
     FILE *pipe;  
     // open a named pipe
+
     pipe = fopen("../../../from-sensor", "a");
 
 	SOCKET sock = socketConnexion();
-    
     while (sock != SOCKET_ERROR)
     {
 	socketFrameReception(sock,buffer);
@@ -48,7 +48,6 @@ void lancerTraducteur (void* args)
 	
     }
     free(buffer);
-
 /*
     char * testBuffer= "A55A0B0570000000001F607330A2";
     //Transformation de la trame de char en int
@@ -70,6 +69,7 @@ void lancerTraducteur (void* args)
     printf("data2 %d\n",lemessage.value2);
     printf("data3 %d\n",lemessage.value3);
     printf("succes");*/
+	printf("test\n");
     return 0;
 }
 
