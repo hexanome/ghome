@@ -37,11 +37,12 @@
 
 int lancerTraducteur (int argc, const char * argv[])
 {
-//TODO: not implemented
-return 0;
+    //TODO: not implemented
+    return 0;
 }
 int main(void)
-{
+{  
+    
 	char* buffer = malloc(FRAME_SIZE_ENOCEAN);
     FILE *pipe;    
     // open a named pipe
@@ -51,7 +52,7 @@ int main(void)
     while (sock != SOCKET_ERROR)
     {
         socketFrameReception(sock,buffer);
-        printf("%s",buffer);
+        //printf("%s",buffer);
         tcpFrameType myFrame = tcpFrameCreation(buffer);
         enOceanMessage myMessage = enOceanMessageCreation(myFrame);
         sendSensorStateByPipe(myMessage, pipe);
