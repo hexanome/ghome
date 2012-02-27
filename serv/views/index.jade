@@ -1,6 +1,6 @@
 mixin display(rules)
-  - each r in rules
-    li= r.name
+  each r in rules
+    li Condition "#{r.name}"
     ul
       mixin display(r.children)
 
@@ -14,11 +14,14 @@ header
         th Sensor
         th Value
     tbody
-      - each s in sensors
+      each s in sensors
         tr
           td= s.name
           td= s.val
 .box
   h1 Rules
   ul
-    mixin display(rules)
+    each r in rules
+      li Rule "#{r.name}" is triggered by:
+      ul
+        mixin display(r.children)
