@@ -22,9 +22,9 @@ var actuatordb = require ('../rules/comp/actuators.js'),
     sensordb = require ('../rules/comp/sensors.js');
 
 
-camp.handle('types.html', function (query, path) {
+camp.handle('/sensor-types', function (query, path) {
 
-  path[0] = '/types.html';
+  path[0] = '/layout.html';
 
   sensordb.getSensorTypes (function (err, sensortypes) {
     if (err) throw err;
