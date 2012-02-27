@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -50,49 +50,37 @@
             <ul class="nav nav-list">
 
               <li class="nav-header">Sensors</li>
-              <li class="active"><a href="sensor-types"><i class="icon-tag icon-white"></i>
-              Types</a></li>
-              <li><a href="sensors"><i class="icon-eye-open"></i></i>
-              Sensors</a></li>
+              <li class="active"><a href="#">Types</a></li>
+              <li><a href="#">Sensors</a></li>
 
               <li class="nav-header">Actuators</li>
-              <li><a href="actuator-types"><i class="icon-tag"></i>
-              Types</a></li>
-              <li><a href="actuators"><i class="icon-cog"></i>
-              Actuators</a></li>
+              <li><a href="#">Types</a></li>
+              <li><a href="#">Actuators</a></li>
 
               <li class="nav-header">Rules</li>
-              <li><a href="rules"><i class="icon-retweet"></i>
-              All rules</a></li>
+              <li><a href="#">All rules</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
 
         <div class="span9">
-          <h1>Type List</h1>
-            
-            <div style="padding-top: 20px; padding-bottom: 20px;">
-              <a class="btn" data-toggle="modal" href="#newTypeModal">New Sensor Type</a>
-            </div>
+          <h1>Edit type</h1>
 
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>Type Name</th>
-                  <th style="width: 20%; text-align: center;">View Properties</th>
-                  <th style="width: 20%; text-align: center;">Edit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{-sensortypes|sensortype|i;
-                <tr>
-                  <td>{{=sensortype.name}}</td>
-                  <td style="width: 20%; text-align: center;"><a href="#">Properties</a></td>
-                  <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
-                </tr>
-                }}
-              </tbody>
-            </table>
+          <form class="form-horizontal" style="padding-top: 20px;">
+            <fieldset>
+              <div class="control-group">
+                <label class="control-label" for="input01">Name</label>
+                <div class="controls">
+                  <input type="text" class="input-xlarge" id="input01">
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button class="btn">Cancel</button>
+              </div>
+            </fieldset>
+          </form>
 
         </div><!--/span-->
       </div><!--/row-->
@@ -104,36 +92,11 @@
       </footer>
 
     </div><!--/.fluid-container-->
-
-    <div class="modal hide fade" id="newTypeModal">
-      <div class="modal-header">
-        <a class="close" data-dismiss="modal">×</a>
-        <h3>New type</h3>
-      </div>
-      <div class="modal-body">
-        <form class="form-horizontal" style="margin-bottom: -14px;">
-          <fieldset>
-            <div class="control-group">
-              <label class="control-label" for="input01">Name</label>
-              <div class="controls">
-                <input type="text" class="input-xlarge" id="input01">
-              </div>
-            </div>
-          </fieldset>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <a href="#" class="btn btn-primary">Save changes</a>
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-      </div>
-    </div>
     
     <!-- Le javascript
     ================================================== -->
 
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/scout.js"></script>
-
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap-transition.js"></script>
     <script src="js/bootstrap-alert.js"></script>
@@ -149,8 +112,6 @@
 
     <script src="js/bootstrap-carousel.js"></script>
     <script src="js/bootstrap-typeahead.js"></script>
-
-    <script src="js/superScript.js"></script>
 
   </body>
 </html>
