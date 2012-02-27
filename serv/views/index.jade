@@ -1,11 +1,23 @@
 header
   h1 GHome
-div(class="box")
-  h1 Status
-  p soup guys
-  p coolness
-div(class="box")
-  h1 Controls
-  p soup guys
-  p coolness
-
+.box
+  h1 Sensors
+  table
+    thead
+      tr
+        th Sensor
+        th Value
+    tbody
+      - var items = [{id:'s1',val:'42°C'}, {id:'s2',val:'closed'}]
+      - each item in items
+        tr
+          td= item.id
+          td= item.val
+.box
+  h1 Rules
+  ul
+    li rule1
+    ul
+      li rule2
+      ul
+        li rule3

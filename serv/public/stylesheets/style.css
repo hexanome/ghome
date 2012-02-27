@@ -14,6 +14,8 @@ header {
   background-image:      -o-linear-gradient(top, #00ADEE, #0078A5);
   box-shadow: 0 1px 0 rgba(255,255,255,0.4),0 0 10px rgba(0,0,0,0.1);
 }
-h1 {margin: 0px; padding: 0px; text-align: right;}
+h1 {margin: 0px; padding: 0px; padding-bottom: 5px;}
+header h1 {text-shadow: black 0.1em 0.1em 0.2em; text-align: right;}
 div.box {display: table-cell; padding: 20px;}
+table {border-spacing: 5px;}
 
