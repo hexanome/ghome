@@ -237,7 +237,7 @@ function getAllItems(table, cb) {
 
     // We now retrieve the items corresponding to those results.
     async.map(keys, function (key, cb2) {
-      getSingleItem(table, key, function (err2, item) {
+      getSingleItem(table, key.split(":")[1], function (err2, item) {
         cb2(err2, item);
       });
     }, function (err2, items) {
