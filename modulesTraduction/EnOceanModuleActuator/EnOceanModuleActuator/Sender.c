@@ -14,30 +14,24 @@
  */
 SOCKET socketConnexionActuator(void)
 {
-    
-    int erreur = 0;
-    
     SOCKET sock;
     SOCKADDR_IN sin;
     
-    if(!erreur)
-    {
-        /* Création de la socket */
-        sock = socket(AF_INET, SOCK_STREAM, 0);
-        
-        /* Configuration de la connexion */
-        sin.sin_addr.s_addr = inet_addr(ADRESSE);
-        sin.sin_family = AF_INET;
-        sin.sin_port = htons(PORT);
-        
-        /* Si le client arrive à se connecter */
-        if(connect(sock, (SOCKADDR*)&sin, sizeof(sin)) != SOCKET_ERROR)
-            printf("Connexion à %s sur le port %d\n", inet_ntoa(sin.sin_addr), htons(sin.sin_port));
-        else
-            printf("Impossible de se connecter\n");
-    }
-    
-    return sock;
+	/* Création de la socket */
+	sock = socket(AF_INET, SOCK_STREAM, 0);
+	
+	/* Configuration de la connexion */
+	sin.sin_addr.s_addr = inet_addr(ADRESSE);
+	sin.sin_family = AF_INET;
+	sin.sin_port = htons(PORT);
+	
+	/* Si le client arrive à se connecter */
+	if(connect(sock, (SOCKADDR*)&sin, sizeof(sin)) != SOCKET_ERROR){
+		printf("Connexion à %s sur le port %d\n", inet_ntoa(sin.sin_addr), htons(sin.sin_port));
+		return sock;}
+	else{
+		printf("Impossible de se connecter\n");
+    		return -1;}
 }
 
 /**
