@@ -1,0 +1,3 @@
+spawner.o: spawner.c ../gthread/gthread.h ../gmem/gmem.h \
+ EnOceanModuleTraduction/EnOceanModuleTraduction/moduleTraduction.h \
+ EnOceanModuleActuator/EnOceanModuleActuator/moduleActionneur.h

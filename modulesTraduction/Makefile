@@ -8,7 +8,7 @@ LIBFILE=$(ROOTDIR)/lib/lib$(LIBNAME).a $(THREADDIR)/gthread.a $(MEMDIR)/gmem.a
 CC = gcc
 AR = ar
 RANLIB = ranlib
-CFLAGS = -Wall -pedantic -m32 -g -m32
+CFLAGS = -Wall -m32 -g -m32
 LIBDIR  = $(ROOTDIR)/lib
 INCDIR  = -I$(ROOTDIR)/include -I$(THREADDIR) -I$(MEMDIR)
 LIBS    = -L$(LIBDIR) -l$(LIBNAME) -L$(THREADDIR) -L$(MEMDIR)
@@ -34,7 +34,7 @@ Makefile.depends:
 
 include Makefile.depends
 
-spawner: spawner.o EnOceanModuleTraduction/EnOceanModuleTraduction/moduleTraduction.o EnOceanModuleActuator/EnOceanModuleActuator/moduleActionneur.o $(LIBFILE)
+spawner: spawner.o moduleTraduction.o moduleActionneur.o $(LIBFILE)
 
 
 ###------------------------------

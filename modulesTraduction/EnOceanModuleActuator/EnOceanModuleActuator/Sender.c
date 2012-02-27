@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 #include "Sender.h"
-//#include "EnOceanModuleActuator/EnOceanModuleActuator/Sender.h"
 
 /**
  * Crée une socket sur l'adresse ADRESSE et le port PORT défini dans Sender.h
@@ -45,20 +44,25 @@ SOCKET socketConnexion(void)
 void pipeReceiveSocketSend (FILE* pipe, SOCKET sock) {
     char* bufferPipe = malloc(BUFFER_RECEIVE_SIZE);
     char* bufferFrame = malloc(BUFFER_RECEIVE_SIZE);
-    
+    char* result;
     //buffer = "DO FF9F1E03 1";
     idValue envoi;
     
-    while (getline(&bufferPipe, BUFFER_RECEIVE_SIZE, pipe)) {
-        
-        envoi = parseBuffer(bufferPipe); ;
-        convertToFrame(envoi, bufferFrame);
-        if(send(sock, bufferFrame, strlen(bufferFrame), 0) < 0)
-        {
-            printf("Erreur d'envoi de la trame d'actionneur");
-        }  
-        
-        
+    //while (getline(&bufferPipe, BUFFER_RECEIVE_SIZE, pipe)) {
+//while (fscanf(pipe,"%s",&bufferPipe)) {
+//fscanf(pipe,"%d",value0);
+//fscanf(pipe,"%d",value1);
+     while (1) {   
+        result = fgets(&bufferPipe, BUFFER_RECEIVE_SIZE, pipe)
+	if(result!=NULL)
+	{
+		envoi = parseBuffer(bufferPipe); ;
+		convertToFrame(envoi, bufferFrame);
+		if(send(sock, bufferFrame, strlen(bufferFrame), 0) < 0)
+		{
+		    printf("Erreur d'envoi de la trame d'actionneur");
+		}  
+	}
     }
     free(bufferPipe);
     free(bufferFrame);

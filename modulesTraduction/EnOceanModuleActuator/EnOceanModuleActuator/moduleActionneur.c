@@ -7,17 +7,30 @@
 //
 
 #include <stdio.h>
-#include "EnOceanModuleActuator/EnOceanModuleActuator/Sender.h"
-#include "EnOceanModuleActuator/EnOceanModuleActuator/Listener.h"
+#include "Sender.h"
+#include "Listener.h"
 
-void lancerActionneur (void* args){
-    printf("Bonjour\n");
+void lancerActionneur (void* args)
+{
+ /*   printf("Bonjour\n");
     char* buffer = malloc(BUFFER_RECEIVE_SIZE);
-    //tcpFrameWithServerMessageWithBuffer("DO ABCDE 1");
-    idValue temp = parseBuffer("DO ABCDE 1");
-    printf("%s\n",temp.ID);
-    printf("%c\n",temp.value);
+    //idValue temp = idValueWithServerMessage();
+    idValue temp = idValueWithServerMessage();
+    convertToFrame(temp, buffer);     
+        if(send(sock, buffer, strlen(buffer), 0) < 0)
+    {
+        printf("Erreur d'envoi de la trame d'actionneur");
+    }    
     free(buffer);
+    return 0;*/
+    
+    FILE *pipe;    
+    // open a named pipe
+    pipe = fopen("/ghome/to-actuator", O_RDONLY);
+    SOCKET sock = socketConnexion();
+    
+    pipeReceiveSocketSend(pipe, sock);
+    
+    fclose(pipe);
+    close(sock);    
 }
-
-

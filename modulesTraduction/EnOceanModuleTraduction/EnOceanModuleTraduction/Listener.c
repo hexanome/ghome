@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 #include "Listener.h"
-//#include "EnOceanModuleTraduction/EnOceanModuleTraduction/Listener.h"
 
 
 /**
@@ -17,9 +16,13 @@
 SOCKET socketConnexion(void)
 {
     
+    int erreur = 0;
+    
     SOCKET sock;
     SOCKADDR_IN sin;
-
+    
+    if(!erreur)
+    {
         /* Création de la socket */
         sock = socket(AF_INET, SOCK_STREAM, 0);
         
@@ -29,14 +32,13 @@ SOCKET socketConnexion(void)
         sin.sin_port = htons(PORT);
         
         /* Si le client arrive à se connecter */
-        if(connect(sock, (SOCKADDR*)&sin, sizeof(sin)) != SOCKET_ERROR){
+        if(connect(sock, (SOCKADDR*)&sin, sizeof(sin)) != SOCKET_ERROR)
             printf("Connexion à %s sur le port %d\n", inet_ntoa(sin.sin_addr), htons(sin.sin_port));
-            return sock;
-        }
-        else{
+        else
             printf("Impossible de se connecter\n");
-            return SOCKET_ERROR;
-        }
+    }
+    
+    return sock;
 }
 
 /**

@@ -22,8 +22,8 @@
  */
 
 
-#include "Listener.h"
-#include "Message.h"
+#include "EnOceanModuleActuator/EnOceanModuleTraduction/Listener.h"
+#include "EnOceanModuleActuator/EnOceanModuleTraduction/Message.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,8 +33,6 @@
 #include <errno.h>
 #include "string.h"
 
-
-
 int lancerTraducteur (int argc, const char * argv[])
 {
 //TODO: not implemented
@@ -42,45 +40,24 @@ return 0;
 }
 int main(void)
 {
-
-int ret;
-    pid_t pid;
-    char* value=malloc(sizeof(char)*80);	
-pid=fork();
-    if(pid == 0){
 	char* buffer = malloc(FRAME_SIZE_ENOCEAN);
-	    FILE *pipe;  
-	    // open a named pipe
-	    pipe = fopen("../../../from-sensor", "w");
+    FILE *pipe;  
+    // open a named pipe
+    pipe = fopen("../../../from-sensor", "a");
 
-		SOCKET sock = socketConnexion();
-	    
-	    while (sock != SOCKET_ERROR)
-	    {
-		socketFrameReception(sock,buffer);
-		printf("%s",buffer);
-		tcpFrameType myFrame = tcpFrameCreation(buffer);
-		enOceanMessage myMessage = enOceanMessageCreation(myFrame);
-		sendSensorStateByPipe(myMessage, pipe);
-		
-	    }
-	    free(buffer);
-exit(0);
-}
-else
-{
-	FILE *pfp; 
-      pfp = fopen("../../../from-sensor","r");
-      if(pfp == NULL) 
-	printf("Erreur");
-      ret=fscanf(pfp,"%s",&value);
-      if(ret < 0) 
-	printf("Erreur");
-      fclose(pfp);
-      printf("This is the parent. Received value %s from child on fifo \n", value);
-      unlink("../../../from-sensor"); 
-      exit(0);
-}
+	SOCKET sock = socketConnexion();
+    
+    while (sock != SOCKET_ERROR)
+    {
+	socketFrameReception(sock,buffer);
+	printf("%s",buffer);
+	tcpFrameType myFrame = tcpFrameCreation(buffer);
+	enOceanMessage myMessage = enOceanMessageCreation(myFrame);
+	sendSensorStateByPipe(myMessage, pipe);
+	
+    }
+    free(buffer);
+
 /*
     char * testBuffer= "A55A0B0570000000001F607330A2";
     //Transformation de la trame de char en int
