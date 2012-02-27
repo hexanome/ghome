@@ -98,8 +98,11 @@ int create_ctx(int stack_size,func_t f, void *args)
 void start_current_context()
 {
 	ctx_courant->state=RUNNING;
+	printf("Test1\n");
 	irq_enable();
+	printf("Test2\n");
 	ctx_courant->function(ctx_courant->args);
+	printf("Test3\n");
 }
 
 /*
@@ -131,10 +134,12 @@ void yield()
 			: "r"(ctx_courant->ebp),"r"(ctx_courant->esp)  
 			: "%esp","%ebp"); 
 	
+	printf("Fin de changement de context\n");
 	/*Si le contexte est restauré pour la premiere  fois
 	 *On appelle directement la fonction */
 	if(ctx_courant->state == READY)
 	{
+		printf("Premiere appel\n");
 		start_current_context();
 	}
 	ctx_courant->state = RUNNING;
