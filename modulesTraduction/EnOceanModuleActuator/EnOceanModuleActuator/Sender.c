@@ -42,27 +42,30 @@ SOCKET socketConnexion(void)
 }
 
 
-/**
- * Permet de créer une trame à partir de l'ID et la valeur de l'actionneur
- * idValue - la structure de données contenant l'ID et la valeur de l'actionneur
- * buffer - la chaîne de caractères représentant la trame ainsi créée
- */
-void convertToFrame(idValue idValue, char* buffer)
-{
-    strcat(buffer, "A55A6B05");
-    if (idValue.value == 1)
-    {
-        strcat(buffer, "50000000");
+void pipeReceiveSocketSend (FILE* pipe, SOCKET sock) {
+    char* bufferPipe = malloc(BUFFER_RECEIVE_SIZE);
+    char* bufferFrame = malloc(BUFFER_RECEIVE_SIZE);
+    
+    //buffer = "DO FF9F1E03 1";
+    idValue envoi;
+    
+    while (getline(&bufferPipe, BUFFER_RECEIVE_SIZE, pipe)) {
         
-    }else if (idValue.value == 0)
-    {
-        strcat(buffer, "57000000");
+        envoi = parseBuffer(bufferPipe); ;
+        convertToFrame(envoi, bufferFrame);
+        if(send(sock, bufferFrame, strlen(bufferFrame), 0) < 0)
+        {
+            printf("Erreur d'envoi de la trame d'actionneur");
+        }  
+        
+        
     }
-    strcat(buffer, idValue.ID);
-    strcat(buffer, "3000\0");
-   // printf("%s",buffer);
-
+    free(bufferPipe);
+    free(bufferFrame);
+    return;
+    
 }
+
 
 
 

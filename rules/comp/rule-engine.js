@@ -2,13 +2,12 @@ var async = require("async"),
     rules = require("./rules.js"),
     sensors = require("./sensors.js"),
     actuators = require("./actuators.js"),
-    conditionUtils = require("./condition-utils.js");
+    conditionUtils = require("./condition-utils.js"),
+    actionUtils = require("./action-utils.js");
 
-function configure(dbClient) {
-  rules.configure(dbClient);
-  sensors.configure(dbClient);
-  actuators.configure(dbClient);
-}
+// Export methods.
+exports.processEvent = processEvent;
+exports.processRules = processRules;
 
 function processEvent(sensorOemId, propertyIndex, cb) {
   // First, we find the corresponding sensor.
@@ -66,6 +65,9 @@ function processRules(sensorId, propertyId, cb) {
           });
         });
       }, function (err5) {
+        // We remove duplicate actions that would act on the same actuator/actuatorProperty pair.
+        allActions = actionUtils.removeActionDuplicates(allActions);
+
         // We now return the full list of actions that we must run.
         cb(err5, allActions);
       });
@@ -172,8 +174,3 @@ function validateCondition(rootCondition, cb) {
     });
   }
 }
-
-// Export methods.
-exports.configure = configure;
-exports.processEvent = processEvent;
-exports.processRules = processRules;

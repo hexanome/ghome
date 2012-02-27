@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 INSA Lyon. All rights reserved.
 //
 
-#include <stdio.h>
 #include "Listener.h"
 //#include "EnOceanModuleActuator/EnOceanModuleActuator/Listener.h"
 
@@ -43,24 +42,32 @@ idValue parseBuffer(char* buffer){
 }
 
 /**
- *Récupère le message du serveur et le parse
- *return - la structure de donnée contenant l'ID et la valeur de l'actionneur
+ * Permet de créer une trame à partir de l'ID et la valeur de l'actionneur
+ * idValue - la structure de données contenant l'ID et la valeur de l'actionneur
+ * buffer - la chaîne de caractères représentant la trame ainsi créée
  */
-idValue idValueWithServerMessage(){
-    char* buffer = malloc(BUFFER_RECEIVE_SIZE);
-    buffer = "DO FF9F1E03 1";
-    //while (fgets(buffer,BUFFER_RECEIVE_SIZE,stdin)) {
-    idValue value = parseBuffer(buffer);
-        /*int i = 0;
-        for (i = 0;i < 8 ; i++) {
-            value.ID[i] = buffer[i+3];
-        }
-        value.value = buffer[12];*/
+void convertToFrame(idValue idValue, char* buffer)
+{
+    strcat(buffer, "A55A6B05");
+    if (idValue.value == 1)
+    {
+        strcat(buffer, "50000000");
         
-        return value;
-    free(buffer);
-    //}
-    
+    }else if (idValue.value == 0)
+    {
+        strcat(buffer, "57000000");
+    }
+    strcat(buffer, idValue.ID);
+    strcat(buffer, "3000\0");
+    printf("%s",buffer);
     
 }
+
+
+
+
+
+
+
+
 

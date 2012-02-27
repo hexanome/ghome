@@ -1,10 +1,15 @@
 var async = require("async"),
-    utils = require("./utils.js"),
-    redisClient;
+    redis = require("redis"),
+    redisClient = redis.createClient(),
+    utils = require("./utils.js");
 
-function configure(dbClient) {
-  redisClient = dbClient;
-}
+// Export methods.
+exports.addItem = addItem;
+exports.deleteItem = deleteItem;
+exports.getSingleItemFromSec = getSingleItemFromSec;
+exports.getSingleItem = getSingleItem;
+exports.getItemsFromSec = getItemsFromSec;
+exports.getAllItems = getAllItems;
 
 function addItem(table, item, cb, foreignKeys, secondaryIndexes) {
   var itemId = utils.newGuid();
@@ -164,7 +169,7 @@ function getItemsFromSec(table, indexName, indexValue, cb) {
       });
     }, function (err2, items) {
       cb(err2, items);
-    })
+    });
   });
 }
 
@@ -230,26 +235,13 @@ function getAllItems(table, cb) {
       return;
     }
 
+    // We now retrieve the items corresponding to those results.
     async.map(keys, function (key, cb2) {
-      // To replace with "getSingleItem"
-      redisClient.hgetall(key, function (err2, st) {
-        if (err2) {
-          cb2(err2);
-          return;
-        }
-
-        cb2(null, st);
+      getSingleItem(table, key, function (err2, item) {
+        cb2(err2, item);
       });
-    }, function(err, sts) {
-      cb(null, sts);
+    }, function (err2, items) {
+      cb(err2, items);
     });
   });
 }
-
-exports.configure = configure;
-exports.addItem = addItem;
-exports.deleteItem = deleteItem;
-exports.getSingleItemFromSec = getSingleItemFromSec;
-exports.getSingleItem = getSingleItem;
-exports.getItemsFromSec = getItemsFromSec;
-exports.getAllItems = getAllItems;

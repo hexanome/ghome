@@ -24,6 +24,17 @@
 
 #include "Listener.h"
 #include "Message.h"
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+#include "string.h"
+
+
+
 int lancerTraducteur (int argc, const char * argv[])
 {
 //TODO: not implemented
@@ -32,6 +43,9 @@ return 0;
 int main(void)
 {
 	char* buffer = malloc(FRAME_SIZE_ENOCEAN);
+    FILE *pipe;    
+    // open a named pipe
+    pipe = fopen("../../../from-sensor", "a");
 	SOCKET sock = socketConnexion();
     
     while (sock != SOCKET_ERROR)
@@ -40,10 +54,12 @@ int main(void)
         printf("%s",buffer);
         tcpFrameType myFrame = tcpFrameCreation(buffer);
         enOceanMessage myMessage = enOceanMessageCreation(myFrame);
-        sendSensorStateByPipe(myMessage);
+        sendSensorStateByPipe(myMessage, pipe);
         
     }
     free(buffer);
+    
+    fclose(pipe);
 
 /*
     char * testBuffer= "A55A0B0570000000001F607330A2";

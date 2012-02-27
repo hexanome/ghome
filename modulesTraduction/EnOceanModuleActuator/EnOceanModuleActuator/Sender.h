@@ -37,14 +37,7 @@ typedef struct sockaddr SOCKADDR;
  */
 SOCKET socketConnexion(void);
 
-int socketFrameSend(SOCKET aSocket, char* buffer);
-
-/**
- * Permet de créer une trame à partir de l'ID et la valeur de l'actionneur
- * idValue - la structure de données contenant l'ID et la valeur de l'actionneur
- * buffer - la chaîne de caractères représentant la trame ainsi créée
- */
-void convertToFrame(idValue idValue, char* buffer);
+void pipeReceiveSocketSend (FILE* pipe, SOCKET sock);
 
 
 

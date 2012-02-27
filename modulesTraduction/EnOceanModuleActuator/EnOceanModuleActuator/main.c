@@ -18,18 +18,27 @@ return 0;
 
 int main (int argc, const char * argv[])
 {
-    printf("Bonjour\n");
+ /*   printf("Bonjour\n");
     char* buffer = malloc(BUFFER_RECEIVE_SIZE);
     //idValue temp = idValueWithServerMessage();
     idValue temp = idValueWithServerMessage();
     convertToFrame(temp, buffer);     
-    SOCKET sock = socketConnexion();
-    if(send(sock, buffer, strlen(buffer), 0) < 0)
+        if(send(sock, buffer, strlen(buffer), 0) < 0)
     {
         printf("Erreur d'envoi de la trame d'actionneur");
     }    
     free(buffer);
-    return 0;
+    return 0;*/
+    
+    FILE *pipe;    
+    // open a named pipe
+    pipe = fopen("/ghome/to-actuator", O_RDONLY);
+    SOCKET sock = socketConnexion();
+    
+    pipeReceiveSocketSend(pipe, sock);
+    
+    fclose(pipe);
+    close(sock);    
     
 }
     
