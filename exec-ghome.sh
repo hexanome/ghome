@@ -20,5 +20,4 @@ kill $REDIS_ID
 kill $SPAWNER_ID
 kill $WEB_ID
 
-node serv/app.js
 

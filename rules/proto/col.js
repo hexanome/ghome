@@ -10,4 +10,10 @@ function read(data) {
   return d;
 }
 
+// Returns a buffer to write.
+function write(actuatorID, value) {
+  return new Buffer("DO " + actuatorID + " " + value + "\n");
+}
+
 exports.read = read;
+exports.write = write;

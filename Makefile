@@ -9,4 +9,7 @@ spawner:
 clean:
 	rm *.log
 
-.PHONY: spawner clean
+cleandb:
+	rm *.rdb
+
+.PHONY: spawner clean cleandb
