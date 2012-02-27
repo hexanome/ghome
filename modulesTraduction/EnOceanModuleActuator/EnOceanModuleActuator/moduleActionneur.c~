@@ -23,14 +23,15 @@ void lancerActionneur (void* args)
     }    
     free(buffer);
     return 0;*/
-    
     FILE *pipe;    
     // open a named pipe
-    pipe = fopen("/ghome/to-actuator", O_RDONLY);
+    pipe = fopen("../../../to-actuator", "r");
     SOCKET sock = socketConnexionActuator();
-    
+    printf("testZZ\n");
     pipeReceiveSocketSend(pipe, sock);
-    
+    printf("test");
     fclose(pipe);
-    close(sock);    
+printf("test");
+    close(sock);
+printf("test");    
 }
