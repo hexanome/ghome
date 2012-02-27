@@ -16,16 +16,14 @@
 SOCKET socketConnexion(void)
 {
     
-    int erreur = 0;
-    
     SOCKET sock;
     SOCKADDR_IN sin;
     
-    if(!erreur)
-    {
         /* Création de la socket */
         sock = socket(AF_INET, SOCK_STREAM, 0);
-        
+	if(sock==SOCKET_ERROR)
+		return sock;        
+
         /* Configuration de la connexion */
         sin.sin_addr.s_addr = inet_addr(ADRESSE);
         sin.sin_family = AF_INET;
@@ -33,12 +31,12 @@ SOCKET socketConnexion(void)
         
         /* Si le client arrive à se connecter */
         if(connect(sock, (SOCKADDR*)&sin, sizeof(sin)) != SOCKET_ERROR)
-            printf("Connexion à %s sur le port %d\n", inet_ntoa(sin.sin_addr), htons(sin.sin_port));
+            {printf("Connexion à %s sur le port %d\n", inet_ntoa(sin.sin_addr), htons(sin.sin_port));
+	    return sock;}
         else
-            printf("Impossible de se connecter\n");
-    }
+            {printf("Impossible de se connecter\n");
+	    return SOCKET_ERROR;} 
     
-    return sock;
 }
 
 /**

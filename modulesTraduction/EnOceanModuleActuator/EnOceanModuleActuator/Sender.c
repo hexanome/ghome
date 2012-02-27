@@ -53,8 +53,9 @@ void pipeReceiveSocketSend (FILE* pipe, SOCKET sock) {
 //fscanf(pipe,"%d",value0);
 //fscanf(pipe,"%d",value1);
      while (1) {   
-        result = fgets(bufferPipe, BUFFER_RECEIVE_SIZE, pipe);
-	if(result!=NULL)
+        //result = fgets(bufferPipe, BUFFER_RECEIVE_SIZE, pipe);
+	//printf("boucle\n");
+	/*if(result!=NULL)
 	{
 		envoi = parseBuffer(bufferPipe); ;
 		convertToFrame(envoi, bufferFrame);
@@ -62,7 +63,7 @@ void pipeReceiveSocketSend (FILE* pipe, SOCKET sock) {
 		{
 		    printf("Erreur d'envoi de la trame d'actionneur");
 		}  
-	}
+	}*/
     }
     free(bufferPipe);
     free(bufferFrame);
