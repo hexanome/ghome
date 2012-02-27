@@ -71,6 +71,16 @@ sensors.addSensorType({ "name" : "Type1" }, function (err, typeId) {
                 } else {
                   console.dir(actions[0]);
                 }
+
+                // Deletion tests.
+                sensors.deleteSensorType(typeId);
+                sensors.deleteSensor(sensorId);
+                sensors.deleteSensorProperty(sensorPropertyId);
+                sensors.deleteSensorPropertyValue(sensorPropertyValueId);
+
+                rules.deleteRule(ruleId);
+                rules.deleteCondition(conditionId);
+                rules.deleteAction(actionId);
               });
             });
           });

@@ -126,12 +126,15 @@ function deleteItem(table, itemId, cb, cascade, multi) {
 
             if (doExec) {
               multi.exec(function (err, replies) {
-                cb(err);
+                if (cb) {
+                  cb(err);
+                }
               });
             } else {
-              cb(err);
+              if (cb) {
+                cb(err);
+              }
             }
-
           });
         });
       });

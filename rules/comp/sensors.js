@@ -33,7 +33,7 @@ exports.getSensorPropertyValue = getSensorPropertyValue;
 exports.getSensorPropertyValueFromSensorAndProperty = getSensorPropertyValueFromSensorAndProperty;
 exports.getSensorPropertyValues = getSensorPropertyValues;
 exports.addSensorPropertyValue = addSensorPropertyValue;
-exports.deletePropertyValue = deleteSensorPropertyValue;
+exports.deleteSensorPropertyValue = deleteSensorPropertyValue;
 
 // SensorTypes
 

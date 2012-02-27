@@ -1,51 +1,38 @@
-# $Id: Makefile 95 2009-10-06 12:55:04Z simon_duquennoy $
-#------------------------------------------------------------
+
 
 CC = gcc
 AR = ar
 RANLIB = ranlib
 CFLAGS = -Wall -pedantic -m32 -g -m32
 
-OBJECTS = moduleActionneur.o
+###------------------------------
+### Main targets 
+###------------------------------------------------------------
+BINARIES=main
 
-HARDWARELIB = moduleActionneur.a
-
-all: $(HARDWARELIB)
+all: $(BINARIES)
 
 ###------------------------------
-### Bibliotheque
+### Main rules 
 ###------------------------------------------------------------
 %.o: %.c
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -c $< $(INCDIR)
 
 %: %.o
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
-$(HARDWARELIB): $(OBJECTS)
-	$(AR) cr $(HARDWARELIB) $(OBJECTS)
-	$(RANLIB) $(HARDWARELIB)
-
-###------------------------------
-### Inclusions
-###------------------------------------------------------------
 Makefile.depends:
 	$(CC) -MM *.c $(INCDIR) > Makefile.depends
 
-
 include Makefile.depends
 
-###------------------------------
-### Tools
-###------------------------------------------------------------
-.PHONY: clean realclean 
-clean:
-	rm -f $(HARDWARELIB)
-	rm -f *.o
-	rm -f Makefile.depends
+main: Listener.o Sender.o 
+
 
 ###------------------------------
-### Install
+### Misc.
 ###------------------------------------------------------------
-.PHONY: install
-install: 
-	install -m 644 $(HARDWARELIB) 
+.PHONY: clean
+clean:
+	$(RM) *.o $(BINARIES) Makefile.depends
+
