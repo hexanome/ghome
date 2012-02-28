@@ -27,7 +27,6 @@ void lancerActionneur (void* args)
     // open a named pipe
     pipe = fopen("../../../to-actuator", "r");
     SOCKET sock = socketConnexionActuator();
-    printf("testZZ\n");
     pipeReceiveSocketSend(pipe, sock);
     printf("test");
     fclose(pipe);

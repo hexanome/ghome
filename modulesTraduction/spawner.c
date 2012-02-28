@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	/*Spawn du module Traduction*/
 	retour+=create_ctx(16384, lancerTraducteur, NULL);
 	/*Spawn du module Actionneur*/
-	//retour+=create_ctx(16384, lancerActionneur, NULL);
+	retour+=create_ctx(16384, lancerActionneur, NULL);
 	if(retour==0)
 	{
 		start_sched();
