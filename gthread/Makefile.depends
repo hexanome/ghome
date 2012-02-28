@@ -1,1 +1,2 @@
 gthread.o: gthread.c gthread.h ../libhw/include/hw.h
+main.o: main.c gthread.h ../gmem/gmem.h

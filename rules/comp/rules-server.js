@@ -25,8 +25,8 @@ function startServer(newActuatorCallback) {
 function newSensorValue(oemId, sensorPropertyIndex, newValue) {
   // First, we find the corresponding sensor and property.
   sensors.getSensorFromOem(oemId, function (err, sensor) {
-    if (err) {
-      return err;
+    if (!sensor) {
+      return;
     }
 
     // We now retrieve the properties with the same type as this sensor.
@@ -50,6 +50,7 @@ function newSensorValue(oemId, sensorPropertyIndex, newValue) {
       // We can at this point store the newly retrieved value in the database.
       sensors.addSensorPropertyValue({
         "value" : newValue,
+        "date" : +new Date(),
         "sensorId" : sensor.id,
         "sensorPropertyId" : currentProperty.id        
       }, function (err3, sensorPropertyValueId) {

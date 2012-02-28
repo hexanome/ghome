@@ -120,7 +120,6 @@ void yield()
 			: "%esp","%ebp");
 	}
 	/*On passe au contexte suivant*/
-	printf("Changement contexte de %p a %p\n", ctx_courant,ctx_chainee);
 	ctx_courant=ctx_chainee;
 	ctx_chainee=ctx_chainee->next;
 	
@@ -135,10 +134,13 @@ void yield()
 	 *On appelle directement la fonction */
 	if(ctx_courant->state == READY)
 	{
+		printf("Premiere appel\n");
 		start_current_context();
 	}
 	ctx_courant->state = RUNNING;
+	printf("Test fin ctx\n");
 	irq_enable();
+	printf("Test fin ctx2\n");
 	return;
 }
 

@@ -28,6 +28,7 @@ L'ordonnanceur est un Round Robin
 /*---------------------------------------------------------------- Types*/
 typedef struct
 {
+	int pid;
 	int* esp;
 	int* ebp;
 	int state;
@@ -97,12 +98,15 @@ int create_ctx(int stack_size,func_t f, void *args)
 void start_current_context()
 {
 	ctx_courant->state=RUNNING;
+	printf("Test1\n");
 	irq_enable();
+	printf("Test2\n");
 	ctx_courant->function(ctx_courant->args);
+	printf("Test3\n");
 }
 
 /*
- * Fonction appeller par l'ordonnanceur toutes les 8ms 
+ * Fonction appeler par l'ordonnanceur toutes les 8ms 
  * Pour comprendre comment cette fonction est appeller, il faut voir le fichier hw.c
  */
 void yield()
@@ -119,7 +123,6 @@ void yield()
 			: "%esp","%ebp");
 	}
 	/*On passe au contexte suivant*/
-	printf("Changement contexte de %p a %p\n", ctx_courant,ctx_chainee);
 	ctx_courant=ctx_chainee;
 	ctx_chainee=ctx_chainee->next;
 	
@@ -134,6 +137,7 @@ void yield()
 	 *On appelle directement la fonction */
 	if(ctx_courant->state == READY)
 	{
+		printf("Premiere appel\n");
 		start_current_context();
 	}
 	ctx_courant->state = RUNNING;

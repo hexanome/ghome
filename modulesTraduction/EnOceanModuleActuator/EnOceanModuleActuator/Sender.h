@@ -35,7 +35,7 @@ typedef struct sockaddr SOCKADDR;
 /**
  * Crée une socket sur l'adresse ADRESSE et le port PORT défini dans Listener.h
  */
-SOCKET socketConnexion(void);
+SOCKET socketConnexionActuator(void);
 
 /**
  * Lit dans le fichier fifo qui permet de faire la communication avec le serveur

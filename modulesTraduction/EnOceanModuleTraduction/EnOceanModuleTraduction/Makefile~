@@ -8,7 +8,7 @@ CFLAGS = -Wall -m32 -g -m32
 ###------------------------------
 ### Main targets 
 ###------------------------------------------------------------
-BINARIES=main
+BINARIES=moduleTraduction
 
 all: $(BINARIES)
 
@@ -26,7 +26,7 @@ Makefile.depends:
 
 include Makefile.depends
 
-main: Listener.o Sender.o 
+moduleTraduction: Listener.o Message.o 
 
 
 ###------------------------------
