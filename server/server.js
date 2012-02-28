@@ -47,16 +47,34 @@ camp.handle('/sensor-types/?(.*)', function (query, path) {
 });
 
 
+// Add sensor type
+camp.addDiffer('addSensorType', function(data) {
+  sensordb.addSensorType({name: data.name}, function(err,typeId) {
+    camp.server.emit('addSensorType', typeId);
+  });
+}, function(data) {return data;});
+
+
 // Sensors
 camp.handle('/sensors/?(.*)', function (query, path) {
   path[0] = '/layout.html';
-  var data = {page: 'sensors'};
-  sensordb.getSensors (function (err, sensors) {
-    if (err) throw err;
-    //console.error(JSON.stringify(sensors));
-    data.sensors = sensors;
-    camp.server.emit('gotsensors', data);
-  });
+  if ( path[1].length > 0 ) {
+    var data = {page: 'sensor-values'};
+    sensordb.getSensorValuesFromSensor(path[1], function (err, values) {
+      if (err) throw err;
+      //console.error(JSON.stringify(types));
+      data.values = values;
+      camp.server.emit('gotsensortypes', data);
+    });
+  } else {
+    var data = {page: 'sensors'};
+    sensordb.getSensors (function (err, sensors) {
+      if (err) throw err;
+      //console.error(JSON.stringify(sensors));
+      data.sensors = sensors;
+      camp.server.emit('gotsensors', data);
+    });
+  }
 }, function gotsensors (data) {
   return data;
 });

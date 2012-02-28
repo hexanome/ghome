@@ -156,10 +156,15 @@
               </tr>
             </thead>
             <tbody>
-              {{-types|type|i;
+              {{-sensors|sensor|i;
               <tr>
+<<<<<<< HEAD
+                <td>{{=sensor.name}}</td>
+                <td style="width: 20%; text-align: center;"><a href="#">View</a></td>
+=======
                 <td>{{=type.name}}</td>
                 <td style="width: 20%; text-align: center;"><a href="/sensors/{{=type.id}}">View</a></td>
+>>>>>>> 174878ec5cb2d2880a53bbf30ed606ba21cd6d1e
                 <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
               </tr>
               }}
@@ -217,7 +222,6 @@
           </table>
           }}
 
-<<<<<<< HEAD
           <!-- ACTUATOR PROPERTY LIST -->
 
           <h1>Actuator Property List</h1>
@@ -271,8 +275,6 @@
           </table>
           }}
 
-=======
->>>>>>> 4205aff2a5c8609a423d3e93041644c5a8001793
         </div><!--/span-->        
       </div><!--/row-->
 
