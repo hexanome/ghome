@@ -25,6 +25,23 @@ Scout('#newSensorProperty').on('click', function(query) {
   }
 });
 
+Scout('#newSensor').on('click', function(query) {
+  var sensorTypeId = Scout('#newSensorType').options[Scout('#newSensorType').selectedIndex].value;
+
+  console.log('YEPPA');
+
+  query.action = 'addSensor';
+  query.data = {
+    name: Scout('#newSensorName').value,
+    oemId: Scout('#newSensorOemId').value,
+    sensorTypeId: sensorTypeId
+  };
+  console.log(query.data);
+  query.resp = function (id) {
+    document.location = '/sensors';
+  }
+});
+
 $(document).ready(function () {
   $(".btNewElement").click(function () {
     var modalId = $(this).attr("href");

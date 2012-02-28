@@ -22,36 +22,11 @@ var actuatordb = require ('../rules/comp/actuators.js'),
     sensordb = require ('../rules/comp/sensors.js');
 
 
-// Sensor types
-camp.handle('/sensor-types/?(.*)', function (query, path) {
-  path[0] = '/layout.html';
-  if ( path[1].length > 0 ) {
-    var data = {page: 'sensor-properties'};
-    sensordb.getSensorPropertiesFromType(path[1], function (err, properties) {
-      if (err) throw err;
-      //console.error(JSON.stringify(types));
-      data.properties = properties;
-      data.sensorTypeId = path[1];
-      camp.server.emit('gotsensortypes', data);
-    });
-  } else {
-    var data = {page: 'sensor-types'};
-    sensordb.getSensorTypes (function (err, types) {
-      if (err) throw err;
-      //console.error(JSON.stringify(types));
-      data.types = types;
-      camp.server.emit('gotsensortypes', data);
-    });
-  }
-}, function gotsensortypes (data) {
-  return data;
-});
-
-
 // Add Sensor
 camp.addDiffer('addSensor', function(data) {
+  console.error('addSensor YO DAWG',data);
   sensordb.addSensor(data, function(err,id) {
-    camp.server.emit('addSensorProperty', id);
+    camp.server.emit('addSensor', id);
   });
 }, function(data) {return data;});
 
@@ -104,6 +79,32 @@ camp.addDiffer('addRule', function(data) {
 }, function(data) {return data;});
 
 
+// Sensor types
+camp.handle('/sensor-types/?(.*)', function (query, path) {
+  path[0] = '/layout.html';
+  if ( path[1].length > 0 ) {
+    var data = {page: 'sensor-properties'};
+    sensordb.getSensorPropertiesFromType(path[1], function (err, properties) {
+      if (err) throw err;
+      //console.error(JSON.stringify(types));
+      data.properties = properties;
+      data.sensorTypeId = path[1];
+      camp.server.emit('gotsensortypes', data);
+    });
+  } else {
+    var data = {page: 'sensor-types'};
+    sensordb.getSensorTypes (function (err, types) {
+      if (err) throw err;
+      //console.error(JSON.stringify(types));
+      data.types = types;
+      camp.server.emit('gotsensortypes', data);
+    });
+  }
+}, function gotsensortypes (data) {
+  return data;
+});
+
+
 // Sensors
 camp.handle('/sensors/?(.*)', function (query, path) {
   path[0] = '/layout.html';
@@ -113,7 +114,7 @@ camp.handle('/sensors/?(.*)', function (query, path) {
       if (err) throw err;
       //console.error(JSON.stringify(types));
       data.values = values;
-      camp.server.emit('gotsensortypes', data);
+      camp.server.emit('gotsensors', data);
     });
   } else {
     var data = {page: 'sensors'};
@@ -121,7 +122,11 @@ camp.handle('/sensors/?(.*)', function (query, path) {
       if (err) throw err;
       //console.error(JSON.stringify(sensors));
       data.sensors = sensors;
-      camp.server.emit('gotsensors', data);
+      sensordb.getSensorTypes (function (err, types) {
+        if (err) throw err;
+        data.types = types;
+        camp.server.emit('gotsensors', data);
+      });
     });
   }
 }, function gotsensors (data) {
