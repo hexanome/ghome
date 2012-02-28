@@ -78,10 +78,9 @@
         <div class="span9">
 
           {{?page=='sensor-types';
-
           <!-- TYPE LIST -->
 
-          <h1>Type List</h1>
+          <h1>Sensor Type List</h1>
             
           <div style="padding-top: 20px; padding-bottom: 20px;">
             <a class="btn" data-toggle="modal" href="#newSensorTypeModal">New Sensor Type</a>
@@ -168,7 +167,7 @@
           </table>
           }}
 
-          <!-- SENSOR LIST -->
+          <!-- SENSOR VALUE LIST -->
 
           <h1>Sensor Value List</h1>
 
@@ -186,6 +185,35 @@
               </tr>
             </tbody>
           </table>
+
+          {{?page=='actuator-types';
+          <!-- ACTUATOR TYPE LIST -->
+
+          <h1>Actuator Type List</h1>
+            
+          <div style="padding-top: 20px; padding-bottom: 20px;">
+            <a class="btn" data-toggle="modal" href="#newActuatorTypeModal">New Actuator Type</a>
+          </div>
+
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Type Name</th>
+                <th style="width: 20%; text-align: center;">Actuator Properties</th>
+                <th style="width: 20%; text-align: center;">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{-types|type|i;
+              <tr>
+                <td>{{=type.name}}</td>
+                <td style="width: 20%; text-align: center;"><a href="/actuator-types/{{=type.id}}">View</a></td>
+                <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
+              </tr>
+              }}
+            </tbody>
+          </table>
+          }}
         </div><!--/span-->        
       </div><!--/row-->
 
