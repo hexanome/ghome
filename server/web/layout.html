@@ -52,23 +52,23 @@
               <li class="nav-header">Sensors</li>
               
               <li {{?page=='sensor-types';class='active'}}>
-                <a href="sensor-types"><i class="icon-tag {{?page=='sensor-types';icon-white}}"></i> Types</a></li>
+                <a href="/sensor-types"><i class="icon-tag {{?page=='sensor-types';icon-white}}"></i> Types</a></li>
               
               <li {{?page=='sensors';class='active'}}>
-                <a href="sensors"><i class="icon-eye-open {{?page=='sensors';icon-white}}"></i></i> Sensors</a></li>
+                <a href="/sensors"><i class="icon-eye-open {{?page=='sensors';icon-white}}"></i></i> Sensors</a></li>
 
               <li class="nav-header">Actuators</li>
 
               <li {{?page=='actuator-types';class='active'}}>
-                <a href="actuator-types"><i class="icon-tag {{?page=='actuator-types';icon-white}}"></i> Types</a></li>
+                <a href="/actuator-types"><i class="icon-tag {{?page=='actuator-types';icon-white}}"></i> Types</a></li>
               
               <li {{?page=='actuators';class='active'}}>
-                <a href="actuators"><i class="icon-cog {{?page=='actuators';icon-white}}"></i> Actuators</a></li>
+                <a href="/actuators"><i class="icon-cog {{?page=='actuators';icon-white}}"></i> Actuators</a></li>
 
               <li class="nav-header">Rules</li>
               
               <li {{?page=='rules';class='active'}}>
-                <a href="rules"><i class="icon-retweet {{?page=='rules';icon-white}}"></i> All rules</a></li>
+                <a href="/rules"><i class="icon-retweet {{?page=='rules';icon-white}}"></i> All rules</a></li>
 
             </ul>
           </div><!--/.well -->
@@ -135,6 +135,7 @@
             </tbody>
           </table>
 
+          {{?page=='sensors';
           <!-- SENSOR LIST -->
 
           <h1>Sensor List</h1>
@@ -161,6 +162,8 @@
               }}
             </tbody>
           </table>
+
+          }}
 
           <!-- SENSOR LIST -->
 
