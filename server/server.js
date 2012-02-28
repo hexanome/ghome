@@ -48,7 +48,15 @@ camp.handle('/sensor-types/?(.*)', function (query, path) {
 });
 
 
-// Add sensor type
+// Add Sensor
+camp.addDiffer('addSensor', function(data) {
+  sensordb.addSensor(data, function(err,id) {
+    camp.server.emit('addSensorProperty', id);
+  });
+}, function(data) {return data;});
+
+
+// Add Sensor Type
 camp.addDiffer('addSensorType', function(data) {
   sensordb.addSensorType(data, function(err,typeId) {
     camp.server.emit('addSensorType', typeId);
@@ -56,10 +64,42 @@ camp.addDiffer('addSensorType', function(data) {
 }, function(data) {return data;});
 
 
-// Add sensor property
+// Add Sensor Property
 camp.addDiffer('addSensorProperty', function(data) {
   sensordb.addSensorProperty(data, function(err,id) {
     camp.server.emit('addSensorProperty', id);
+  });
+}, function(data) {return data;});
+
+
+// Add Actuator
+camp.addDiffer('addActuator', function(data) {
+  actuatordb.addActuator(data, function(err,id) {
+    camp.server.emit('addActuator', id);
+  });
+}, function(data) {return data;});
+
+
+// Add Actuator Type
+camp.addDiffer('addActuatorType', function(data) {
+  actuatordb.addActuatorType(data, function(err,id) {
+    camp.server.emit('addActuatorType', id);
+  });
+}, function(data) {return data;});
+
+
+// Add Actuator Property
+camp.addDiffer('addActuatorProperty', function(data) {
+  actuatordb.addActuatorProperty(data, function(err,id) {
+    camp.server.emit('addActuatorProperty', id);
+  });
+}, function(data) {return data;});
+
+
+// Add Rule
+camp.addDiffer('addRule', function(data) {
+  ruledb.addRule(data, function(err,id) {
+    camp.server.emit('addRule', id);
   });
 }, function(data) {return data;});
 
