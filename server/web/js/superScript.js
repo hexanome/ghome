@@ -28,8 +28,6 @@ Scout('#newSensorProperty').on('click', function(query) {
 Scout('#newSensor').on('click', function(query) {
   var sensorTypeId = Scout('#newSensorType').options[Scout('#newSensorType').selectedIndex].value;
 
-  console.log('YEPPA');
-
   query.action = 'addSensor';
   query.data = {
     name: Scout('#newSensorName').value,
@@ -39,6 +37,33 @@ Scout('#newSensor').on('click', function(query) {
   console.log(query.data);
   query.resp = function (id) {
     document.location = '/sensors';
+  }
+});
+
+Scout('#newActuatorType').on('click', function (query) {
+  query.action = 'addActuatorType';
+  query.data = {
+    name: Scout('#newActuatorTypeName').value
+  };
+  query.resp = function (typeId) {
+    console.log('New Actuator Type sais yo!',typeId);
+    document.location = '/actuator-types';
+  }
+});
+
+Scout('#newActuatorProperty').on('click', function(query) {
+  var unit = Scout('#newActuatorPropertyUnit').options[Scout('#newActuatorPropertyUnit').selectedIndex].innerHTML;
+
+  query.action = 'addActuatorProperty';
+  query.data = {
+    name: Scout('#newActuatorPropertyName').value,
+    index: Scout('#newActuatorPropertyIndex').value,
+    unit: unit,
+    sensorTypeId: Scout('#newActuatorPropertyTypeId').value
+  };
+  console.log(query.data);
+  query.resp = function () {
+    document.location = '/actuator-types/' + Scout('#newActuatorPropertyTypeId').value;
   }
 });
 
