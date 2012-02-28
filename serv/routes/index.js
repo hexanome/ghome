@@ -70,7 +70,6 @@ rules.getConditions (function (err, conditions) {
     {name: "Trall", type: 1, value: 2, children: []},
     {name: "Prout", type: 2, value: 2, children: []}]}
   ]
-
 });
 
 
