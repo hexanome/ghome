@@ -78,10 +78,9 @@
         <div class="span9">
 
           {{?page=='sensor-types';
-
           <!-- TYPE LIST -->
 
-          <h1>Type List</h1>
+          <h1>Sensor Type List</h1>
             
           <div style="padding-top: 20px; padding-bottom: 20px;">
             <a class="btn" data-toggle="modal" href="#newSensorTypeModal">New Sensor Type</a>
@@ -105,9 +104,10 @@
               }}
             </tbody>
           </table>
-
           }}
 
+
+          {{?page=='sensor-properties';
           <!-- SENSOR PROPERTY LIST -->
 
           <h1>Sensor Property List</h1>
@@ -126,14 +126,17 @@
               </tr>
             </thead>
             <tbody>
+              {{-properties|property|i;
               <tr>
-                <td>Hey hey</td>
-                <th style="width: 20%; text-align: center;">1</th>
-                <td style="width: 20%; text-align: center;">°C</td>
+                <td>{{=property.name}}</td>
+                <th style="width: 20%; text-align: center;">{{=property.index}}</th>
+                <td style="width: 20%; text-align: center;">{{=property.unit}}</td>
                 <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
               </tr>
+              }}
             </tbody>
           </table>
+          }}
 
           {{?page=='sensors';
           <!-- SENSOR LIST -->
@@ -156,16 +159,16 @@
               {{-types|type|i;
               <tr>
                 <td>{{=type.name}}</td>
-                <td style="width: 20%; text-align: center;"><a href="#">View</a></td>
+                <td style="width: 20%; text-align: center;"><a href="/sensors/{{=type.id}}">View</a></td>
                 <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
               </tr>
               }}
             </tbody>
           </table>
-
           }}
 
-          <!-- SENSOR LIST -->
+          {{?page=='sensor-values';
+          <!-- SENSOR VALUE LIST -->
 
           <h1>Sensor Value List</h1>
 
@@ -183,6 +186,90 @@
               </tr>
             </tbody>
           </table>
+          }}
+
+          {{?lpage=='actuator-types';
+          <!-- ACTUATOR TYPE LIST -->
+
+          <h1>Actuator Type List</h1>
+            
+          <div style="padding-top: 20px; padding-bottom: 20px;">
+            <a class="btn" data-toggle="modal" href="#newActuatorTypeModal">New Actuator Type</a>
+          </div>
+
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Type Name</th>
+                <th style="width: 20%; text-align: center;">Act. Properties</th>
+                <th style="width: 20%; text-align: center;">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{-types|type|i;
+              <tr>
+                <td>{{=type.name}}</td>
+                <td style="width: 20%; text-align: center;"><a href="/actuator-types/{{=type.id}}">View</a></td>
+                <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
+              </tr>
+              }}
+            </tbody>
+          </table>
+          }}
+
+          <!-- ACTUATOR PROPERTY LIST -->
+
+          <h1>Actuator Property List</h1>
+            
+          <div style="padding-top: 20px; padding-bottom: 20px;">
+            <a class="btn" data-toggle="modal" href="#newActuatorPropertyModal">New Actuator Property</a>
+          </div>
+
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Property Name</th>
+                <th style="width: 20%; text-align: center;">Index</th>
+                <th style="width: 20%; text-align: center;">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hey hey</td>
+                <th style="width: 20%; text-align: center;">1</th>
+                <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
+              </tr>
+            </tbody>
+          </table>
+
+          {{?page=='actuators';
+          <!-- SENSOR LIST -->
+
+          <h1>Actuator List</h1>
+            
+          <div style="padding-top: 20px; padding-bottom: 20px;">
+            <a class="btn" data-toggle="modal" href="#newActuatorModal">New Actuator</a>
+          </div>
+
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Actuator Name</th>
+                <th style="width: 20%; text-align: center;">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{-types|type|i;
+              <tr>
+                <td>{{=type.name}}</td>
+                <td style="width: 20%; text-align: center;"><a href="#">View</a></td>
+                <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
+              </tr>
+              }}
+            </tbody>
+          </table>
+          }}
+
         </div><!--/span-->        
       </div><!--/row-->
 
@@ -212,6 +299,7 @@
         </form>
       </div>
       <div class="modal-footer">
+        <a href="#" style="float: left;" class="btn btn-danger">Delete</a>
         <a href="#" class="btn btn-primary">Save changes</a>
         <a href="#" class="btn" data-dismiss="modal">Close</a>
       </div>
@@ -256,6 +344,7 @@
         </form>
       </div>
       <div class="modal-footer">
+        <a href="#" style="float: left;" class="btn btn-danger">Delete</a>
         <a href="#" class="btn btn-primary">Save changes</a>
         <a href="#" class="btn" data-dismiss="modal">Close</a>
       </div>
@@ -297,6 +386,106 @@
         </form>
       </div>
       <div class="modal-footer">
+        <a href="#" style="float: left;" class="btn btn-danger">Delete</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+
+    <div class="modal hide fade" id="newActuratorTypeModal">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>New Actuator</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" style="margin-bottom: -14px;">
+          <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="input01">Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge">
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" style="float: left;" class="btn btn-danger">Delete</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+
+    <div class="modal hide fade" id="newActuatorPropertyModal">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>New Actuator Property</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" style="margin-bottom: -14px;">
+          <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="input01">Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input01">Index</label>
+              <div class="controls">                
+                <div class="input-prepend">
+                  <span class="add-on">#</span>
+                  <input class="span2" id="prependedInput" size="16" type="text" style="width: 50px;">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" style="float: left;" class="btn btn-danger">Delete</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+
+    <div class="modal hide fade" id="newActuatorModal">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>New Actuator</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" style="margin-bottom: -14px;">
+          <fieldset>          
+            <div class="control-group">
+              <label class="control-label" for="select01">Type</label>
+              <div class="controls">
+                <select id="select01">
+                  <option>Select One</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input01">Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input01">OemId</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge">
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" style="float: left;" class="btn btn-danger">Delete</a>
         <a href="#" class="btn btn-primary">Save changes</a>
         <a href="#" class="btn" data-dismiss="modal">Close</a>
       </div>

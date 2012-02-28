@@ -7,7 +7,7 @@
 
     <!-- Le styles -->
 
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -17,7 +17,7 @@
         padding: 9px 0;
       }
     </style>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
   </head>
 
   <body>
@@ -27,7 +27,7 @@
         <div class="container-fluid">
 
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <sp0an class="icon-bar"></span>
+            <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
@@ -50,80 +50,230 @@
             <ul class="nav nav-list">
 
               <li class="nav-header">Sensors</li>
-              <li class="active"><a href="sensor-types">Types</a></li>
-              <li><a href="sensors">Sensors</a></li>
+              
+              <li {{?page=='sensor-types';class='active'}}>
+                <a href="/sensor-types"><i class="icon-tag {{?page=='sensor-types';icon-white}}"></i> Types</a></li>
+              
+              <li {{?page=='sensors';class='active'}}>
+                <a href="/sensors"><i class="icon-eye-open {{?page=='sensors';icon-white}}"></i></i> Sensors</a></li>
 
               <li class="nav-header">Actuators</li>
-              <li><a href="actuator-types">Types</a></li>
-              <li><a href="actuators">Actuators</a></li>
+
+              <li {{?page=='actuator-types';class='active'}}>
+                <a href="/actuator-types"><i class="icon-tag {{?page=='actuator-types';icon-white}}"></i> Types</a></li>
+              
+              <li {{?page=='actuators';class='active'}}>
+                <a href="/actuators"><i class="icon-cog {{?page=='actuators';icon-white}}"></i> Actuators</a></li>
 
               <li class="nav-header">Rules</li>
-              <li><a href="rules">All rules</a></li>
+              
+              <li {{?page=='rules';class='active'}}>
+                <a href="/rules"><i class="icon-retweet {{?page=='rules';icon-white}}"></i> All rules</a></li>
+
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
 
+
         <div class="span9">
-<<<<<<< HEAD
-          <h1>Edit type</h1>
 
-          <form class="form-horizontal" style="padding-top: 20px;">
-            <fieldset>
-              <div class="control-group">
-                <label class="control-label" for="input01">Name</label>
-                <div class="controls">
-                  <input type="text" class="input-xlarge" id="input01">
-                </div>
-              </div>
+          {{?page=='sensor-types';
+          <!-- TYPE LIST -->
 
-              <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Save changes</button>
-                <button class="btn">Cancel</button>
-              </div>
-            </fieldset>
-          </form>
-=======
-          <h1>Type List</h1>
+          <h1>Sensor Type List</h1>
             
-            <div style="padding-top: 20px; padding-bottom: 20px;">
-              <a class="btn" data-toggle="modal" href="#newType">New Sensor Type</a>
-            </div>
+          <div style="padding-top: 20px; padding-bottom: 20px;">
+            <a class="btn" data-toggle="modal" href="#newSensorTypeModal">New Sensor Type</a>
+          </div>
 
-            <div class="modal" id="newType">
-              <div class="modal-header">
-                <a class="close" data-dismiss="modal">×</a>
-                <h3>Modal header</h3>
-              </div>
-              <div class="modal-body">
-                <p>One fine body…</p>
-              </div>
-              <div class="modal-footer">
-                <a href="#" class="btn btn-primary">Save changes</a>
-                <a href="#" class="btn">Close</a>
-              </div>
-            </div>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Type Name</th>
+                <th style="width: 20%; text-align: center;">Sensor Properties</th>
+                <th style="width: 20%; text-align: center;">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{-types|type|i;
+              <tr>
+                <td>{{=type.name}}</td>
+                <td style="width: 20%; text-align: center;"><a href="/sensor-types/{{=type.id}}">View</a></td>
+                <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
+              </tr>
+              }}
+            </tbody>
+          </table>
+          }}
 
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>Type Name</th>
-                  <th style="width: 20%; text-align: center;">View Properties</th>
-                  <th style="width: 20%; text-align: center;">Edit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{-sensortypes|sensortype|i;
-                <tr>
-                  <td>{{=sensortype.name}}</td>
-                  <td style="width: 20%; text-align: center;"><a href="#">Properties</a></td>
-                  <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
-                </tr>
-                }}
-              </tbody>
-            </table>
->>>>>>> e6e4b9441d24f3194dbe32b7565f051ab7e64453
 
-        </div><!--/span-->
+          {{?page=='sensor-properties';
+          <!-- SENSOR PROPERTY LIST -->
+
+          <h1>Sensor Property List</h1>
+            
+          <div style="padding-top: 20px; padding-bottom: 20px;">
+            <a class="btn" data-toggle="modal" href="#newSensorPropertyModal">New Sensor Property</a>
+          </div>
+
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Property Name</th>
+                <th style="width: 20%; text-align: center;">Index</th>
+                <th style="width: 20%; text-align: center;">Unit</th>
+                <th style="width: 20%; text-align: center;">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{-properties|property|i;
+              <tr>
+                <td>{{=property.name}}</td>
+                <th style="width: 20%; text-align: center;">{{=property.index}}</th>
+                <td style="width: 20%; text-align: center;">{{=property.unit}}</td>
+                <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
+              </tr>
+              }}
+            </tbody>
+          </table>
+          }}
+
+          {{?page=='sensors';
+          <!-- SENSOR LIST -->
+
+          <h1>Sensor List</h1>
+            
+          <div style="padding-top: 20px; padding-bottom: 20px;">
+            <a class="btn" data-toggle="modal" href="#newSensorModal">New Sensor</a>
+          </div>
+
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Sensor Name</th>
+                <th style="width: 20%; text-align: center;">Sensor Values</th>
+                <th style="width: 20%; text-align: center;">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{-types|type|i;
+              <tr>
+                <td>{{=type.name}}</td>
+                <td style="width: 20%; text-align: center;"><a href="/sensors/{{=type.id}}">View</a></td>
+                <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
+              </tr>
+              }}
+            </tbody>
+          </table>
+          }}
+
+          {{?page=='sensor-values';
+          <!-- SENSOR VALUE LIST -->
+
+          <h1>Sensor Value List</h1>
+
+          <table class="table table-bordered table-striped" style="margin-top: 20px;">
+            <thead>
+              <tr>
+                <th>Value</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Valeur 1</td>
+                <td>Et ici la date</td>
+              </tr>
+            </tbody>
+          </table>
+          }}
+
+          {{?lpage=='actuator-types';
+          <!-- ACTUATOR TYPE LIST -->
+
+          <h1>Actuator Type List</h1>
+            
+          <div style="padding-top: 20px; padding-bottom: 20px;">
+            <a class="btn" data-toggle="modal" href="#newActuatorTypeModal">New Actuator Type</a>
+          </div>
+
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Type Name</th>
+                <th style="width: 20%; text-align: center;">Act. Properties</th>
+                <th style="width: 20%; text-align: center;">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{-types|type|i;
+              <tr>
+                <td>{{=type.name}}</td>
+                <td style="width: 20%; text-align: center;"><a href="/actuator-types/{{=type.id}}">View</a></td>
+                <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
+              </tr>
+              }}
+            </tbody>
+          </table>
+          }}
+
+<<<<<<< HEAD
+          <!-- ACTUATOR PROPERTY LIST -->
+
+          <h1>Actuator Property List</h1>
+            
+          <div style="padding-top: 20px; padding-bottom: 20px;">
+            <a class="btn" data-toggle="modal" href="#newActuatorPropertyModal">New Actuator Property</a>
+          </div>
+
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Property Name</th>
+                <th style="width: 20%; text-align: center;">Index</th>
+                <th style="width: 20%; text-align: center;">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hey hey</td>
+                <th style="width: 20%; text-align: center;">1</th>
+                <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
+              </tr>
+            </tbody>
+          </table>
+
+          {{?page=='actuators';
+          <!-- SENSOR LIST -->
+
+          <h1>Actuator List</h1>
+            
+          <div style="padding-top: 20px; padding-bottom: 20px;">
+            <a class="btn" data-toggle="modal" href="#newActuatorModal">New Actuator</a>
+          </div>
+
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Actuator Name</th>
+                <th style="width: 20%; text-align: center;">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{-types|type|i;
+              <tr>
+                <td>{{=type.name}}</td>
+                <td style="width: 20%; text-align: center;"><a href="#">View</a></td>
+                <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
+              </tr>
+              }}
+            </tbody>
+          </table>
+          }}
+
+=======
+>>>>>>> 4205aff2a5c8609a423d3e93041644c5a8001793
+        </div><!--/span-->        
       </div><!--/row-->
 
       <hr>
@@ -133,32 +283,240 @@
       </footer>
 
     </div><!--/.fluid-container-->
+
+    <div class="modal hide fade" id="newSensorTypeModal">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>New Type</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" style="margin-bottom: -14px;">
+          <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="input01">Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge">
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" style="float: left;" class="btn btn-danger">Delete</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+
+    <div class="modal hide fade" id="newSensorPropertyModal">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>New Sensor Property</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" style="margin-bottom: -14px;">
+          <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="input01">Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input01">Index</label>
+              <div class="controls">                
+                <div class="input-prepend">
+                  <span class="add-on">#</span>
+                  <input class="span2" id="prependedInput" size="16" type="text" style="width: 50px;">
+                </div>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="select01">Unit</label>
+              <div class="controls">
+                <select id="select01">
+                  <option>Select One</option>
+                  <option>°C</option>
+                  <option>Lux</option>
+                  <option>V</option>
+                  <option>Min</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" style="float: left;" class="btn btn-danger">Delete</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+
+    <div class="modal hide fade" id="newSensorModal">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>New Sensor</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" style="margin-bottom: -14px;">
+          <fieldset>          
+            <div class="control-group">
+              <label class="control-label" for="select01">Type</label>
+              <div class="controls">
+                <select id="select01">
+                  <option>something</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input01">Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input01">OemId</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge">
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" style="float: left;" class="btn btn-danger">Delete</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+
+    <div class="modal hide fade" id="newActuratorTypeModal">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>New Actuator</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" style="margin-bottom: -14px;">
+          <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="input01">Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge">
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" style="float: left;" class="btn btn-danger">Delete</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+
+    <div class="modal hide fade" id="newActuatorPropertyModal">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>New Actuator Property</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" style="margin-bottom: -14px;">
+          <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="input01">Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input01">Index</label>
+              <div class="controls">                
+                <div class="input-prepend">
+                  <span class="add-on">#</span>
+                  <input class="span2" id="prependedInput" size="16" type="text" style="width: 50px;">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" style="float: left;" class="btn btn-danger">Delete</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+
+    <div class="modal hide fade" id="newActuatorModal">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>New Actuator</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" style="margin-bottom: -14px;">
+          <fieldset>          
+            <div class="control-group">
+              <label class="control-label" for="select01">Type</label>
+              <div class="controls">
+                <select id="select01">
+                  <option>Select One</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input01">Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input01">OemId</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge">
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#" style="float: left;" class="btn btn-danger">Delete</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+    </div>
     
     <!-- Le javascript
     ================================================== -->
 
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/scout.js"></script>
+    <script src="/js/scout.js"></script>
 
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap-transition.js"></script>
-    <script src="js/bootstrap-alert.js"></script>
-    <script src="js/bootstrap-modal.js"></script>
-    <script src="js/bootstrap-dropdown.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap-transition.js"></script>
+    <script src="/js/bootstrap-alert.js"></script>
+    <script src="/js/bootstrap-modal.js"></script>
+    <script src="/js/bootstrap-dropdown.js"></script>
 
-    <script src="js/bootstrap-scrollspy.js"></script>
-    <script src="js/bootstrap-tab.js"></script>
-    <script src="js/bootstrap-tooltip.js"></script>
-    <script src="js/bootstrap-popover.js"></script>
-    <script src="js/bootstrap-button.js"></script>
-    <script src="js/bootstrap-collapse.js"></script>
+    <script src="/js/bootstrap-scrollspy.js"></script>
+    <script src="/js/bootstrap-tab.js"></script>
+    <script src="/js/bootstrap-tooltip.js"></script>
+    <script src="/js/bootstrap-popover.js"></script>
+    <script src="/js/bootstrap-button.js"></script>
+    <script src="/js/bootstrap-collapse.js"></script>
 
-    <script src="js/bootstrap-carousel.js"></script>
-    <script src="js/bootstrap-typeahead.js"></script>
+    <script src="/js/bootstrap-carousel.js"></script>
+    <script src="/js/bootstrap-typeahead.js"></script>
 
-    <script>
-      $('#newType').modal({show:false});
-    </script>
+    <script src="/js/superScript.js"></script>
 
   </body>
 </html>
