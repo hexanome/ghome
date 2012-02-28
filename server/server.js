@@ -25,7 +25,6 @@ var actuatordb = require ('../rules/comp/actuators.js'),
 // Sensor types
 camp.handle('/sensor-types/?(.*)', function (query, path) {
   path[0] = '/layout.html';
-  console.error(path[1]);
   if ( path[1].length > 0 ) {
     var data = {page: 'sensor-properties'};
     sensordb.getSensorPropertiesFromType(path[1], function (err, properties) {
