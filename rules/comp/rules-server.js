@@ -50,6 +50,7 @@ function newSensorValue(oemId, sensorPropertyIndex, newValue) {
       // We can at this point store the newly retrieved value in the database.
       sensors.addSensorPropertyValue({
         "value" : newValue,
+        "date" : +new Date(),
         "sensorId" : sensor.id,
         "sensorPropertyId" : currentProperty.id        
       }, function (err3, sensorPropertyValueId) {

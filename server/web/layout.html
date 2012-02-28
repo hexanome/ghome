@@ -7,7 +7,7 @@
 
     <!-- Le styles -->
 
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -17,7 +17,7 @@
         padding: 9px 0;
       }
     </style>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
   </head>
 
   <body>
@@ -99,7 +99,7 @@
               {{-types|type|i;
               <tr>
                 <td>{{=type.name}}</td>
-                <td style="width: 20%; text-align: center;"><a href="#">View</a></td>
+                <td style="width: 20%; text-align: center;"><a href="/sensor-types/{{=type.id}}">View</a></td>
                 <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
               </tr>
               }}
@@ -159,6 +159,25 @@
                 <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
               </tr>
               }}
+            </tbody>
+          </table>
+
+          <!-- SENSOR LIST -->
+
+          <h1>Sensor Value List</h1>
+
+          <table class="table table-bordered table-striped" style="margin-top: 20px;">
+            <thead>
+              <tr>
+                <th>Value</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Valeur 1</td>
+                <td>Et ici la date</td>
+              </tr>
             </tbody>
           </table>
         </div><!--/span-->        
@@ -284,25 +303,25 @@
     ================================================== -->
 
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/scout.js"></script>
+    <script src="/js/scout.js"></script>
 
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap-transition.js"></script>
-    <script src="js/bootstrap-alert.js"></script>
-    <script src="js/bootstrap-modal.js"></script>
-    <script src="js/bootstrap-dropdown.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap-transition.js"></script>
+    <script src="/js/bootstrap-alert.js"></script>
+    <script src="/js/bootstrap-modal.js"></script>
+    <script src="/js/bootstrap-dropdown.js"></script>
 
-    <script src="js/bootstrap-scrollspy.js"></script>
-    <script src="js/bootstrap-tab.js"></script>
-    <script src="js/bootstrap-tooltip.js"></script>
-    <script src="js/bootstrap-popover.js"></script>
-    <script src="js/bootstrap-button.js"></script>
-    <script src="js/bootstrap-collapse.js"></script>
+    <script src="/js/bootstrap-scrollspy.js"></script>
+    <script src="/js/bootstrap-tab.js"></script>
+    <script src="/js/bootstrap-tooltip.js"></script>
+    <script src="/js/bootstrap-popover.js"></script>
+    <script src="/js/bootstrap-button.js"></script>
+    <script src="/js/bootstrap-collapse.js"></script>
 
-    <script src="js/bootstrap-carousel.js"></script>
-    <script src="js/bootstrap-typeahead.js"></script>
+    <script src="/js/bootstrap-carousel.js"></script>
+    <script src="/js/bootstrap-typeahead.js"></script>
 
-    <script src="js/superScript.js"></script>
+    <script src="/js/superScript.js"></script>
 
   </body>
 </html>
