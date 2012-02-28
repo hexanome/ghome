@@ -137,13 +137,24 @@ camp.handle('/sensors/?(.*)', function (query, path) {
 // Actuator types
 camp.handle('/actuator-types/?(.*)', function (query, path) {
   path[0] = '/layout.html';
-  var data = {page: 'actuator-types'};
-  actuatordb.getActuatorTypes (function (err, types) {
-    if (err) throw err;
-    //console.error(JSON.stringify(types));
-    data.types = types;
-    camp.server.emit('gotactuatortypes', data);
-  });
+  if ( path[1].length > 0 ) {
+    var data = {page: 'actuator-properties'};
+    actuatordb.getActuatorPropertiesFromType(path[1], function (err, properties) {
+      if (err) throw err;
+      //console.error(JSON.stringify(types));
+      data.properties = properties;
+      data.actuatorTypeId = path[1];
+      camp.server.emit('gotactuatortypes', data);
+    });
+  } else {
+    var data = {page: 'actuator-types'};
+    actuatordb.getActuatorTypes (function (err, types) {
+      if (err) throw err;
+      //console.error(JSON.stringify(types));
+      data.types = types;
+      camp.server.emit('gotactuatortypes', data);
+    });
+  }
 }, function gotactuatortypes (data) {
   return data;
 });
