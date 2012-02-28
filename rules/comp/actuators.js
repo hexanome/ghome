@@ -33,7 +33,7 @@ exports.deleteActuator = deleteActuator;
 exports.getActuatorPropertyValue = getActuatorPropertyValue;
 exports.getActuatorPropertyValues = getActuatorPropertyValues;
 exports.addActuatorPropertyValue = addActuatorPropertyValue;
-exports.updateActuratorPropertyValue = updateActuratorPropertyValue;
+exports.updateActuatorPropertyValue = updateActuatorPropertyValue;
 exports.deleteActuatorPropertyValue = deleteActuatorPropertyValue;
 
 // ActuatorTypes
