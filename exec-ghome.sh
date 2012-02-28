@@ -9,15 +9,13 @@ if [ ! -e ./modulesTraduction/spawner ]; then
 fi
 ./modulesTraduction/spawner > spawner.log & SPAWNER_ID=$!
 
-
-# Web server.
-node serv/app.js > web.log & WEB_ID=$!
-
 # Rules server.
-node rules/mum.js > rules.log
+node rules/mum.js > rules.log & RULES_ID=$!
+
+cd server && make debug
 
 kill $REDIS_ID
 kill $SPAWNER_ID
-kill $WEB_ID
+kill $RULES_ID
 
 

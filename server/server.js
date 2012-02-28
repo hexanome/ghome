@@ -24,7 +24,6 @@ var actuatordb = require ('../rules/comp/actuators.js'),
 
 // Add Sensor
 camp.addDiffer('addSensor', function(data) {
-  console.error('addSensor YO DAWG',data);
   sensordb.addSensor(data, function(err,id) {
     camp.server.emit('addSensor', id);
   });
@@ -109,12 +108,30 @@ camp.handle('/sensor-types/?(.*)', function (query, path) {
 camp.handle('/sensors/?(.*)', function (query, path) {
   path[0] = '/layout.html';
   if ( path[1].length > 0 ) {
-    var data = {page: 'sensor-values'};
-    sensordb.getSensorValuesFromSensor(path[1], function (err, values) {
+    console.error('etape1');
+
+    var data = {page: 'sensor-values', values: []};
+
+    sensors.getSensor (path[1], function (err, sensor) {
       if (err) throw err;
-      //console.error(JSON.stringify(types));
-      data.values = values;
-      camp.server.emit('gotsensors', data);
+
+    console.error('etape2');
+      sensors.getSensorPropertiesFromType (sensor.sensorTypeId, function (err, properties) {
+        if (err) throw err;
+        var goal = properties.length;
+
+    console.error('etape3');
+        for (var i in properties) {
+          sensors.getSensorPropertyValueFromSensorAndProperty(sensor.id, properties[i].id, function (err, value) {
+            data.values.push({property: properties[i].name, value: value.value, date: value.date});
+            goal--;
+            if (goal <= 0) {
+    console.error('etape4');
+              camp.server.emit('gotsensors', data); return;
+            }
+          });
+        }
+      });
     });
   } else {
     var data = {page: 'sensors'};
@@ -141,7 +158,7 @@ camp.handle('/actuator-types/?(.*)', function (query, path) {
     var data = {page: 'actuator-properties'};
     actuatordb.getActuatorPropertiesFromType(path[1], function (err, properties) {
       if (err) throw err;
-      //console.error(JSON.stringify(types));
+      //console.error(JSON.stringify(properties));
       data.properties = properties;
       data.actuatorTypeId = path[1];
       camp.server.emit('gotactuatortypes', data);
@@ -168,7 +185,12 @@ camp.handle('/actuators/?(.*)', function (query, path) {
     if (err) throw err;
     //console.error(JSON.stringify(actuators));
     data.actuators = actuators;
-    camp.server.emit('gotactuators', data);
+    actuatordb.getActuatorTypes (function (err, types) {
+      if (err) throw err;
+      //console.error(JSON.stringify(types));
+      data.types = types;
+      camp.server.emit('gotactuators', data);
+    });
   });
 }, function gotactuators (data) {
   return data;
@@ -178,13 +200,26 @@ camp.handle('/actuators/?(.*)', function (query, path) {
 // Rules
 camp.handle('/rules/?(.*)', function (query, path) {
   path[0] = '/layout.html';
-  var data = {page: 'rules'};
-  ruledb.getRules (function (err, rules) {
-    if (err) throw err;
-    //console.error(JSON.stringify(rules));
-    data.rules = rules;
-    camp.server.emit('gotrules', data);
-  });
+  if (path[1].length > 0) {
+    var data = {page: 'rule-details'};
+    ruledb.getConditionsFromRule (path[1], function (err, conditions) {
+      if (err) throw err;
+      data.conditions = conditions;
+      ruledb.getActionsFromRule (path[1], function (err, actions) {
+        if (err) throw err;
+        data.actions = actions;
+        camp.server.emit('gotrules', data);
+      });
+    });
+  } else {
+    var data = {page: 'rules'};
+    ruledb.getRules (function (err, rules) {
+      if (err) throw err;
+      //console.error(JSON.stringify(rules));
+      data.rules = rules;
+      camp.server.emit('gotrules', data);
+    });
+  }
 }, function gotrules (data) {
   return data;
 });

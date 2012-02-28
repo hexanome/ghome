@@ -52,18 +52,31 @@ Scout('#newActuatorType').on('click', function (query) {
 });
 
 Scout('#newActuatorProperty').on('click', function(query) {
-  var unit = Scout('#newActuatorPropertyUnit').options[Scout('#newActuatorPropertyUnit').selectedIndex].innerHTML;
 
   query.action = 'addActuatorProperty';
   query.data = {
     name: Scout('#newActuatorPropertyName').value,
     index: Scout('#newActuatorPropertyIndex').value,
-    unit: unit,
-    sensorTypeId: Scout('#newActuatorPropertyTypeId').value
+    actuatorTypeId: Scout('#newActuatorPropertyTypeId').value
   };
   console.log(query.data);
   query.resp = function () {
     document.location = '/actuator-types/' + Scout('#newActuatorPropertyTypeId').value;
+  }
+});
+
+Scout('#newActuator').on('click', function(query) {
+  var actuatorTypeId = Scout('#newActuatorType').options[Scout('#newActuatorType').selectedIndex].value;
+
+  query.action = 'addActuator';
+  query.data = {
+    name: Scout('#newActuatorName').value,
+    oemId: Scout('#newActuatorOemId').value,
+    actuatorTypeId: actuatorTypeId
+  };
+  console.log(query.data);
+  query.resp = function (id) {
+    document.location = '/actuators';
   }
 });
 
