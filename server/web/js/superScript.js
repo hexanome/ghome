@@ -66,11 +66,21 @@ Scout('#newActuatorProperty').on('click', function(query) {
 });
 
 $(document).ready(function () {
+  // We customize the modal when displayed from a "New Element" link.
   $(".btNewElement").click(function () {
     var modalId = $(this).attr("href");
     var modal = $(modalId);
 
     modal.find(".editMode").html("New");
     modal.find(".btn-danger").hide();
-  }); 
+  });
+
+  // We customize the modal when displayed from an "Edit" link.
+  $(".btEditElement").click(function () {
+    var modalId = $(this).attr("href");
+    var modal = $(modalId);
+
+    modal.find(".editMode").html("Edit");
+    modal.find(".btn-danger").show();
+  });
 });

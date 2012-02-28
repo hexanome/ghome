@@ -66,7 +66,7 @@ function getActuatorProperty(propertyId, cb) {
 }
 
 function getActuatorPropertiesFromType(actuatorTypeId, cb) {
-  redisbase.getSingleItemFromSec(tableActuatorProperty, "actuatorTypeId", actuatorTypeId, cb);
+  redisbase.getItemsFromSec(tableActuatorProperty, "actuatorTypeId", actuatorTypeId, cb);
 }
 
 function getActuatorProperties(cb) {
