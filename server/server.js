@@ -22,19 +22,47 @@ var actuatordb = require ('../rules/comp/actuators.js'),
     sensordb = require ('../rules/comp/sensors.js');
 
 
-
-camp.handle('types.html', function (query, path) {
-
-  path[0] = '/types.html';
-
-  sensordb.getSensorTypes (function (err, sensorTypes) {
+// Sensor types
+camp.handle('/sensor-types', function (query, path) {
+  var data = {page: 'sensor-types'};
+  path[0] = '/layout.html';
+  sensordb.getSensorTypes (function (err, types) {
     if (err) throw err;
-
-    console.error(JSON.stringify(sensorTypes));
-    var data = sensorTypes;
-    camp.server.emit('gottypes', data);
+    console.error(JSON.stringify(types));
+    data.types = types;
+    camp.server.emit('gotsensortypes', data);
   });
-}, function gottypes (data) {
+}, function gotsensortypes (data) {
+  return data;
+});
+
+
+// Sensors
+camp.handle('/sensors', function (query, path) {
+  var data = {page: 'sensors'};
+  path[0] = '/layout.html';
+  sensordb.getSensors (function (err, sensors) {
+    if (err) throw err;
+    console.error(JSON.stringify(sensors));
+    data.sensors = sensors;
+    camp.server.emit('gotsensors', data);
+  });
+}, function gotsensors (data) {
+  return data;
+});
+
+
+// Actuator types
+camp.handle('/actuator-types', function (query, path) {
+  var data = {page: 'actuator-types'};
+  path[0] = '/layout.html';
+  actuatordb.getActuatorTypes (function (err, types) {
+    if (err) throw err;
+    console.error(JSON.stringify(types));
+    data.types = types;
+    camp.server.emit('gotactuatortypes', data);
+  });
+}, function gotactuatortypes (data) {
   return data;
 });
 

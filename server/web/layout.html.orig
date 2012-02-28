@@ -50,29 +50,57 @@
             <ul class="nav nav-list">
 
               <li class="nav-header">Sensors</li>
-              <li class="active"><a href="sensor-types"><i class="icon-tag icon-white"></i>
-              Types</a></li>
-              <li><a href="sensors"><i class="icon-eye-open"></i></i>
-              Sensors</a></li>
+              <li class="active"><a href="sensor-types">Types</a></li>
+              <li><a href="sensors">Sensors</a></li>
 
               <li class="nav-header">Actuators</li>
-              <li><a href="actuator-types"><i class="icon-tag"></i>
-              Types</a></li>
-              <li><a href="actuators"><i class="icon-cog"></i>
-              Actuators</a></li>
+              <li><a href="actuator-types">Types</a></li>
+              <li><a href="actuators">Actuators</a></li>
 
               <li class="nav-header">Rules</li>
-              <li><a href="rules"><i class="icon-retweet"></i>
-              All rules</a></li>
+              <li><a href="rules">All rules</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
 
         <div class="span9">
+<<<<<<< HEAD
+          <h1>Edit type</h1>
+
+          <form class="form-horizontal" style="padding-top: 20px;">
+            <fieldset>
+              <div class="control-group">
+                <label class="control-label" for="input01">Name</label>
+                <div class="controls">
+                  <input type="text" class="input-xlarge" id="input01">
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button class="btn">Cancel</button>
+              </div>
+            </fieldset>
+          </form>
+=======
           <h1>Type List</h1>
             
             <div style="padding-top: 20px; padding-bottom: 20px;">
-              <a class="btn" data-toggle="modal" href="#newTypeModal">New Sensor Type</a>
+              <a class="btn" data-toggle="modal" href="#newType">New Sensor Type</a>
+            </div>
+
+            <div class="modal" id="newType">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal">×</a>
+                <h3>Modal header</h3>
+              </div>
+              <div class="modal-body">
+                <p>One fine body…</p>
+              </div>
+              <div class="modal-footer">
+                <a href="#" class="btn btn-primary">Save changes</a>
+                <a href="#" class="btn">Close</a>
+              </div>
             </div>
 
             <table class="table table-bordered table-striped">
@@ -84,15 +112,16 @@
                 </tr>
               </thead>
               <tbody>
-                {{-types|type|i;
+                {{-sensortypes|sensortype|i;
                 <tr>
-                  <td>{{=type.name}}</td>
+                  <td>{{=sensortype.name}}</td>
                   <td style="width: 20%; text-align: center;"><a href="#">Properties</a></td>
                   <td style="width: 20%; text-align: center;"><a href="#">Edit</a></td>
                 </tr>
                 }}
               </tbody>
             </table>
+>>>>>>> e6e4b9441d24f3194dbe32b7565f051ab7e64453
 
         </div><!--/span-->
       </div><!--/row-->
@@ -104,29 +133,6 @@
       </footer>
 
     </div><!--/.fluid-container-->
-
-    <div class="modal hide fade" id="newTypeModal">
-      <div class="modal-header">
-        <a class="close" data-dismiss="modal">×</a>
-        <h3>New type</h3>
-      </div>
-      <div class="modal-body">
-        <form class="form-horizontal" style="margin-bottom: -14px;">
-          <fieldset>
-            <div class="control-group">
-              <label class="control-label" for="input01">Name</label>
-              <div class="controls">
-                <input type="text" class="input-xlarge" id="input01">
-              </div>
-            </div>
-          </fieldset>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <a href="#" class="btn btn-primary">Save changes</a>
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-      </div>
-    </div>
     
     <!-- Le javascript
     ================================================== -->
@@ -150,7 +156,9 @@
     <script src="js/bootstrap-carousel.js"></script>
     <script src="js/bootstrap-typeahead.js"></script>
 
-    <script src="js/superScript.js"></script>
+    <script>
+      $('#newType').modal({show:false});
+    </script>
 
   </body>
 </html>
