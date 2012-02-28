@@ -31,6 +31,7 @@ camp.handle('/sensor-types/?(.*)', function (query, path) {
       if (err) throw err;
       //console.error(JSON.stringify(types));
       data.properties = properties;
+      data.sensorTypeId = path[1];
       camp.server.emit('gotsensortypes', data);
     });
   } else {
@@ -49,8 +50,16 @@ camp.handle('/sensor-types/?(.*)', function (query, path) {
 
 // Add sensor type
 camp.addDiffer('addSensorType', function(data) {
-  sensordb.addSensorType({name: data.name}, function(err,typeId) {
+  sensordb.addSensorType(data, function(err,typeId) {
     camp.server.emit('addSensorType', typeId);
+  });
+}, function(data) {return data;});
+
+
+// Add sensor property
+camp.addDiffer('addSensorProperty', function(data) {
+  sensordb.addSensorProperty(data, function(err,id) {
+    camp.server.emit('addSensorProperty', id);
   });
 }, function(data) {return data;});
 
