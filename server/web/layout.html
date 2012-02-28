@@ -18,6 +18,7 @@
       }
     </style>
     <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+        {{?page=='sensor-values';
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
@@ -25,7 +26,6 @@
 
       function drawChart() {
 
-        {{?page=='sensor-values';
           {{-values|value|i;
             var data{{=i}} = new google.visualization.DataTable();
             data{{=i}}.addColumn('date', 'Date');
@@ -42,9 +42,9 @@
             var chart{{=i}} = new google.visualization.LineChart(document.getElementById('chart_{{=value.property.id}}'));
             chart{{=i}}.draw(data{{=i}}, options{{=i}});
           }}
-        }}
       }
     </script>
+        }}
   </head>
 
   <body>
