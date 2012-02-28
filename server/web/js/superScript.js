@@ -80,6 +80,17 @@ Scout('#newActuator').on('click', function(query) {
   }
 });
 
+Scout('#newRule').on('click', function(query) {
+  query.action = 'addRule';
+  query.data = {
+    name: Scout('#newRuleName').value,
+  };
+  console.log(query.data);
+  query.resp = function (id) {
+    document.location = '/rules';
+  }
+});
+
 $(document).ready(function () {
   // We customize the modal when displayed from a "New Element" link.
   $(".btNewElement").click(function () {

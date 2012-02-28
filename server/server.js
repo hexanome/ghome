@@ -125,7 +125,7 @@ camp.handle('/sensors/?(.*)', function (query, path) {
         for (var i in properties) {
           sensordb.getSensorPropertyValuesFromSensorAndProperty (sensor.id, properties[i].id, function (err, values) {
             if (err) throw err;
-            data.values.push({property: properties[i].name, values: values});
+            data.values.push({property: properties[i], values: values});
             goal--;
             console.error(goal);
             if (goal <= 0) {
