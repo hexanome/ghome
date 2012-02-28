@@ -52,14 +52,12 @@ Scout('#newActuatorType').on('click', function (query) {
 });
 
 Scout('#newActuatorProperty').on('click', function(query) {
-  var unit = Scout('#newActuatorPropertyUnit').options[Scout('#newActuatorPropertyUnit').selectedIndex].innerHTML;
 
   query.action = 'addActuatorProperty';
   query.data = {
     name: Scout('#newActuatorPropertyName').value,
     index: Scout('#newActuatorPropertyIndex').value,
-    unit: unit,
-    sensorTypeId: Scout('#newActuatorPropertyTypeId').value
+    actuatorTypeId: Scout('#newActuatorPropertyTypeId').value
   };
   console.log(query.data);
   query.resp = function () {

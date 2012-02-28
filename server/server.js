@@ -141,7 +141,7 @@ camp.handle('/actuator-types/?(.*)', function (query, path) {
     var data = {page: 'actuator-properties'};
     actuatordb.getActuatorPropertiesFromType(path[1], function (err, properties) {
       if (err) throw err;
-      //console.error(JSON.stringify(types));
+      //console.error(JSON.stringify(properties));
       data.properties = properties;
       data.actuatorTypeId = path[1];
       camp.server.emit('gotactuatortypes', data);
