@@ -14,22 +14,26 @@ exports.tableActuatorPropertyValue = tableActuatorPropertyValue;
 exports.getActuatorType = getActuatorType;
 exports.getActuatorTypes = getActuatorTypes;
 exports.addActuatorType = addActuatorType;
+exports.updateActuatorType = updateActuatorType;
 exports.deleteActuatorType = deleteActuatorType;
 
 exports.getActuatorProperty = getActuatorProperty;
 exports.getActuatorProperties = getActuatorProperties;
 exports.addActuatorProperty = addActuatorProperty;
+exports.updateActuatorProperty = updateActuatorProperty;
 exports.deleteActuatorProperty = deleteActuatorProperty;
 
 exports.getActuator = getActuator;
 exports.getActuatorFromOem = getActuatorFromOem;
 exports.getActuators = getActuators;
 exports.addActuator = addActuator;
+exports.updateActuator = updateActuator;
 exports.deleteActuator = deleteActuator;
 
 exports.getActuatorPropertyValue = getActuatorPropertyValue;
 exports.getActuatorPropertyValues = getActuatorPropertyValues;
 exports.addActuatorPropertyValue = addActuatorPropertyValue;
+exports.updateActuatorPropertyValue = updateActuatorPropertyValue;
 exports.deleteActuatorPropertyValue = deleteActuatorPropertyValue;
 
 // ActuatorTypes
@@ -44,6 +48,10 @@ function getActuatorTypes(cb) {
 
 function addActuatorType(actuatorType, cb) {
   redisbase.addItem(tableActuatorType, actuatorType, cb);
+}
+
+function updateActuatorType(actuatorType, cb) {
+  redisbase.updateItem(tableActuatorType, actuatorType, cb);
 }
 
 function deleteActuatorType(actuatorTypeId, cb) {
@@ -62,6 +70,10 @@ function getActuatorProperties(cb) {
 
 function addActuatorProperty(actuatorProperty, cb) {
   redisbase.addItem(tableActuatorProperty, actuatorProperty, cb, [], ["actuatorTypeId"]);
+}
+
+function updateActuatorProperty(actuatorProperty, cb) {
+  redisbase.updateItem(tableActuatorProperty, actuatorProperty, cb, ["actuatorTypeId"]);
 }
 
 function deleteActuatorProperty(propertyId, cb) {
@@ -84,6 +96,10 @@ function getActuators(cb) {
 
 function addActuator(actuator, cb) {
   redisbase.addItem(tableActuator, actuator, cb, [], ["oemId", "actuatorTypeId"]);
+}
+
+function updateActuator(actuator, cb) {
+  redisbase.updateItem(tableActuator, actuator, cb, ["oemId", "actuatorTypeId"]);
 }
 
 function deleteActuator(actuatorId, cb) {
@@ -138,6 +154,14 @@ function addActuatorPropertyValue(actuatorPropertyValue, cb) {
   delete actuatorPropertyValue["actuatorPropertyId"];
 
   redisbase.addItem(tableActuatorPropertyValue, actuatorPropertyValue, cb, [], ["actuatorAndPropertyId"]);
+}
+
+function updateActuatorPropertyValue(actuatorPropertyValue, cb) {
+  actuatorPropertyValue["actuatorAndPropertyId"] = "{0};{1}".format(actuatorPropertyValue.actuatorId, actuatorPropertyValue.actuatorPropertyId);
+  delete actuatorPropertyValue["actuatorId"];
+  delete actuatorPropertyValue["actuatorPropertyId"];
+
+  redisbase.updateItem(tableActuatorProperty, actuatorPropertyValue, cb, ["actuatorAndPropertyId"]);
 }
 
 function deleteActuatorPropertyValue(propertyValueId, cb) {

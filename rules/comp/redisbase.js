@@ -53,6 +53,54 @@ function addItem(table, item, cb, foreignKeys, secondaryIndexes) {
   });
 }
 
+function updateItem(table, item, cb, secondaryIndexes) {
+  // Optionnal parameters.
+  secondaryIndexes = secondaryIndexes || [];
+
+  // We start by retrieving the current version of the object to update.
+  redisClient.hgetall("{0}:{1}".format(table, item.id), function (err, oldItem) {
+    // Redis multi session.
+    var multi = redisClient.multi();
+
+    var oldItemSecondaryIndexes = [];
+
+    for (var key in oldItem) {
+      if (key.startsWith("sec:")) {
+        oldItemSecondaryIndexes.push(key);
+      }
+    }
+
+    // We delete the old secondary indexes.
+    for (var i = 0; i < oldItemSecondaryIndexes.length; i++) {
+      var oldItemSecondaryIndex = oldItemSecondaryIndexes[i];
+
+      var secSplit = oldItemSecondaryIndex.split(":");
+      var keyName = secSplit[1];
+      var dateVar = secSplit[2];
+      multi.srem("seclist:{0}!{1}!{2}".format(table, keyName, oldItem[oldItemSecondaryIndex]), dateVar)
+      multi.del("sec:{0}!{1}!{2}!{3}".format(table, keyName, oldItem[oldItemSecondaryIndex], dateVar));
+    }
+
+    // We now recreate the secondary indexes for the updated object.
+    for (var i = 0; i < secondaryIndexes.length; i++) {
+      var secondaryIndex = secondaryIndexes[i];
+
+      var dateVar = (new Date()).getTime();
+      multi.sadd("seclist:{0}!{1}!{2}".format(table, secondaryIndex, item[secondaryIndex]), dateVar);
+      multi.set("sec:{0}!{1}!{2}!{3}".format(table, secondaryIndex, item[secondaryIndex], dateVar), itemId);
+
+      item["sec:{0}:{1}".format(secondaryIndex, dateVar)] = item[secondaryIndex];
+      delete item[secondaryIndex];
+    }
+
+    // Finally, we update the object in the DB.
+    multi.hmset("{0}:{1}".format(table, item.id), item);
+    multi.exec(function (err, replies) {
+      cb(err);
+    });
+  });
+}
+
 function deleteItem(table, itemId, cb, cascade, multi) {
   // Optional parameters.
   cascade = cascade === undefined ? false : cascade;

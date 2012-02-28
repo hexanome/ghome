@@ -14,6 +14,7 @@ exports.tableSensorPropertyValue = tableSensorPropertyValue;
 exports.getSensorType = getSensorType;
 exports.getSensorTypes = getSensorTypes;
 exports.addSensorType = addSensorType;
+exports.updateSensorType = updateSensorType;
 exports.deleteSensorType = deleteSensorType;
 
 exports.getSensorProperty = getSensorProperty;
@@ -21,18 +22,21 @@ exports.getSensorPropertyFromType = getSensorPropertyFromType;
 exports.getSensorPropertiesFromType = getSensorPropertiesFromType;
 exports.getSensorProperties = getSensorProperties;
 exports.addSensorProperty = addSensorProperty;
+exports.updateSensorProperty = updateSensorProperty;
 exports.deleteSensorProperty = deleteSensorProperty;
 
 exports.getSensor = getSensor;
 exports.getSensorFromOem = getSensorFromOem;
 exports.getSensors = getSensors;
 exports.addSensor = addSensor;
+exports.updateSensor = updateSensor;
 exports.deleteSensor = deleteSensor;
 
 exports.getSensorPropertyValue = getSensorPropertyValue;
 exports.getSensorPropertyValueFromSensorAndProperty = getSensorPropertyValueFromSensorAndProperty;
 exports.getSensorPropertyValues = getSensorPropertyValues;
 exports.addSensorPropertyValue = addSensorPropertyValue;
+exports.updateSensorPropertyValue = updateSensorPropertyValue;
 exports.deleteSensorPropertyValue = deleteSensorPropertyValue;
 
 // SensorTypes
@@ -47,6 +51,10 @@ function getSensorTypes(cb) {
 
 function addSensorType(sensorType, cb) {
   redisbase.addItem(tableSensorType, sensorType, cb);
+}
+
+function updateSensorType(sensorType, cb) {
+  redisbase.updateItem(tableSensorType, sensorType, cb);
 }
 
 function deleteSensorType(sensorTypeId, cb) {
@@ -75,6 +83,10 @@ function addSensorProperty(sensorProperty, cb) {
   redisbase.addItem(tableSensorProperty, sensorProperty, cb, [], ["sensorTypeId"]);
 }
 
+function updateSensorProperty(sensorProperty, cb) {
+  redisbase.updateItem(tableSensorProperty, sensorProperty, cb, ["sensorTypeId"]);
+}
+
 function deleteSensorProperty(propertyId, cb) {
   redisbase.deleteItem(tableSensorProperty, propertyId, cb);
 }
@@ -95,6 +107,10 @@ function getSensors(cb) {
 
 function addSensor(sensor, cb) {
   redisbase.addItem(tableSensor, sensor, cb, [], ["oemId", "sensorTypeId"]);
+}
+
+function updateSensor(sensor, cb) {
+  redisbase.updateItem(tableSensor, sensor, cb, ["oemId", "sensorTypeId"]);
 }
 
 function deleteSensor(sensorId, cb) {
@@ -149,6 +165,14 @@ function addSensorPropertyValue(propertyValue, cb) {
   delete propertyValue["sensorPropertyId"];
 
   redisbase.addItem(tableSensorPropertyValue, propertyValue, cb, [], ["sensorAndPropertyId"]);
+}
+
+function updateSensorPropertyValue(propertyValue, cb) {
+  propertyValue["sensorAndPropertyId"] = "{0};{1}".format(propertyValue.sensorId, propertyValue.sensorPropertyId);
+  delete propertyValue["sensorId"];
+  delete propertyValue["sensorPropertyId"];
+
+  redisbase.updateItem(tableSensorPropertyValue, propertyValue, cb, ["sensorAndPropertyId"]);
 }
 
 function deleteSensorPropertyValue(propertyValueId, cb) {
