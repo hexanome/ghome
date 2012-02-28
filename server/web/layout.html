@@ -27,7 +27,7 @@
         <div class="container-fluid">
 
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <sp0an class="icon-bar"></span>
+            <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
@@ -48,22 +48,19 @@
         <div class="span3">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
-
               <li class="nav-header">Sensors</li>
-              <li class="active"><a href="sensor-types"><i class="icon-tag icon-white"></i>
-              Types</a></li>
-              <li><a href="sensors"><i class="icon-eye-open"></i></i>
-              Sensors</a></li>
-
+              <li {{?page=='sensor-types'|class='active';}}>
+                <a href="sensor-types"><i class="icon-tag {{?page=='sensor-types'|icon-white;}}"></i> Types</a></li>
+              <li {{?page=='sensors'|class='active';}}>
+                <a href="sensors"><i class="icon-eye-open {{?page=='sensors'|icon-white;}}"></i></i> Sensors</a></li>
               <li class="nav-header">Actuators</li>
-              <li><a href="actuator-types"><i class="icon-tag"></i>
-              Types</a></li>
-              <li><a href="actuators"><i class="icon-cog"></i>
-              Actuators</a></li>
-
+              <li {{?page=='actuator-types'|class='active';}}>
+                <a href="actuator-types"><i class="icon-tag {{?page=='actuator-types'|icon-white;}}"></i> Types</a></li>
+              <li {{?page=='actuators'|class='active';}}>
+                <a href="actuators"><i class="icon-cog {{?page=='actuators'|icon-white;}}"></i> Actuators</a></li>
               <li class="nav-header">Rules</li>
-              <li><a href="rules"><i class="icon-retweet"></i>
-              All rules</a></li>
+              <li {{?page=='rules'|class='active';}}>
+                <a href="rules"><i class="icon-retweet {{?page=='rules'|icon-white;}}"></i> All rules</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
