@@ -25,7 +25,7 @@ function startServer(newActuatorCallback) {
 function newSensorValue(oemId, sensorPropertyIndex, newValue) {
   // First, we find the corresponding sensor and property.
   sensors.getSensorFromOem(oemId, function (err, sensor) {
-    if (!sensor)
+    if (!sensor) {
       return;
     }
 
