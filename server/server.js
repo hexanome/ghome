@@ -81,6 +81,21 @@ camp.handle('/actuators', function (query, path) {
   return data;
 });
 
+
+// Rules
+camp.handle('/rules', function (query, path) {
+  var data = {page: 'rules'};
+  path[0] = '/layout.html';
+  ruledb.getRules (function (err, rules) {
+    if (err) throw err;
+    console.error(JSON.stringify(rules));
+    data.rules = rules;
+    camp.server.emit('gotrules', data);
+  });
+}, function gotrules (data) {
+  return data;
+});
+
 /*
 // Get sensor IDs and names
 sensors.getSensors (function (err, res) {
