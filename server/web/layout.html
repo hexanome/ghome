@@ -83,7 +83,7 @@
           <h1>Sensor Type List</h1>
             
           <div style="padding-top: 20px; padding-bottom: 20px;">
-            <a class="btn" data-toggle="modal" href="#newSensorTypeModal">New Sensor Type</a>
+            <a class="btn btNewElement" data-toggle="modal" href="#newSensorTypeModal">New Sensor Type</a>
           </div>
 
           <table class="table table-bordered table-striped">
@@ -113,7 +113,7 @@
           <h1>Sensor Property List</h1>
             
           <div style="padding-top: 20px; padding-bottom: 20px;">
-            <a class="btn" data-toggle="modal" href="#newSensorPropertyModal">New Sensor Property</a>
+            <a class="btn btNewElement" data-toggle="modal" href="#newSensorPropertyModal">New Sensor Property</a>
           </div>
 
           <table class="table table-bordered table-striped">
@@ -144,7 +144,7 @@
           <h1>Sensor List</h1>
             
           <div style="padding-top: 20px; padding-bottom: 20px;">
-            <a class="btn" data-toggle="modal" href="#newSensorModal">New Sensor</a>
+            <a class="btn btNewElement" data-toggle="modal" href="#newSensorModal">New Sensor</a>
           </div>
 
           <table class="table table-bordered table-striped">
@@ -217,7 +217,7 @@
           <h1>Actuator Type List</h1>
             
           <div style="padding-top: 20px; padding-bottom: 20px;">
-            <a class="btn" data-toggle="modal" href="#newActuatorTypeModal">New Actuator Type</a>
+            <a class="btn btNewElement" data-toggle="modal" href="#newActuatorTypeModal">New Actuator Type</a>
           </div>
 
           <table class="table table-bordered table-striped">
@@ -246,7 +246,7 @@
           <h1>Actuator Property List</h1>
             
           <div style="padding-top: 20px; padding-bottom: 20px;">
-            <a class="btn" data-toggle="modal" href="#newActuatorPropertyModal">New Actuator Property</a>
+            <a class="btn btNewElement" data-toggle="modal" href="#newActuatorPropertyModal">New Actuator Property</a>
           </div>
 
           <table class="table table-bordered table-striped">
@@ -273,7 +273,7 @@
           <h1>Actuator List</h1>
             
           <div style="padding-top: 20px; padding-bottom: 20px;">
-            <a class="btn" data-toggle="modal" href="#newActuatorModal">New Actuator</a>
+            <a class="btn btNewElement" data-toggle="modal" href="#newActuatorModal">New Actuator</a>
           </div>
 
           <table class="table table-bordered table-striped">
@@ -301,7 +301,7 @@
           <h1>Rule List</h1>
 
           <div style="padding-top: 20px; padding-bottom: 20px;">
-            <a class="btn" data-toggle="modal" href="#newRuleModal">New Rule</a>
+            <a class="btn btNewElement" data-toggle="modal" href="#newRuleModal">New Rule</a>
           </div>
 
           <table class="table table-bordered table-striped">
@@ -338,7 +338,7 @@
     <div class="modal hide fade" id="newSensorTypeModal">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3>New Sensor Type</h3>
+        <h3><span class="editMode"></span> Sensor Type</h3>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" style="margin-bottom: -14px;">
@@ -362,8 +362,8 @@
     <div class="modal hide fade" id="newSensorPropertyModal">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3>New Sensor Property</h3>
-        <input type=hidden id=newSensorPropertyTypeId value={{=sensorTypeId}}>
+        <h3><span class="editMode"></span> Sensor Property</h3>
+        <input type="hidden" id="newSensorPropertyTypeId" value="{{=sensorTypeId}}">
       </div>
       <div class="modal-body">
         <form class="form-horizontal" style="margin-bottom: -14px;">
@@ -408,7 +408,7 @@
     <div class="modal hide fade" id="newSensorModal">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3>New Sensor</h3>
+        <h3><span class="editMode"></span> Sensor</h3>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" style="margin-bottom: -14px;">
@@ -450,7 +450,7 @@
     <div class="modal hide fade" id="newActuatorTypeModal">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3>New Actuator</h3>
+        <h3><span class="editMode"></span> Actuator</h3>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" style="margin-bottom: -14px;">
@@ -474,7 +474,7 @@
     <div class="modal hide fade" id="newActuatorPropertyModal">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3>New Actuator Property</h3>
+        <h3><span class="editMode"></span> Actuator Property</h3>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" style="margin-bottom: -14px;">
@@ -507,7 +507,7 @@
     <div class="modal hide fade" id="newActuatorModal">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3>New Actuator</h3>
+        <h3><span class="editMode"></span> Actuator</h3>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" style="margin-bottom: -14px;">
@@ -549,7 +549,7 @@
     <div class="modal hide fade" id="newRuleModal">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3>New Rule</h3>
+        <h3><span class="editMode"></span> Rule</h3>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" style="margin-bottom: -14px;">

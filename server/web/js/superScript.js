@@ -25,4 +25,12 @@ Scout('#newSensorProperty').on('click', function(query) {
   }
 });
 
+$(document).ready(function () {
+  $(".btNewElement").click(function () {
+    var modalId = $(this).attr("href");
+    var modal = $(modalId);
 
+    modal.find(".editMode").html("New");
+    modal.find(".btn-danger").hide();
+  }); 
+});
