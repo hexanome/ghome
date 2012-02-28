@@ -18,6 +18,33 @@
       }
     </style>
     <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        {{?page=='sensor-values';
+          {{-values|value|i;
+            var data{{=i}} = new google.visualization.DataTable();
+            data{{=i}}.addColumn('date', 'Date');
+            data{{=i}}.addColumn('number', 'Value');
+
+            {{-value.values|subValue|j;
+              data{{=i}}.addRow([(new Date({{=subValue.date}})), {{=subValue.value}}]);
+            }}
+
+            var options{{=i}} = {
+              title: '{{=value.property.name}}'
+            };
+
+            var chart{{=i}} = new google.visualization.LineChart(document.getElementById('chart_{{=value.property.id}}'));
+            chart{{=i}}.draw(data{{=i}}, options{{=i}});
+          }}
+        }}
+      }
+    </script>
   </head>
 
   <body>
@@ -285,7 +312,9 @@
 
           {{-values|value|i;
 
-          <h2> {{=value.property}} </h2>
+          <h2> {{=value.property.name}} </h2>
+
+          <div id="chart_{{=value.property.id}}" style="width: 600px; height: 300px; text-align: center; margin-left: 60px;"></div>
 
           <table class="table table-bordered table-striped" style="margin-top: 20px; margin-bottom: 20px;">
             <thead>
@@ -295,10 +324,10 @@
               </tr>
             </thead>
             <tbody>
-              {{-value.values|value|i;
+              {{-value.values|subValue|i;
               <tr>
-                <td>{{value.property}}</td>
-                <td>{{value.date}}</td>
+                <td>{{=subValue.value}}{{=value.property.unit}}</td>
+                <td>{{=(new Date(parseInt(subValue.date))).toString()}}</td>
               </tr>
               }}
             </tbody>
