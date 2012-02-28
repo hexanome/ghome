@@ -18,6 +18,7 @@ exports.updateActuatorType = updateActuatorType;
 exports.deleteActuatorType = deleteActuatorType;
 
 exports.getActuatorProperty = getActuatorProperty;
+exports.getActuatorPropertiesFromType = getActuatorPropertiesFromType;
 exports.getActuatorProperties = getActuatorProperties;
 exports.addActuatorProperty = addActuatorProperty;
 exports.updateActuatorProperty = updateActuatorProperty;
@@ -62,6 +63,10 @@ function deleteActuatorType(actuatorTypeId, cb) {
 
 function getActuatorProperty(propertyId, cb) {
   redisbase.getSingleItem(tableActuatorProperty, propertyId, cb);
+}
+
+function getActuatorPropertiesFromType(actuatorTypeId, cb) {
+  redisbase.getSingleItemFromSec(tableActuatorProperty, "actuatorTypeId", actuatorTypeId, cb);
 }
 
 function getActuatorProperties(cb) {
