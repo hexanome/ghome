@@ -37,6 +37,21 @@ camp.handle('/sensor-types', function (query, path) {
 });
 
 
+// Sensors
+camp.handle('/sensors', function (query, path) {
+  var data = {page: 'sensors'};
+  path[0] = '/layout.html';
+  sensordb.getSensors (function (err, sensors) {
+    if (err) throw err;
+    console.error(JSON.stringify(sensors));
+    data.sensors = sensors;
+    camp.server.emit('gotsensors', data);
+  });
+}, function gotsensors (data) {
+  return data;
+});
+
+
 // Actuator types
 camp.handle('/actuator-types', function (query, path) {
   var data = {page: 'actuator-types'};
