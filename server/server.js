@@ -109,12 +109,30 @@ camp.handle('/sensor-types/?(.*)', function (query, path) {
 camp.handle('/sensors/?(.*)', function (query, path) {
   path[0] = '/layout.html';
   if ( path[1].length > 0 ) {
-    var data = {page: 'sensor-values'};
-    sensordb.getSensorValuesFromSensor(path[1], function (err, values) {
+    console.error('etape1');
+
+    var data = {page: 'sensor-values', values: []};
+
+    sensors.getSensor (path[1], function (err, sensor) {
       if (err) throw err;
-      //console.error(JSON.stringify(types));
-      data.values = values;
-      camp.server.emit('gotsensors', data);
+
+    console.error('etape2');
+      sensors.getSensorPropertiesFromType (sensor.sensorTypeId, function (err, properties) {
+        if (err) throw err;
+        var goal = properties.length;
+
+    console.error('etape3');
+        for (var i in properties) {
+          sensors.getSensorPropertyValueFromSensorAndProperty(sensor.id, properties[i].id, function (err, value) {
+            data.values.push({property: properties[i].name, value: value.value, date: value.date});
+            goal--;
+            if (goal <= 0) {
+    console.error('etape4');
+              camp.server.emit('gotsensors', data);
+            }
+          });
+        }
+      });
     });
   } else {
     var data = {page: 'sensors'};

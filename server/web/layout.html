@@ -283,11 +283,10 @@
 
           <h1>Sensor Value List</h1>
 
-          <h2>Property 1</h2>
-
           <table class="table table-bordered table-striped" style="margin-top: 20px; margin-bottom: 20px;">
             <thead>
               <tr>
+                <th>Property</th>
                 <th>Value</th>
                 <th>Date</th>
               </tr>
@@ -296,26 +295,8 @@
               {{-values|value|i;
               <tr>
                 <td>{{value.value}}</td>
-                <td>{{value.time}}</td>
-              </tr>
-              }}
-            </tbody>
-          </table>
-
-          <h2>Property 2</h2>
-
-          <table class="table table-bordered table-striped" style="margin-top: 20px; margin-bottom: 20px;">
-            <thead>
-              <tr>
-                <th>Value</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {{-values|value|i;
-              <tr>
-                <td>{{value.value}}</td>
-                <td>{{value.time}}</td>
+                <td>{{value.property}}</td>
+                <td>{{value.date}}</td>
               </tr>
               }}
             </tbody>
