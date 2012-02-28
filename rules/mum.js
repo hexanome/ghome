@@ -39,16 +39,15 @@ var toActuator = fs.createWriteStream('./to-actuator');
 // ACTUATOR MECHANICS!
 //
 
-startServer(function (oemActuators) {
-  // oemActuators is a list of actuators.
+startServer(function (oem) {
+  // oem is an actuator.
   // Each oemActuator looks like this:
   //
   //      "oemId" : actuator.oemId,
   //      "propertyIndex" : actuatorProperty.index,
   //      "newValue" : action.value
+  console.log(oem.newValue);
 
-  oemActuators.forEach(function(oem) {
-    toActuator.write(protocol.write(oem.oemID, 0, oem.newValue));
-  })
+  toActuator.write(protocol.write(oem.oemId, oem.newValue));
 });
 

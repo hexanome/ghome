@@ -43,7 +43,6 @@ function newSensorValue(oemId, sensorPropertyIndex, newValue) {
       }
 
       if (currentProperty == null) {
-        cb("error");
         return;
       }
 
@@ -55,8 +54,9 @@ function newSensorValue(oemId, sensorPropertyIndex, newValue) {
         "sensorPropertyId" : currentProperty.id        
       }, function (err3, sensorPropertyValueId) {
         // We can now reprocess the rules, and then notifify the actuators.
-        processRules(sensor.id, currentProperty.id, function (err4, actions) {
-          findActuatorsFromActions(actions);
+        ruleEngine.processRules(sensor.id, currentProperty.id,
+          function (err4, actions) {
+            findActuatorsFromActions(actions);
         });
       });
     });
