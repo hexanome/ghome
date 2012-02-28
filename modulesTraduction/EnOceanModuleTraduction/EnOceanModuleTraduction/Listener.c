@@ -43,6 +43,7 @@ SOCKET socketConnexion(void)
  * Permet la réception de trames à partir d'une socket
  * aSocket - la socket à écouter
  * buffer - le buffer pour stocker la trame
+ * return - -1 si erreur sinon 0
  */
 int socketFrameReception(SOCKET aSocket, char* buffer)
 {
