@@ -247,25 +247,23 @@
                   <div class="control-group">
                     <label class="control-label" for="select01">Type</label>
                     <div class="controls">
-                      <select id="select01">
-                        <option>something</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                      <select id="newSensorType" placeholder="select type">
+                      {{-types|type|i;
+                        <option value="{{=type.id}}">{{=type.name}}</option>
+                      }}
                       </select>
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label" for="input01">Name</label>
                     <div class="controls">
-                      <input type="text" class="input-xlarge">
+                      <input id="newSensorName" type="text" class="input-xlarge">
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label" for="input01">OemId</label>
                     <div class="controls">
-                      <input type="text" class="input-xlarge">
+                      <input id="newSensorOemId" type="text" class="input-xlarge">
                     </div>
                   </div>
                 </fieldset>
@@ -273,7 +271,7 @@
             </div>
             <div class="modal-footer">
               <a href="javascript:void 0" style="float: left;" class="btn btn-danger">Delete</a>
-              <a href="javascript:void 0" class="btn btn-primary">Save changes</a>
+              <a href="javascript:void 0" class="btn btn-primary" id="newSensor">Save changes</a>
               <a href="javascript:void 0" class="btn" data-dismiss="modal">Close</a>
             </div>
           </div>
