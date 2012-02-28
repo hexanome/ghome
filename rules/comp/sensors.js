@@ -34,6 +34,7 @@ exports.deleteSensor = deleteSensor;
 
 exports.getSensorPropertyValue = getSensorPropertyValue;
 exports.getSensorPropertyValueFromSensorAndProperty = getSensorPropertyValueFromSensorAndProperty;
+exports.getSensorPropertyValuesFromSensorAndProperty = getSensorPropertyValuesFromSensorAndProperty;
 exports.getSensorPropertyValues = getSensorPropertyValues;
 exports.addSensorPropertyValue = addSensorPropertyValue;
 exports.updateSensorPropertyValue = updateSensorPropertyValue;
@@ -131,7 +132,7 @@ function getSensorPropertyValueFromSensorAndProperty(sensorId, propertyId, cb) {
   });
 }
 
-function getSensorPropertiesFromSensorAndProperty(sensorId, propertyId, cb) {
+function getSensorPropertyValuesFromSensorAndProperty(sensorId, propertyId, cb) {
   redisbase.getItemsFromSec(tableSensorPropertyValue, "sensorAndPropertyId", "{0};{1}".format(sensorId, propertyId), function (err, results) {
     cb(err, processSensorPropertyValues(results));
   });
