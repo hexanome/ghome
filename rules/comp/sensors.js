@@ -126,8 +126,14 @@ function getSensorPropertyValue(propertyValueId, cb) {
 }
 
 function getSensorPropertyValueFromSensorAndProperty(sensorId, propertyId, cb) {
-  redisbase.getSingleItemFromSec(tableSensorPropertyValue, "sensorAndPropertyId","{0};{1}".format(sensorId, propertyId), function (err, result) {
+  redisbase.getSingleItemFromSec(tableSensorPropertyValue, "sensorAndPropertyId", "{0};{1}".format(sensorId, propertyId), function (err, result) {
     cb(err, processSensorPropertyValue(result));
+  });
+}
+
+function getSensorPropertiesFromSensorAndProperty(sensorId, propertyId, cb) {
+  redisbase.getItemsFromSec(tableSensorPropertyValue, "sensorAndPropertyId", "{0};{1}".format(sensorId, propertyId), function (err, results) {
+    cb(err, processSensorPropertyValues(results));
   });
 }
 
