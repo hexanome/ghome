@@ -78,6 +78,22 @@ camp.addDiffer('addRule', function(data) {
 }, function(data) {return data;});
 
 
+// Add Condition
+camp.addDiffer('addCondition', function(data) {
+  ruledb.addCondition(data, function(err,id) {
+    camp.server.emit('addCondition', id);
+  });
+}, function(data) {return data;});
+
+
+// Add Action
+camp.addDiffer('addAction', function(data) {
+  ruledb.addAction(data, function(err,id) {
+    camp.server.emit('addAction', id);
+  });
+}, function(data) {return data;});
+
+
 // Sensor types
 camp.handle('/sensor-types/?(.*)', function (query, path) {
   path[0] = '/layout.html';
@@ -211,6 +227,7 @@ camp.handle('/rules/?(.*)', function (query, path) {
       ruledb.getActionsFromRule (path[1], function (err, actions) {
         if (err) throw err;
         data.actions = actions;
+        data.ruleId = path[1];
         camp.server.emit('gotrules', data);
       });
     });

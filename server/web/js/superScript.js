@@ -91,6 +91,22 @@ Scout('#newRule').on('click', function(query) {
   }
 });
 
+Scout('#newCondition').on('click', function(query) {
+  var ruleId = Scout('#newConditionRuleId');
+  query.action = 'addCondition';
+  query.data = {
+    sensorTypeId: Scout('#newConditionType').options[Scout('#newConditionType').selectedIndex].value,
+    parentId: Scout('#newConditionParent').options[Scout('#newConditionParent').selectedIndex].value,
+    sensorId: Scout('#newConditionSensor').options[Scout('#newConditionSensor').selectedIndex].value,
+    sensorPropertyId: Scout('#newConditionSensorProperty').options[Scout('#newConditionSensorProperty').selectedIndex].value,
+    value: Scout('#newConditionThreshold').value,
+    order: Scout('#newConditionOperator').selectedIndex
+  }
+  query.resp = function (id) {
+    document.location = '/rules/' + ruleId;
+  }
+});
+
 $(document).ready(function () {
   // We customize the modal when displayed from a "New Element" link.
   $(".btNewElement").click(function () {
