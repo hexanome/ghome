@@ -34,18 +34,19 @@ void lancerTraducteur (void* args)
 	char* buffer = malloc(FRAME_SIZE_ENOCEAN);
     FILE *pipe;  
     // open a named pipe
+	
+    pipe = fopen("./from-sensor", "a");
 
-    pipe = fopen("../../../from-sensor", "a");
+	if (pipe == NULL){printf("ERROR\n");}
 
 	SOCKET sock = socketConnexion();
     while (sock != SOCKET_ERROR)
     {
 	socketFrameReception(sock,buffer);
-	printf("%s",buffer);
+	printf("%s\n",buffer);
 	tcpFrameType myFrame = tcpFrameCreation(buffer);
 	enOceanMessage myMessage = enOceanMessageCreation(myFrame);
 	sendSensorStateByPipe(myMessage, pipe);
-	
     }
     free(buffer);
 }
