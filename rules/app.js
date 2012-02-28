@@ -56,14 +56,16 @@ function createSwitch(cb) {
         "name" : "Appuyé",
         "type" : 0,
         "index" : 3,
-        "sensorTypeId" : typeId
+        "sensorTypeId" : typeId,
+        "unit" : "°C"
       }, function (err3, sensorPropertyId) {
 
         // And a propertyValue for this pair of sensor and sensorProperty.
         sensors.addSensorPropertyValue({
           "value" : 3,
           "sensorId" : sensorId,
-          "sensorPropertyId" : sensorPropertyId        
+          "sensorPropertyId" : sensorPropertyId,
+          "date" : +new Date()      
         }, function (err4, sensorPropertyValueId) {
           cb(typeId, sensorId, sensorPropertyId, sensorPropertyValueId);
         });
