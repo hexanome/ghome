@@ -13,7 +13,7 @@ void fonctionInfinie(void* args);
 
 void main()
 {
-	clock_t j,k,l,m;
+	clock_t j,k,l,m,n,o;
 	void* mem[VALEUR_BOUCLE];	
 	int e =0;
 	init();
@@ -36,6 +36,20 @@ void main()
 	}
 	m = clock();
 	printf("Temps pour creer %d contexte contenant une pile d'execution de %d octets : %f\n",VALEUR_BOUCLE_THREAD,TAILLE_PILE_EXECUTION,((double)m-(double)l)/CLOCKS_PER_SEC);
+
+	for(e=0;e<VALEUR_BOUCLE;e++)	
+	{
+		mem[e] = malloc(NB_OCTETS);
+	}
+	n = clock();
+	printf("MALLOC Temps pour liberer %d fois 16 octets : %f\n",VALEUR_BOUCLE,((double)n-(double)m)/CLOCKS_PER_SEC);
+	for(e=0;e<VALEUR_BOUCLE;e++)	
+	{
+		free(mem[e]);
+	}
+	o = clock();
+	printf("FREE Temps pour allouer %d fois %d octets : %f \n",VALEUR_BOUCLE,NB_OCTETS,((double)o-(double)n)/CLOCKS_PER_SEC);
+
 }
 
 void fonctionInfinie(void* args)
