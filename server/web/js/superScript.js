@@ -65,6 +65,21 @@ Scout('#newActuatorProperty').on('click', function(query) {
   }
 });
 
+Scout('#newActuator').on('click', function(query) {
+  var actuatorTypeId = Scout('#newActuatorType').options[Scout('#newActuatorType').selectedIndex].value;
+
+  query.action = 'addActuator';
+  query.data = {
+    name: Scout('#newActuatorName').value,
+    oemId: Scout('#newActuatorOemId').value,
+    actuatorTypeId: actuatorTypeId
+  };
+  console.log(query.data);
+  query.resp = function (id) {
+    document.location = '/actuators';
+  }
+});
+
 $(document).ready(function () {
   // We customize the modal when displayed from a "New Element" link.
   $(".btNewElement").click(function () {

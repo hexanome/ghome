@@ -24,7 +24,6 @@ var actuatordb = require ('../rules/comp/actuators.js'),
 
 // Add Sensor
 camp.addDiffer('addSensor', function(data) {
-  console.error('addSensor YO DAWG',data);
   sensordb.addSensor(data, function(err,id) {
     camp.server.emit('addSensor', id);
   });
@@ -128,7 +127,7 @@ camp.handle('/sensors/?(.*)', function (query, path) {
             goal--;
             if (goal <= 0) {
     console.error('etape4');
-              camp.server.emit('gotsensors', data);
+              camp.server.emit('gotsensors', data); return;
             }
           });
         }
@@ -186,7 +185,12 @@ camp.handle('/actuators/?(.*)', function (query, path) {
     if (err) throw err;
     //console.error(JSON.stringify(actuators));
     data.actuators = actuators;
-    camp.server.emit('gotactuators', data);
+    actuatordb.getActuatorTypes (function (err, types) {
+      if (err) throw err;
+      //console.error(JSON.stringify(types));
+      data.types = types;
+      camp.server.emit('gotactuators', data);
+    });
   });
 }, function gotactuators (data) {
   return data;
@@ -196,13 +200,26 @@ camp.handle('/actuators/?(.*)', function (query, path) {
 // Rules
 camp.handle('/rules/?(.*)', function (query, path) {
   path[0] = '/layout.html';
-  var data = {page: 'rules'};
-  ruledb.getRules (function (err, rules) {
-    if (err) throw err;
-    //console.error(JSON.stringify(rules));
-    data.rules = rules;
-    camp.server.emit('gotrules', data);
-  });
+  if (path[1].length > 0) {
+    var data = {page: 'rule-details'};
+    ruledb.getConditionsFromRule (path[1], function (err, conditions) {
+      if (err) throw err;
+      data.conditions = conditions;
+      ruledb.getActionsFromRule (path[1], function (err, actions) {
+        if (err) throw err;
+        data.actions = actions;
+        camp.server.emit('gotrules', data);
+      });
+    });
+  } else {
+    var data = {page: 'rules'};
+    ruledb.getRules (function (err, rules) {
+      if (err) throw err;
+      //console.error(JSON.stringify(rules));
+      data.rules = rules;
+      camp.server.emit('gotrules', data);
+    });
+  }
 }, function gotrules (data) {
   return data;
 });
