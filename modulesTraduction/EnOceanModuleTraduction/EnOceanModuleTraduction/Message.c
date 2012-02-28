@@ -48,8 +48,8 @@ int sendSensorStateByPipe (enOceanMessage aMessage, FILE* pipe)
     //sprintf(buffer,"GIVE_SENSORSTATE ,%s ,%d,%d ,%d ,%d \nSTOP\n", aMessage.sensorID,  aMessage.value0,aMessage.value1,aMessage.value2,aMessage.value3);    
     //printf("%s",buffer);
 printf("Test1\n");
-printf("GIVE_SENSORSTATE %s %d %d %d %d \nSTOP\n", aMessage.sensorID,  aMessage.value0,aMessage.value1,aMessage.value2, aMessage.value3);
-    fprintf(pipe, "GIVE_SENSORSTATE %s %d %d %d %d\nSTOP\n", aMessage.sensorID,  aMessage.value0,aMessage.value1,aMessage.value2, aMessage.value3);
+printf("GIVE_SENSORSTATE %s %d %d %d %d \n", aMessage.sensorID,  aMessage.value0,aMessage.value1,aMessage.value2, aMessage.value3);
+    fprintf(pipe, "GIVE_SENSORSTATE %s %d %d %d %d\n", aMessage.sensorID,  aMessage.value0,aMessage.value1,aMessage.value2, aMessage.value3);
 fflush(pipe);
 printf("Test2\n");
     //unsigned long \\ = fwrite(buffer, sizeof(char),strlen(buffer),pipe);
