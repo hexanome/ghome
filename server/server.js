@@ -108,23 +108,26 @@ camp.handle('/sensor-types/?(.*)', function (query, path) {
 camp.handle('/sensors/?(.*)', function (query, path) {
   path[0] = '/layout.html';
   if ( path[1].length > 0 ) {
-    console.error('etape1');
+    console.error('etape1',path[1]);
 
     var data = {page: 'sensor-values', values: []};
 
-    sensors.getSensor (path[1], function (err, sensor) {
+    sensordb.getSensor (path[1], function (err, sensor) {
+    console.error('etape2',sensor);
       if (err) throw err;
 
-    console.error('etape2');
-      sensors.getSensorPropertiesFromType (sensor.sensorTypeId, function (err, properties) {
+      sensordb.getSensorPropertiesFromType (sensor.sensorTypeId, function (err, properties) {
         if (err) throw err;
         var goal = properties.length;
 
-    console.error('etape3');
+    console.error('etape3', 0);
+
         for (var i in properties) {
-          sensors.getSensorPropertyValueFromSensorAndProperty(sensor.id, properties[i].id, function (err, value) {
-            data.values.push({property: properties[i].name, value: value.value, date: value.date});
+          sensordb.getSensorPropertyValuesFromSensorAndProperty (sensor.id, properties[i].id, function (err, values) {
+            if (err) throw err;
+            data.values.push({property: properties[i].name, values: values});
             goal--;
+            console.error(goal);
             if (goal <= 0) {
     console.error('etape4');
               camp.server.emit('gotsensors', data); return;

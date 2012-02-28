@@ -229,7 +229,7 @@
               {{-sensors|sensor|i;
               <tr>
                 <td>{{=sensor.name}}</td>
-                <td style="width: 20%; text-align: center;"><a href="/sensors/{{=sensor.sensorTypeId}}">View</a></td>
+                <td style="width: 20%; text-align: center;"><a href="/sensors/{{=sensor.id}}">View</a></td>
                 <td style="width: 20%; text-align: center;"><a href="javascript:void 0">Edit</a></td>
               </tr>
               }}
@@ -283,24 +283,27 @@
 
           <h1>Sensor Value List</h1>
 
+          {{-values|value|i;
+
+          <h2> {{=value.property}} </h2>
+
           <table class="table table-bordered table-striped" style="margin-top: 20px; margin-bottom: 20px;">
             <thead>
               <tr>
-                <th>Property</th>
                 <th>Value</th>
                 <th>Date</th>
               </tr>
             </thead>
             <tbody>
-              {{-values|value|i;
+              {{-value.values|value|i;
               <tr>
-                <td>{{value.value}}</td>
                 <td>{{value.property}}</td>
                 <td>{{value.date}}</td>
               </tr>
               }}
             </tbody>
           </table>
+          }}
           }}
 
           {{?page=='actuator-types';
@@ -324,7 +327,6 @@
               {{-types|type|i;
               <tr>
                 <td>{{=type.name}}</td>
-                <td style="width: 20%; text-align: center;"><a href="/actuator-types/{{=type.id}}">View</a></td>
                 <td style="width: 20%; text-align: center;"><a href="javascript:void 0">Edit</a></td>
               </tr>
               }}
