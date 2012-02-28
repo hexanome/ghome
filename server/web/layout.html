@@ -363,6 +363,7 @@
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
         <h3>New Sensor Property</h3>
+        <input type=hidden id=newSensorPropertyTypeId value={{=sensorTypeId}}>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" style="margin-bottom: -14px;">
@@ -370,7 +371,7 @@
             <div class="control-group">
               <label class="control-label" for="input01">Name</label>
               <div class="controls">
-                <input type="text" class="input-xlarge">
+                <input type="text" class="input-xlarge" id="newSensorPropertyName">
               </div>
             </div>
             <div class="control-group">
@@ -378,14 +379,14 @@
               <div class="controls">                
                 <div class="input-prepend">
                   <span class="add-on">#</span>
-                  <input class="span2" id="prependedInput" size="16" type="text" style="width: 50px;">
+                  <input class="span2" id="newSensorPropertyIndex" size="16" type="text" style="width: 50px;">
                 </div>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label" for="select01">Unit</label>
               <div class="controls">
-                <select id="select01">
+                <select id="newSensorPropertyUnit">
                   <option>Select One</option>
                   <option>°C</option>
                   <option>Lux</option>
@@ -399,7 +400,7 @@
       </div>
       <div class="modal-footer">
         <a href="javascript:void 0" style="float: left;" class="btn btn-danger">Delete</a>
-        <a href="javascript:void 0" class="btn btn-primary">Save changes</a>
+        <a href="javascript:void 0" class="btn btn-primary" id="newSensorProperty">Save changes</a>
         <a href="javascript:void 0" class="btn" data-dismiss="modal">Close</a>
       </div>
     </div>

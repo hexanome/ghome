@@ -8,3 +8,21 @@ Scout('#newSensorType').on('click', function (query) {
     document.location = '/sensor-types';
   }
 });
+
+Scout('#newSensorProperty').on('click', function(query) {
+  var unit = Scout('#newSensorPropertyUnit').options[Scout('#newSensorPropertyUnit').selectedIndex].innerHTML;
+
+  query.action = 'addSensorProperty';
+  query.data = {
+    name: Scout('#newSensorPropertyName').value,
+    index: Scout('#newSensorPropertyIndex').value,
+    unit: unit,
+    sensorTypeId: Scout('#newSensorPropertyTypeId').value
+  };
+  console.log(query.data);
+  query.resp = function () {
+    document.location = '/sensor-types/' + Scout('#newSensorPropertyTypeId').value;
+  }
+});
+
+
